@@ -1,0 +1,14 @@
+# Production. Every value below comes from the environment; the app refuses to start without them.
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_APP_USER}
+    password: ${DB_APP_PASSWORD}
+  flyway:
+    locations: classpath:db/migration
+    user: ${DB_OWNER_USER}
+    password: ${DB_OWNER_PASSWORD}
+
+logging:
+  level:
+    com.qvety: INFO

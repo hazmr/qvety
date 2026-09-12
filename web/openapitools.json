@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "7.20.0",
+    "generators": {
+      "api": {
+        "generatorName": "typescript-angular",
+        "inputSpec": "http://localhost:8080/v3/api-docs",
+        "output": "src/app/api",
+        "additionalProperties": {
+          "ngVersion": "22.0.0",
+          "serviceSuffix": "Api",
+          "modelSuffix": "Dto",
+          "stringEnums": true,
+          "supportsES6": true
+        }
+      }
+    }
+  }
+}

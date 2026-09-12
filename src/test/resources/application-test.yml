@@ -1,0 +1,8 @@
+# Test profile. Datasource comes from Testcontainers via @ServiceConnection.
+spring:
+  flyway:
+    locations: classpath:db/migration,classpath:db/seed
+
+logging:
+  level:
+    com.qvety: DEBUG
