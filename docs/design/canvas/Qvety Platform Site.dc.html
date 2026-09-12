@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#FFFFFF; font-family:"IBM Plex Sans",system-ui,sans-serif; color:#1F2933; -webkit-font-smoothing:antialiased; }
+  a { color:#2F6E6A; text-decoration:none; }
+  a:hover { color:#245855; }
+</style>
+</helmet>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="qm" viewBox="0 0 64 64">
+    <mask id="qmk"><rect width="64" height="64" fill="#fff"></rect><circle cx="31" cy="30" r="8.5"></circle><line x1="31" y1="30" x2="50" y2="49" stroke="#000" stroke-width="9" stroke-linecap="round"></line></mask>
+    <circle cx="31" cy="30" r="23" fill="currentColor" mask="url(#qmk)"></circle>
+  </symbol>
+</defs></svg>
+
+<header style="border-bottom:2px solid #1F2933; background:#FFFFFF; position:sticky; top:0; z-index:5">
+  <div style="max-width:1200px; margin:0 auto; padding:16px 32px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap">
+    <div style="display:flex; align-items:center; gap:10px; color:#2F6E6A">
+      <svg style="width:28px;height:28px;flex:none"><use href="#qm"></use></svg>
+      <span style="font-size:24px; font-weight:500; letter-spacing:0.02em; line-height:1">Qvety</span>
+    </div>
+    <nav style="display:flex; align-items:center; gap:28px; font-size:14px">
+      <a href="#what">What it does</a>
+      <a href="#arabic">Arabic first</a>
+      <a href="#pilot">Pilot</a>
+      <a href="#" style="font-family:'IBM Plex Sans Arabic',sans-serif; color:#616E7C">العربية</a>
+      <a href="#pilot" style="font-weight:500; color:#FFFFFF; background:#2F6E6A; padding:9px 16px" style-hover="background:#245855; color:#FFFFFF">Request access</a>
+    </nav>
+  </div>
+</header>
+
+<section style="border-bottom:2px solid #D9DEE3">
+  <div style="max-width:1200px; margin:0 auto; padding:80px 32px 72px; display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:56px; align-items:center">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#616E7C">For Egyptian veterinary clinics</div>
+      <h1 style="margin:20px 0 0; font-size:clamp(36px, 5vw, 56px); font-weight:600; line-height:1.08; letter-spacing:-0.02em; text-wrap:balance">The quiet part of a loud front desk.</h1>
+      <p style="margin:24px 0 0; font-size:17px; line-height:1.65; color:#1F2933; max-width:46ch; text-wrap:pretty">Appointments, patient records, vaccination recalls and invoices in one place. Arabic by default, English per user, and it runs on the shared PC you already have.</p>
+      <div style="display:flex; gap:12px; margin-top:32px; flex-wrap:wrap">
+        <a href="#pilot" style="font-size:15px; font-weight:500; color:#FFFFFF; background:#2F6E6A; padding:13px 24px" style-hover="background:#245855; color:#FFFFFF">Request access</a>
+        <a href="#what" style="font-size:15px; font-weight:500; color:#1F2933; border:2px solid #D9DEE3; padding:11px 24px" style-hover="background:#EEF3F2; color:#1F2933">See what it does</a>
+      </div>
+    </div>
+    <div style="background:#EEF3F2; border:2px solid #D9DEE3; aspect-ratio:4/3; display:flex; align-items:center; justify-content:center; background-image:repeating-linear-gradient(135deg,#EEF3F2,#EEF3F2 9px,#E3EAE9 9px,#E3EAE9 10px)">
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.06em; color:#616E7C; background:#FFFFFF; padding:8px 14px">product shot — today's appointments, Arabic</span>
+    </div>
+  </div>
+</section>
+
+<section style="background:#2F6E6A">
+  <div style="max-width:1200px; margin:0 auto; padding:36px 32px; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:32px">
+    <div><div style="font-size:32px; font-weight:600; color:#FFFFFF; font-variant-numeric:tabular-nums">34</div><div style="font-size:14px; color:#D6E5E3; margin-top:4px">clinics running Qvety</div></div>
+    <div><div style="font-size:32px; font-weight:600; color:#FFFFFF; font-variant-numeric:tabular-nums">211</div><div style="font-size:14px; color:#D6E5E3; margin-top:4px">staff seats in daily use</div></div>
+    <div><div style="font-size:32px; font-weight:600; color:#FFFFFF; font-variant-numeric:tabular-nums">6</div><div style="font-size:14px; color:#D6E5E3; margin-top:4px">governorates</div></div>
+    <div><div style="font-size:32px; font-weight:600; color:#FFFFFF; font-variant-numeric:tabular-nums">0</div><div style="font-size:14px; color:#D6E5E3; margin-top:4px">messages sent without a human pressing send</div></div>
+  </div>
+</section>
+
+<section id="what" style="border-bottom:2px solid #D9DEE3">
+  <div style="max-width:1200px; margin:0 auto; padding:72px 32px">
+    <h2 style="margin:0; font-size:30px; font-weight:600; letter-spacing:-0.01em">What it does</h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:2px; background:#D9DEE3; margin-top:36px; border-top:2px solid #D9DEE3; border-bottom:2px solid #D9DEE3">
+      <div style="background:#FFFFFF; padding:28px 30px 32px">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#616E7C">01</div>
+        <h3 style="margin:14px 0 0; font-size:18px; font-weight:600">The day, on one screen</h3>
+        <p style="margin:10px 0 0; font-size:15px; line-height:1.65; color:#1F2933; text-wrap:pretty">Every appointment, who is waiting, who is in consultation, and which visits ended without payment. A receptionist reads it standing up.</p>
+      </div>
+      <div style="background:#FFFFFF; padding:28px 30px 32px">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#616E7C">02</div>
+        <h3 style="margin:14px 0 0; font-size:18px; font-weight:600">Records that survive the owner</h3>
+        <p style="margin:10px 0 0; font-size:15px; line-height:1.65; color:#1F2933; text-wrap:pretty">Visits, weights, vaccinations and files under one patient, not one phone number. Certificates print in black on white and photocopy cleanly.</p>
+      </div>
+      <div style="background:#FFFFFF; padding:28px 30px 32px">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#616E7C">03</div>
+        <h3 style="margin:14px 0 0; font-size:18px; font-weight:600">Recalls that a person sends</h3>
+        <p style="margin:10px 0 0; font-size:15px; line-height:1.65; color:#1F2933; text-wrap:pretty">Qvety works out who is due and writes the message. Your staff open WhatsApp on their own phone and press send. Nothing goes out automatically.</p>
+      </div>
+      <div style="background:#FFFFFF; padding:28px 30px 32px">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#616E7C">04</div>
+        <h3 style="margin:14px 0 0; font-size:18px; font-weight:600">Money you can close out</h3>
+        <p style="margin:10px 0 0; font-size:15px; line-height:1.65; color:#1F2933; text-wrap:pretty">Invoices in EGP with Western digits so they match the receipt printer, the bank, and the client's phone. Unpaid balances stay visible until they are not.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<sc-if value="{{ showArabicStrip }}" hint-placeholder-val="{{ true }}">
+<section id="arabic" style="background:#EEF3F2; border-bottom:2px solid #D9DEE3">
+  <div style="max-width:1200px; margin:0 auto; padding:72px 32px; display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:56px; align-items:center">
+    <div>
+      <h2 style="margin:0; font-size:30px; font-weight:600; letter-spacing:-0.01em">Arabic first, not Arabic later</h2>
+      <p style="margin:20px 0 0; font-size:16px; line-height:1.7; color:#1F2933; max-width:48ch; text-wrap:pretty">The interface was laid out right-to-left and then adapted to English, not the other way round. Every table, form and invoice mirrors; the logo does not. Each user picks their own language — the receptionist can work in Arabic while the owner reads reports in English, on the same clinic, on the same data.</p>
+      <p style="margin:16px 0 0; font-size:16px; line-height:1.7; color:#1F2933; max-width:48ch; text-wrap:pretty">Numbers stay 0–9 in both languages, because that is what the printer, the bank and the client's phone show.</p>
+    </div>
+    <div style="background:#FFFFFF; border:2px solid #D9DEE3; padding:28px 30px; direction:rtl; font-family:'IBM Plex Sans Arabic',sans-serif">
+      <div style="font-size:16px; font-weight:600">تذكير بالتطعيم</div>
+      <p style="margin:14px 0 0; font-size:15px; line-height:1.8; color:#1F2933">أهلاً أ. هدى، تطعيم مشمش القادم مستحق يوم 26 سبتمبر 2026. تحبي نحجزلك ميعاد؟ — عيادة المعادي البيطرية</p>
+      <div style="margin-top:20px; padding-top:16px; border-top:2px solid #D9DEE3; display:flex; align-items:center; justify-content:space-between; gap:16px">
+        <span style="font-size:13px; color:#616E7C">الرسالة جاهزة — تُرسل من هاتف الموظف</span>
+        <span style="font-size:13px; font-weight:500; color:#FFFFFF; background:#2F6E6A; padding:8px 14px">فتح واتساب</span>
+      </div>
+    </div>
+  </div>
+</section>
+</sc-if>
+
+<sc-if value="{{ showPricing }}" hint-placeholder-val="{{ true }}">
+<section style="border-bottom:2px solid #D9DEE3">
+  <div style="max-width:1200px; margin:0 auto; padding:72px 32px">
+    <h2 style="margin:0; font-size:30px; font-weight:600; letter-spacing:-0.01em">Pricing</h2>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:2px; background:#D9DEE3; margin-top:36px; border:2px solid #D9DEE3">
+      <div style="background:#FFFFFF; padding:32px 30px">
+        <h3 style="margin:0; font-size:18px; font-weight:600">Pilot</h3>
+        <div style="font-size:34px; font-weight:600; margin-top:14px; font-variant-numeric:tabular-nums">Free</div>
+        <div style="font-size:14px; color:#616E7C; margin-top:4px">first three months</div>
+        <p style="margin:18px 0 0; font-size:15px; line-height:1.65; color:#1F2933">One clinic, up to five staff seats, full feature set. We migrate your existing patient list for you.</p>
+      </div>
+      <div style="background:#FFFFFF; padding:32px 30px">
+        <h3 style="margin:0; font-size:18px; font-weight:600">Practice</h3>
+        <div style="font-size:34px; font-weight:600; margin-top:14px; font-variant-numeric:tabular-nums">EGP 1,200</div>
+        <div style="font-size:14px; color:#616E7C; margin-top:4px">per clinic per month</div>
+        <p style="margin:18px 0 0; font-size:15px; line-height:1.65; color:#1F2933">Unlimited patients and invoices, up to fifteen seats, recall lists, printed certificates, monthly reports.</p>
+      </div>
+      <div style="background:#FFFFFF; padding:32px 30px">
+        <h3 style="margin:0; font-size:18px; font-weight:600">Group</h3>
+        <div style="font-size:34px; font-weight:600; margin-top:14px">Talk to us</div>
+        <div style="font-size:14px; color:#616E7C; margin-top:4px">multiple branches</div>
+        <p style="margin:18px 0 0; font-size:15px; line-height:1.65; color:#1F2933">Shared client records across branches, per-branch reporting, and one bill.</p>
+      </div>
+    </div>
+    <p style="margin:20px 0 0; font-size:14px; line-height:1.6; color:#616E7C">Prices are placeholders for review — replace before launch.</p>
+  </div>
+</section>
+</sc-if>
+
+<section id="pilot" style="background:#2F6E6A">
+  <div style="max-width:1200px; margin:0 auto; padding:88px 32px; display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:48px; align-items:center">
+    <div>
+      <h2 style="margin:0; font-size:clamp(30px, 4vw, 42px); font-weight:600; color:#FFFFFF; line-height:1.12; letter-spacing:-0.015em; text-wrap:balance">Try it on one week of real appointments.</h2>
+      <p style="margin:20px 0 0; font-size:16px; line-height:1.7; color:#FFFFFF; max-width:46ch; text-wrap:pretty">We set up your clinic, import your patient list, and sit with your reception team for a morning. If it does not make the front desk quieter, stop.</p>
+    </div>
+    <form style="display:flex; flex-direction:column; gap:14px; background:#FFFFFF; padding:32px 30px">
+      <label style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:#616E7C">Clinic name
+        <input type="text" placeholder="Maadi Veterinary Clinic" style="font-family:inherit; font-size:15px; color:#1F2933; border:1px solid #D9DEE3; border-radius:0; padding:10px 12px">
+      </label>
+      <label style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:#616E7C">Phone or WhatsApp
+        <input type="text" placeholder="+20 100 555 0142" style="font-family:inherit; font-size:15px; color:#1F2933; border:1px solid #D9DEE3; border-radius:0; padding:10px 12px">
+      </label>
+      <label style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:#616E7C">City
+        <input type="text" placeholder="Cairo" style="font-family:inherit; font-size:15px; color:#1F2933; border:1px solid #D9DEE3; border-radius:0; padding:10px 12px">
+      </label>
+      <button type="button" style="font-family:inherit; font-size:15px; font-weight:500; color:#FFFFFF; background:#2F6E6A; border:none; border-radius:0; padding:13px 18px; cursor:pointer; text-align:left" style-hover="background:#245855">Request access</button>
+      <p style="margin:0; font-size:12px; line-height:1.6; color:#616E7C">We reply within one working day. No card, no contract for the pilot.</p>
+    </form>
+  </div>
+</section>
+
+<footer style="background:#FFFFFF">
+  <div style="max-width:1200px; margin:0 auto; padding:44px 32px; display:flex; align-items:center; justify-content:space-between; gap:28px; flex-wrap:wrap">
+    <div style="display:flex; align-items:center; gap:10px; color:#2F6E6A">
+      <svg style="width:22px;height:22px;flex:none"><use href="#qm"></use></svg>
+      <span style="font-size:19px; font-weight:500; letter-spacing:0.02em; line-height:1">Qvety</span>
+      <span style="font-family:'IBM Plex Sans Arabic',sans-serif; font-size:13px; color:#616E7C; margin-left:10px; direction:rtl">إدارة العيادات البيطرية</span>
+    </div>
+    <div style="display:flex; gap:24px; font-size:14px; color:#616E7C">
+      <a href="#" style="color:#616E7C">Privacy</a>
+      <a href="#" style="color:#616E7C">Terms</a>
+      <a href="#" style="color:#616E7C">Support</a>
+      <span>© 2026 Qvety</span>
+    </div>
+  </div>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showArabicStrip&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;},&quot;showPricing&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      showArabicStrip: this.props.showArabicStrip ?? true,
+      showPricing: this.props.showPricing ?? true,
+    };
+  }
+}
+</script>
+</body>
+</html>

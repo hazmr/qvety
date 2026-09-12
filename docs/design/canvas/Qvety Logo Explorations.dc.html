@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #EEF3F2; font-family: "IBM Plex Sans", system-ui, sans-serif; color: #1F2933; -webkit-font-smoothing: antialiased; }
+  a { color: #2F6E6A; text-decoration: none; border-bottom: 1px solid #8FB5B0; }
+  a:hover { color: #245855; border-bottom-color: #245855; }
+</style>
+</helmet>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="m-a" viewBox="0 0 64 64">
+      <circle cx="30" cy="29" r="18" fill="none" stroke="currentColor" stroke-width="9"></circle>
+      <line x1="33" y1="32" x2="52" y2="53" stroke="currentColor" stroke-width="9" stroke-linecap="round"></line>
+    </symbol>
+    <symbol id="m-b" viewBox="0 0 64 64">
+      <circle cx="30" cy="28" r="16.5" fill="none" stroke="currentColor" stroke-width="13"></circle>
+      <line x1="36" y1="34" x2="51" y2="50" stroke="currentColor" stroke-width="11" stroke-linecap="round"></line>
+    </symbol>
+    <symbol id="m-c" viewBox="0 0 64 64">
+      <mask id="mk-c">
+        <rect width="64" height="64" fill="#fff"></rect>
+        <circle cx="31" cy="30" r="8.5" fill="#000"></circle>
+        <line x1="31" y1="30" x2="50" y2="49" stroke="#000" stroke-width="9" stroke-linecap="round"></line>
+      </mask>
+      <circle cx="31" cy="30" r="23" fill="currentColor" mask="url(#mk-c)"></circle>
+    </symbol>
+    <symbol id="m-d" viewBox="0 0 64 64">
+      <mask id="mk-d">
+        <rect width="64" height="64" fill="#fff"></rect>
+        <ellipse cx="37" cy="40" rx="9.5" ry="7.5" transform="rotate(-45 37 40)" fill="#000"></ellipse>
+        <circle cx="26.5" cy="33" r="4.3" fill="#000"></circle>
+        <circle cx="35" cy="27.5" r="4.3" fill="#000"></circle>
+        <circle cx="44" cy="30.5" r="4.3" fill="#000"></circle>
+      </mask>
+      <circle cx="31" cy="30" r="23" fill="currentColor" mask="url(#mk-d)"></circle>
+    </symbol>
+  </defs>
+</svg>
+
+<section style="width:1480px; padding:56px 48px 72px; box-sizing:border-box; background:#EEF3F2">
+
+  <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:32px; border-bottom:2px solid #1F2933; padding-bottom:18px">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#616E7C">Turn 1 &nbsp;/&nbsp; Milestone 1 &nbsp;/&nbsp; Mark</div>
+      <h1 style="margin:10px 0 0; font-size:34px; font-weight:600; letter-spacing:-0.01em; line-height:1.1">Qvety — four Q marks</h1>
+    </div>
+    <p style="margin:0; max-width:560px; font-size:14px; line-height:1.6; color:#616E7C; text-wrap:pretty">Each candidate is one shape, one color, no inner detail, and is shown at the sizes that decide it: a real 16&nbsp;px browser tab, a 24&nbsp;px collapsed sidebar, black for photocopied certificates, and both lockup directions. Pick one and I'll build the guidelines page and the asset set around it.</p>
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:2px; background:#D9DEE3; margin-top:2px">
+
+    <!-- 1a -->
+    <div id="1a" style="background:#FFFFFF; padding:26px 24px 30px; display:flex; flex-direction:column; gap:22px">
+      <div style="display:flex; align-items:baseline; gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500; color:#FFFFFF; background:#2F6E6A; padding:3px 7px">1a</span>
+        <span style="font-size:16px; font-weight:600">Open Q</span>
+      </div>
+      <div style="height:150px; display:flex; align-items:center; justify-content:center; background:#FFFFFF; border:2px solid #D9DEE3; color:#2F6E6A">
+        <svg style="width:112px;height:112px" aria-label="Qvety mark, open Q"><use href="#m-a"></use></svg>
+      </div>
+      <p style="margin:0; font-size:13px; line-height:1.6; color:#616E7C; text-wrap:pretty">The brief's primary direction, read literally. Ring bowl, tail crosses the stroke and ends in a rounded terminal. Lightest of the four, closest to a text Q.</p>
+
+      <div style="display:flex; align-items:flex-end; gap:18px; color:#2F6E6A; padding-top:4px; border-top:2px solid #D9DEE3">
+        <svg style="width:32px;height:32px"><use href="#m-a"></use></svg>
+        <svg style="width:24px;height:24px"><use href="#m-a"></use></svg>
+        <svg style="width:16px;height:16px"><use href="#m-a"></use></svg>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#616E7C; margin-left:auto">32/24/16</span>
+      </div>
+
+      <div style="background:#EEF3F2; border:2px solid #D9DEE3; padding:8px 10px; display:flex; align-items:center; gap:7px">
+        <svg style="width:16px;height:16px;color:#2F6E6A;flex:none"><use href="#m-a"></use></svg>
+        <span style="font-size:11px; color:#1F2933; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">Qvety — Today's appointments</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px">
+        <div style="background:#FFFFFF; border:2px solid #D9DEE3; aspect-ratio:1; display:flex; align-items:center; justify-content:center; color:#000000"><svg style="width:40px;height:40px"><use href="#m-a"></use></svg></div>
+        <div style="background:#2F6E6A; aspect-ratio:1; display:flex; align-items:center; justify-content:center; color:#FFFFFF"><svg style="width:40px;height:40px"><use href="#m-a"></use></svg></div>
+        <div style="background:#8FB5B0; aspect-ratio:1; display:flex; align-items:center; justify-content:center; color:#FFFFFF"><svg style="width:40px;height:40px"><use href="#m-a"></use></svg></div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px; padding-top:16px; border-top:2px solid #D9DEE3">
+        <div style="display:flex; align-items:center; gap:10px; color:#2F6E6A">
+          <svg style="width:30px;height:30px;flex:none"><use href="#m-a"></use></svg>
+          <span style="font-size:25px; font-weight:500; letter-spacing:0.02em; line-height:1">Qvety</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; color:#2F6E6A; flex-direction:row-reverse; justify-content:flex-end">
+          <svg style="width:30px;height:30px;flex:none"><use href="#m-a"></use></svg>
+          <span style="font-size:25px; font-weight:500; letter-spacing:0.02em; line-height:1">Qvety</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1b -->
+    <div id="1b" style="background:#FFFFFF; padding:26px 24px 30px; display:flex; flex-direction:column; gap:22px">
+      <div style="display:flex; align-items:baseline; gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500; color:#FFFFFF; background:#2F6E6A; padding:3px 7px">1b</span>
+        <span style="font-size:16px; font-weight:600">Heavy Q</span>
+      </div>
+      <div style="height:150px; display:flex; align-items:center; justify-content:center; background:#FFFFFF; border:2px solid #D9DEE3; color:#2F6E6A">
+        <svg style="width:112px;height:112px" aria-label="Qvety mark, heavy Q"><use href="#m-b"></use></svg>
+      </div>
+      <p style="margin:0; font-size:13px; line-height:1.6; color:#616E7C; text-wrap:pretty">Same idea at maximum mass: thick ring, small counter, short heavy tail crossing the stroke low on the bowl. Survives 16&nbsp;px and a bad printer best.</p>
+
+      <div style="display:flex; align-items:flex-end; gap:18px; color:#2F6E6A; padding-top:4px; border-top:2px solid #D9DEE3">
+        <svg style="width:32px;height:32px"><use href="#m-b"></use></svg>
+        <svg style="width:24px;height:24px"><use href="#m-b"></use></svg>
+        <svg style="width:16px;height:16px"><use href="#m-b"></use></svg>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#616E7C; margin-left:auto">32/24/16</span>
+      </div>
+
+      <div style="background:#EEF3F2; border:2px solid #D9DEE3; padding:8px 10px; display:flex; align-items:center; gap:7px">
+        <svg style="width:16px;height:16px;color:#2F6E6A;flex:none"><use href="#m-b"></use></svg>
+        <span style="font-size:11px; color:#1F2933; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">Qvety — Today's appointments</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px">
+        <div style="background:#FFFFFF; border:2px solid #D9DEE3; aspect-ratio:1; display:flex; align-items:center; justify-content:center; color:#000000"><svg style="width:40px;height:40px"><use href="#m-b"></use></svg></div>
+        <div style="background:#2F6E6A; aspect-ratio:1; display:flex; align-items:center; justify-content:center; color:#FFFFFF"><svg style="width:40px;height:40px"><use href="#m-b"></use></svg></div>
+        <div style="background:#8FB5B0; aspect-ratio:1; display:flex; align-items:center; justify-content:center; color:#FFFFFF"><svg style="width:40px;height:40px"><use href="#m-b"></use></svg></div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px; padding-top:16px; border-top:2px solid #D9DEE3">
+        <div style="display:flex; align-items:center; gap:10px; color:#2F6E6A">
+          <svg style="width:30px;height:30px;flex:none"><use href="#m-b"></use></svg>
+          <span style="font-size:25px; font-weight:600; letter-spacing:0.02em; line-height:1">Qvety</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; color:#2F6E6A; flex-direction:row-reverse; justify-content:flex-end">
+          <svg style="width:30px;height:30px;flex:none"><use href="#m-b"></use></svg>
+          <span style="font-size:25px; font-weight:600; letter-spacing:0.02em; line-height:1">Qvety</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1c -->
+    <div id="1c" style="background:#FFFFFF; padding:26px 24px 30px; display:flex; flex-direction:column; gap:22px">
+      <div style="display:flex; align-items:baseline; gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500; color:#FFFFFF; background:#2F6E6A; padding:3px 7px">1c</span>
+        <span style="font-size:16px; font-weight:600">Cut Q</span>
+      </div>
+      <div style="height:150px; display:flex; align-items:center; justify-content:center; background:#FFFFFF; border:2px solid #D9DEE3; color:#2F6E6A">
+        <svg style="width:112px;height:112px" aria-label="Qvety mark, cut Q"><use href="#m-c"></use></svg>
+      </div>
+      <p style="margin:0; font-size:13px; line-height:1.6; color:#616E7C; text-wrap:pretty">Inverted: a solid disc, with the counter and the tail both cut out of it. The tail is a void slot leaving the bowl at 45°, terminal rounded. Most distinct silhouette, least like a tech logo.</p>
+
+      <div style="display:flex; align-items:flex-end; gap:18px; color:#2F6E6A; padding-top:4px; border-top:2px solid #D9DEE3">
+        <svg style="width:32px;height:32px"><use href="#m-c"></use></svg>
+        <svg style="width:24px;height:24px"><use href="#m-c"></use></svg>
+        <svg style="width:16px;height:16px"><use href="#m-c"></use></svg>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#616E7C; margin-left:auto">32/24/16</span>
+      </div>
+
+      <div style="background:#EEF3F2; border:2px solid #D9DEE3; padding:8px 10px; display:flex; align-items:center; gap:7px">
+        <svg style="width:16px;height:16px;color:#2F6E6A;flex:none"><use href="#m-c"></use></svg>
+        <span style="font-size:11px; color:#1F2933; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">Qvety — Today's appointments</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px">
+        <div style="background:#FFFFFF; border:2px solid #D9DEE3; aspect-ratio:1; display:flex; align-items:center; justify-content:center; color:#000000"><svg style="width:40px;height:40px"><use href="#m-c"></use></svg></div>
+        <div style="background:#2F6E6A; aspect-ratio:1; display:flex; align-items:center; justify-content:center; color:#FFFFFF"><svg style="width:40px;height:40px"><use href="#m-c"></use></svg></div>
+        <div style="background:#8FB5B0; aspect-ratio:1; display:flex; align-items:center; justify-content:center; color:#FFFFFF"><svg style="width:40px;height:40px"><use href="#m-c"></use></svg></div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px; padding-top:16px; border-top:2px solid #D9DEE3">
+        <div style="display:flex; align-items:center; gap:10px; color:#2F6E6A">
+          <svg style="width:30px;height:30px;flex:none"><use href="#m-c"></use></svg>
+          <span style="font-size:25px; font-weight:500; letter-spacing:0.02em; line-height:1">Qvety</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; color:#2F6E6A; flex-direction:row-reverse; justify-content:flex-end">
+          <svg style="width:30px;height:30px;flex:none"><use href="#m-c"></use></svg>
+          <span style="font-size:25px; font-weight:500; letter-spacing:0.02em; line-height:1">Qvety</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1d -->
+    <div id="1d" style="background:#FFFFFF; padding:26px 24px 30px; display:flex; flex-direction:column; gap:22px">
+      <div style="display:flex; align-items:baseline; gap:10px">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:500; color:#FFFFFF; background:#616E7C; padding:3px 7px">1d</span>
+        <span style="font-size:16px; font-weight:600">Pad disc</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#616E7C; margin-left:auto">fallback</span>
+      </div>
+      <div style="height:150px; display:flex; align-items:center; justify-content:center; background:#FFFFFF; border:2px solid #D9DEE3; color:#2F6E6A">
+        <svg style="width:112px;height:112px" aria-label="Qvety mark, paw pad negative space"><use href="#m-d"></use></svg>
+      </div>
+      <p style="margin:0; font-size:13px; line-height:1.6; color:#616E7C; text-wrap:pretty">The brief's fallback: circle with the paw pad as negative space. Warmest and least ambiguous, but it drops the Q entirely, so mark and wordmark no longer share a drawing.</p>
+
+      <div style="display:flex; align-items:flex-end; gap:18px; color:#2F6E6A; padding-top:4px; border-top:2px solid #D9DEE3">
+        <svg style="width:32px;height:32px"><use href="#m-d"></use></svg>
+        <svg style="width:24px;height:24px"><use href="#m-d"></use></svg>
+        <svg style="width:16px;height:16px"><use href="#m-d"></use></svg>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#616E7C; margin-left:auto">32/24/16</span>
+      </div>
+
+      <div style="background:#EEF3F2; border:2px solid #D9DEE3; padding:8px 10px; display:flex; align-items:center; gap:7px">
+        <svg style="width:16px;height:16px;color:#2F6E6A;flex:none"><use href="#m-d"></use></svg>
+        <span style="font-size:11px; color:#1F2933; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">Qvety — Today's appointments</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:2px">
+        <div style="background:#FFFFFF; border:2px solid #D9DEE3; aspect-ratio:1; display:flex; align-items:center; justify-content:center; color:#000000"><svg style="width:40px;height:40px"><use href="#m-d"></use></svg></div>
+        <div style="background:#2F6E6A; aspect-ratio:1; display:flex; align-items:center; justify-content:center; color:#FFFFFF"><svg style="width:40px;height:40px"><use href="#m-d"></use></svg></div>
+        <div style="background:#8FB5B0; aspect-ratio:1; display:flex; align-items:center; justify-content:center; color:#FFFFFF"><svg style="width:40px;height:40px"><use href="#m-d"></use></svg></div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px; padding-top:16px; border-top:2px solid #D9DEE3">
+        <div style="display:flex; align-items:center; gap:10px; color:#2F6E6A">
+          <svg style="width:30px;height:30px;flex:none"><use href="#m-d"></use></svg>
+          <span style="font-size:25px; font-weight:500; letter-spacing:0.02em; line-height:1">Qvety</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; color:#2F6E6A; flex-direction:row-reverse; justify-content:flex-end">
+          <svg style="width:30px;height:30px;flex:none"><use href="#m-d"></use></svg>
+          <span style="font-size:25px; font-weight:500; letter-spacing:0.02em; line-height:1">Qvety</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px; border-top:2px solid #1F2933; padding-top:24px; display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:40px">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#616E7C; margin-bottom:8px">16 px in a real tab</div>
+      <p style="margin:0; font-size:13px; line-height:1.6; color:#1F2933; text-wrap:pretty"><a href="#1b">1b</a> and <a href="#1c">1c</a> hold. <a href="#1a">1a</a>'s counter starts to fill in below 20&nbsp;px. <a href="#1d">1d</a>'s toes merge into the pad and it becomes a notched disc.</p>
+    </div>
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#616E7C; margin-bottom:8px">Photocopy test</div>
+      <p style="margin:0; font-size:13px; line-height:1.6; color:#1F2933; text-wrap:pretty">Solid-mass marks copy better than strokes. <a href="#1c">1c</a> is safest; <a href="#1a">1a</a> is the one I'd want to see on a real clinic copier before committing.</p>
+    </div>
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#616E7C; margin-bottom:8px">LTR vs RTL weight</div>
+      <p style="margin:0; font-size:13px; line-height:1.6; color:#1F2933; text-wrap:pretty">The mark is never mirrored, so its tail always points down-right. In RTL the tail points away from the wordmark, which reads slightly lighter. Fix is clear space, not a flip.</p>
+    </div>
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#616E7C; margin-bottom:8px">Wordmark Q</div>
+      <p style="margin:0; font-size:13px; line-height:1.6; color:#1F2933; text-wrap:pretty">These use stock IBM Plex Sans. Its Q tail is short and straight — close to <a href="#1a">1a</a>, wrong for <a href="#1c">1c</a>. Whichever mark wins, the wordmark's Q needs redrawing by hand to match.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:40px; background:#FFFFFF; border:2px solid #D9DEE3; padding:28px 32px; display:flex; align-items:center; gap:40px; flex-wrap:wrap">
+    <div style="display:flex; flex-direction:column; align-items:center; gap:14px; color:#2F6E6A">
+      <svg style="width:64px;height:64px"><use href="#m-c"></use></svg>
+      <span style="font-size:34px; font-weight:500; letter-spacing:0.03em; line-height:1">Qvety</span>
+      <span style="font-family:'IBM Plex Sans Arabic',sans-serif; font-size:15px; font-weight:400; color:#616E7C; direction:rtl">إدارة العيادات البيطرية</span>
+    </div>
+    <p style="margin:0; max-width:460px; font-size:13px; line-height:1.6; color:#616E7C; text-wrap:pretty">Stacked lockup with the optional Arabic descriptor, shown on <a href="#1c">1c</a>. Print and marketing only — never in the app header. Clear space on all sides equals the height of the bowl.</p>
+  </div>
+
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}"></script>
+</body>
+</html>

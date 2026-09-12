@@ -24,3 +24,7 @@ cd web && npm run api:generate   # regenerate web/src/app/api from a running bac
 ## Layout
 
 See the tree in `CLAUDE.md`.
+
+## Design
+
+`docs/design/brand.md` is the brand: mark, color tokens, type, icon rules, asset list. `docs/design/frontend.md` is how that brand is applied to screens and components; read it before building any Angular screen. Finished logo and icon files are in `web/public/brand/` and `web/public/icons/`; NG-ZORRO theme variables and CSS tokens are in `docs/design/tokens/`.

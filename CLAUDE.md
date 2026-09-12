@@ -21,6 +21,7 @@ web/                    Angular workspace; web/src/app/api is generated, never e
 docs/domain/            business rules in plain language
 docs/parts/             the learning path, one file per part
 docs/backlog.md         post-pilot items; never built without an explicit part
+docs/design/            brand.md and frontend.md: colors, type, screens; tokens/ for NG-ZORRO; read before any Angular screen
 docs/help/              user guide, seeded from docs/domain after go-live
 ```
 
