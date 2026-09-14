@@ -706,3 +706,11 @@ erDiagram
 | Unknown country rejected | Check constraint on `practices.country` |
 | Practice cannot change its own status | Column-level `UPDATE` grant on `practices` for `qvety_app`: identity columns only |
 | Invoice numbers gapless | `invoice_counters` row locked in the issue transaction; `number` set once, unique per practice |
+
+## 8. Migration log
+
+Applied migrations, in order. The tables above are the target; this list is what exists.
+
+| Migration | Part | Adds |
+| --- | --- | --- |
+| `V1__practices.sql` | 02 | `practice_status` enum, `practices` |

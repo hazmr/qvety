@@ -13,6 +13,11 @@ One entry per finished part. Three lines minimum: the business rule, the stack c
 - Claude reads `CLAUDE.md` at the repository root at the start of every session, plus `openspec/config.yaml` context when an OpenSpec command runs.
 
 
+## Part 02 — Practice
+- Business: a practice is one clinic business and the tenant root; country decides currency, locale, timezone, and regulatory framework, and an unmapped country is an error, never a default. Status starts `trial` and only the platform changes it. Identity columns (address, phone, VAT number, tax rate) exist for printing invoices and certificates.
+- Stack: Flyway migration first, entity second, `ddl-auto=validate` as the referee. Postgres generates the id (`uuidv7()`, time-ordered) so the entity has `@Id` without `@GeneratedValue`. DTO record plus MapStruct keeps the API shape independent of the table. `@SpringBootTest` with Testcontainers starts the whole context against a real Postgres 18, runs Flyway and the seed, then hits the HTTP port.
+- Surprise: `validate` rejected `char(2)` on the first run. Postgres reports it as `bpchar` (JDBC `CHAR`) while a Java `String` defaults to `VARCHAR`; the fix is `@JdbcTypeCode(Types.CHAR)` on the entity, not a migration change. Also Hibernate 7 moved `PostgreSQLEnumJdbcType` to `org.hibernate.dialect.type`. Generated Angular names needed `@Tag(name = "practice")` and `@Schema(name = "Practice")` to avoid `PracticeControllerApi` and `PracticeDtoDto`.
+
 ## Part 16 — Go-live
 - Offer and price:
 - Pilot clinic and start date:

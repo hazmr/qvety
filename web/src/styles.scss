@@ -1,6 +1,12 @@
-/* Global styles. Part 05 adds RTL/LTR handling. */
+/* Global styles. Part 05 adds the tokens, fonts, and RTL/LTR handling. */
 .home {
   display: grid;
   place-items: center;
+  align-content: center;
+  gap: 8px;
   min-height: 100vh;
 }
+.home h1 { margin: 0; }
+.home__practice { margin: 0; font-size: 20px; font-weight: 600; }
+.home__meta { margin: 0; opacity: 0.7; }
+.home__error { margin: 0; color: #b00020; }

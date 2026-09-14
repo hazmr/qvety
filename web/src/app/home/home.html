@@ -1,3 +1,9 @@
 <main class="home">
   <h1>Qvety</h1>
+  @if (practice(); as p) {
+    <p class="home__practice">{{ p.name }}</p>
+    <p class="home__meta" dir="ltr">{{ p.country }} · {{ p.currency }} · {{ p.timezone }}</p>
+  } @else if (error(); as e) {
+    <p class="home__error">{{ e }}</p>
+  }
 </main>

@@ -9,7 +9,6 @@ target/
 node_modules/
 web/dist/
 web/.angular/
-web/src/app/api/
 .openapi-generator/
 
 # IDE

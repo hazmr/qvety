@@ -28,6 +28,8 @@ public class SecurityConfig {
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                 // Angular static files and the SPA fallback
                 .requestMatchers("/", "/index.html", "/*.js", "/*.css", "/*.ico", "/assets/**", "/media/**").permitAll()
+                // Part 02 scaffolding: no auth yet, the practice comes from X-Practice-Id. Part 03 removes this line.
+                .requestMatchers("/api/v1/practice").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
             )
