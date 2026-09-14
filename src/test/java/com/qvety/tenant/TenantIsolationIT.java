@@ -192,6 +192,29 @@ class TenantIsolationIT {
         }
     }
 
+    // ---- part 06: clients ----------------------------------------------------------------------------
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void clientsAreInvisibleAcrossPractices() {
+        var tokenA = login(client(port), ADMIN, PASSWORD);
+        var tokenB = login(client(port), ADMIN_B_EMAIL, PASSWORD);
+        var seededA = "00000000-0000-7000-8000-000000000301";
+
+        var a = client(port).get().uri("/api/v1/clients/" + seededA).header("Authorization", "Bearer " + tokenA).retrieve().toEntity(Map.class);
+        assertThat(a.getStatusCode()).isEqualTo(HttpStatus.OK);
+        var b = client(port).get().uri("/api/v1/clients/" + seededA).header("Authorization", "Bearer " + tokenB).retrieve().toEntity(Map.class);
+        assertThat(b.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+
+        var listB = client(port).get().uri("/api/v1/clients").header("Authorization", "Bearer " + tokenB).retrieve().body(Map.class);
+        assertThat((List<?>) listB.get("content")).isEmpty();
+
+        var editB = client(port).put().uri("/api/v1/clients/" + seededA).header("Authorization", "Bearer " + tokenB)
+            .header("If-Match", "0").contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("fullName", "Hijacked", "phone", "+201000000000")).retrieve().toEntity(String.class);
+        assertThat(editB.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
     // ---- 4.5 practice row change is audited under its own id -------------------------------------
 
     @Test

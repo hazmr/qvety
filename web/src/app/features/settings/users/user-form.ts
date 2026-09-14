@@ -44,7 +44,7 @@ export class UserForm {
 
   constructor() {
     if (this.id) {
-      this.api.get(this.id).subscribe((u) => {
+      this.api.getUser(this.id).subscribe((u) => {
         this.form.patchValue({
           phone: u.phone, email: u.email ?? '', fullName: u.fullName, role: u.role, veterinarian: u.veterinarian,
           licenseNumber: u.licenseNumber ?? '',
@@ -74,12 +74,12 @@ export class UserForm {
       this.error.set(apiMessage(e, fallback));
     };
     if (this.isNew) {
-      this.api.create({
+      this.api.createUser({
         phone: v.phone, email: v.email || undefined, temporaryPassword: v.temporaryPassword, fullName: v.fullName, role: v.role,
         veterinarian: v.veterinarian, licenseNumber: v.licenseNumber || undefined,
       }).subscribe({ next: done, error: fail });
     } else {
-      this.api.update(this.id!, {
+      this.api.updateUser(this.id!, {
         phone: v.phone, email: v.email || undefined, fullName: v.fullName, role: v.role, veterinarian: v.veterinarian,
         licenseNumber: v.licenseNumber || undefined,
       }).subscribe({ next: done, error: fail });

@@ -24,7 +24,7 @@ public class AuditController {
     }
 
     @GetMapping
-    public Page<AuditEntryDto> list(@RequestParam(required = false) String table,
+    public Page<AuditEntryDto> listAudit(@RequestParam(required = false) String table,
                                     @RequestParam(required = false) UUID rowId,
                                     @ParameterObject @PageableDefault(size = 20) Pageable pageable) {
         return service.list(table, rowId, pageable);

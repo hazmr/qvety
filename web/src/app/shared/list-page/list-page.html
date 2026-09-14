@@ -1,0 +1,39 @@
+<div class="page-title">
+  <h2>{{ titleKey() | transloco }}</h2>
+  <div class="page-title__actions">
+    @if (searchable()) {
+      <input nz-input type="search" class="list-search" [placeholder]="'shared.search' | transloco"
+             (input)="onSearch($any($event.target).value)" />
+    }
+    @if (createLink(); as link) {
+      <a nz-button nzType="primary" [routerLink]="link">{{ createKey() | transloco }}</a>
+    }
+  </div>
+</div>
+<nz-table #table
+          [nzData]="rows()"
+          [nzLoading]="loading()"
+          [nzFrontPagination]="false"
+          [nzTotal]="total()"
+          [nzPageIndex]="pageIndex()"
+          [nzPageSize]="pageSize()"
+          [nzShowSizeChanger]="false"
+          nzSize="small"
+          (nzQueryParams)="onQuery($event)">
+  <thead>
+    <tr>
+      @for (col of columns(); track col.key) {
+        <th [nzColumnKey]="col.key" [nzShowSort]="col.sortable ?? false">{{ col.labelKey | transloco }}</th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for (row of table.data; track row.id) {
+      <tr class="list-row" (click)="open(row)">
+        @for (col of columns(); track col.key) {
+          <td [attr.dir]="col.ltr ? 'ltr' : null" [class.ltr-field]="col.ltr" [class.mono]="col.mono">{{ cell(col, row) }}</td>
+        }
+      </tr>
+    }
+  </tbody>
+</nz-table>

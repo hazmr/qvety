@@ -1,0 +1,28 @@
+<form nz-form nzLayout="vertical" [formGroup]="form()" (ngSubmit)="submit()" class="form-card">
+  @if (error(); as e) {
+    <nz-alert nzType="error" [nzMessage]="e" nzShowIcon style="margin-bottom: 16px" />
+  }
+  @for (f of fields(); track f.name) {
+    <nz-form-item>
+      <nz-form-label [nzRequired]="f.required ?? false" [nzFor]="f.name">{{ f.labelKey | transloco }}</nz-form-label>
+      <nz-form-control [nzErrorTip]="errorTip(f.name)" [nzExtra]="f.hintKey ? (f.hintKey | transloco) : undefined">
+        @switch (f.type ?? 'text') {
+          @case ('textarea') {
+            <textarea nz-input [id]="f.name" [formControlName]="f.name" rows="3" [attr.dir]="f.ltr ? 'ltr' : null" [class.ltr-field]="f.ltr"></textarea>
+          }
+          @case ('select') {
+            <nz-select [id]="f.name" [formControlName]="f.name" nzAllowClear>
+              @for (o of f.options ?? []; track o.value) { <nz-option [nzValue]="o.value" [nzLabel]="o.labelKey | transloco" /> }
+            </nz-select>
+          }
+          @default {
+            <input nz-input [id]="f.name" [type]="f.type ?? 'text'" [formControlName]="f.name"
+                   [attr.dir]="f.ltr ? 'ltr' : null" [class.ltr-field]="f.ltr"
+                   [attr.inputmode]="f.type === 'tel' ? 'tel' : null" autocomplete="off" />
+          }
+        }
+      </nz-form-control>
+    </nz-form-item>
+  }
+  <button nz-button nzType="primary" [nzLoading]="busy()" type="submit">{{ submitKey() | transloco }}</button>
+</form>

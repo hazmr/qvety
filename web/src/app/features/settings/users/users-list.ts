@@ -24,7 +24,7 @@ export class UsersList {
 
   reload(): void {
     this.loading.set(true);
-    this.api.list().subscribe({
+    this.api.listUsers().subscribe({
       next: (u) => { this.users.set(u); this.loading.set(false); },
       error: () => this.loading.set(false),
     });
@@ -32,12 +32,12 @@ export class UsersList {
 
   deactivate(u: UserDto): void {
     if (!confirm(this.t.translate('users.confirmDeactivate', { name: u.fullName }))) return;
-    this.api.deactivate(u.id).subscribe(() => this.reload());
+    this.api.deactivateUser(u.id).subscribe(() => this.reload());
   }
 
   resetPassword(u: UserDto): void {
     const temporary = prompt(this.t.translate('users.promptTemporary', { name: u.fullName }));
     if (!temporary) return;
-    this.api.resetPassword(u.id, { temporaryPassword: temporary }).subscribe(() => this.reload());
+    this.api.resetUserPassword(u.id, { temporaryPassword: temporary }).subscribe(() => this.reload());
   }
 }

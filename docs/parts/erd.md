@@ -719,3 +719,4 @@ Applied migrations, in order. The tables above are the target; this list is what
 | `V2__users.sql` | 03 | `user_role` enum, `users` (`phone` E.164 required, `email` optional; unique `(practice_id, phone)`, `(practice_id, email)`, `(id, practice_id)`; role/flag checks) |
 | `V3__rls.sql` | 04 | role `qvety_app`; `current_practice_id()`, `current_user_id()`; `audit_action` enum, `audit_log`; `audit_row()` trigger function; `tenant_table_setup(regclass)` (RLS + policy + grants + audit trigger, one call per tenant table); `login_lookup(text)` definer function (the only cross-tenant read); RLS on `users`, `audit_log`, `practices` with column-level `UPDATE` grant |
 | `V4__user_locale.sql` | 05 | `users.locale` (`ar-EG` default, check `ar-EG|en-EG`) |
+| `V5__clients.sql` | 06 | `clients` (reachable check, unique `(id, practice_id)`, name and phone indexes) via `tenant_table_setup()`; `users.version` for the shared base entity |

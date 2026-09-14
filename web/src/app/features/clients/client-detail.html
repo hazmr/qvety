@@ -1,0 +1,36 @@
+@if (client(); as c) {
+  <div class="page-title">
+    <div>
+      <h2>{{ c.fullName }} @if (archived()) { <nz-tag>{{ 'clients.archived' | transloco }}</nz-tag> }</h2>
+      @if (c.preferredName) { <span class="muted">{{ c.preferredName }}</span> }
+    </div>
+    <div class="page-title__actions">
+      <a nz-button [routerLink]="['/clients']">{{ 'shared.back' | transloco }}</a>
+      @if (auth.canWriteClients() && !archived()) {
+        <a nz-button [routerLink]="['/clients', c.id, 'edit']">{{ 'shared.edit' | transloco }}</a>
+        <button nz-button nzDanger (click)="archive()">{{ 'clients.archive' | transloco }}</button>
+      }
+    </div>
+  </div>
+  <dl class="summary">
+    <dt>{{ 'clients.phone' | transloco }}</dt><dd dir="ltr" class="ltr-field mono">{{ c.phone }}</dd>
+    <dt>{{ 'clients.phoneSecondary' | transloco }}</dt><dd dir="ltr" class="ltr-field mono">{{ c.phoneSecondary }}</dd>
+    <dt>{{ 'clients.email' | transloco }}</dt><dd dir="ltr" class="ltr-field">{{ c.email }}</dd>
+    <dt>{{ 'clients.address' | transloco }}</dt><dd>{{ c.address }}</dd>
+    <dt>{{ 'clients.preferredLocale' | transloco }}</dt><dd>{{ c.preferredLocale ? ('locales.' + c.preferredLocale | transloco) : '' }}</dd>
+    <dt>{{ 'clients.notes' | transloco }}</dt><dd>{{ c.notes }}</dd>
+    <dt>{{ 'shared.createdAt' | transloco }}</dt><dd dir="ltr" class="ltr-field">{{ c.createdAt | date:'medium':'':locale.angularLocale() }}</dd>
+  </dl>
+  <nz-tabs>
+    <nz-tab [nzTitle]="'clients.tabPatients' | transloco">
+      <p class="muted">{{ 'clients.patientsSoon' | transloco }}</p>
+    </nz-tab>
+    @if (auth.isAdmin()) {
+      <nz-tab [nzTitle]="'shared.history' | transloco">
+        <ng-template nz-tab>
+          <app-history-tab table="clients" [rowId]="c.id" />
+        </ng-template>
+      </nz-tab>
+    }
+  </nz-tabs>
+}

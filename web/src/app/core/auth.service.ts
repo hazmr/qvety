@@ -23,6 +23,8 @@ export class AuthService {
   readonly token = this.tokenSignal.asReadonly();
   readonly isLoggedIn = computed(() => this.tokenSignal() !== null);
   readonly isAdmin = computed(() => this.user()?.role === 'admin');
+  /** Mirrors the server rule (front desk and admin write clients); the server still decides. */
+  readonly canWriteClients = computed(() => this.user()?.role === 'admin' || this.user()?.role === 'front_desk');
   readonly mustChangePassword = computed(() => this.user()?.mustChangePassword === true);
 
   /** identifier: phone (any Egyptian shape) or email. */

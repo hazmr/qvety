@@ -5,7 +5,8 @@
     "users": "Users",
     "logout": "Log out",
     "language": "العربية",
-    "loggedInAs": "Logged in as {{name}} ({{role}})"
+    "loggedInAs": "Logged in as {{name}} ({{role}})",
+    "clients": "Clients"
   },
   "login": {
     "title": "Qvety",
@@ -81,5 +82,55 @@
     "past_due": "Past due",
     "suspended": "Suspended",
     "closed": "Closed"
+  },
+  "shared": {
+    "add": "Add",
+    "save": "Save",
+    "back": "Back",
+    "edit": "Edit",
+    "search": "Search",
+    "required": "Required",
+    "invalidEmail": "Enter a valid email",
+    "tooLong": "Too long",
+    "invalid": "Invalid",
+    "saveFailed": "Could not save.",
+    "history": "History",
+    "createdAt": "Created"
+  },
+  "locales": {
+    "ar-EG": "Arabic",
+    "en-EG": "English"
+  },
+  "clients": {
+    "title": "Clients",
+    "add": "Add client",
+    "edit": "Edit client",
+    "fullName": "Full name",
+    "fullNameHint": "As the person says it: given name, father, family.",
+    "preferredName": "Preferred name",
+    "phone": "Phone",
+    "phoneSecondary": "Second phone",
+    "email": "Email",
+    "address": "Address",
+    "notes": "Notes",
+    "preferredLocale": "Preferred language",
+    "reachableHint": "A phone number or an email is required.",
+    "archived": "archived",
+    "archive": "Archive",
+    "confirmArchive": "Archive {{name}}? The record stays; it leaves the lists.",
+    "tabPatients": "Patients",
+    "patientsSoon": "Patients arrive in part 08.",
+    "duplicateTitle": "Saved. Possible duplicates found",
+    "duplicateText": "These clients share the phone or the name. Nothing was blocked; check before continuing.",
+    "openSaved": "Open the saved client"
+  },
+  "history": {
+    "at": "When",
+    "action": "Action",
+    "by": "By",
+    "changes": "Changes",
+    "insert": "created",
+    "update": "updated",
+    "delete": "deleted"
   }
 }

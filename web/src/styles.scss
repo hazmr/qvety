@@ -17,3 +17,13 @@ body { background: var(--qv-canvas); color: var(--qv-ink); }
 .page-title h2 { margin: 0; font-size: 20px; font-weight: 600; }
 .form-card { max-width: 480px; padding: 24px; background: var(--qv-surface); border: 2px solid var(--qv-line); }
 .row-actions { display: flex; gap: 12px; }
+
+.page-title__actions { display: flex; gap: 8px; align-items: center; }
+.list-search { width: 240px; }
+.list-row { cursor: pointer; }
+.muted { color: var(--qv-ink-muted); }
+.summary { display: grid; grid-template-columns: max-content 1fr; gap: 6px 24px; max-width: 720px; margin: 0 0 24px; padding: 22px; background: var(--qv-surface); border: 2px solid var(--qv-line); }
+.summary dt { color: var(--qv-ink-muted); }
+.summary dd { margin: 0; }
+.dupe-list { margin: 8px 0; padding-inline-start: 20px; }
+.changes { margin: 0; padding-inline-start: 16px; }

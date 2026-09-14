@@ -48,6 +48,18 @@ Append `clients` to the RLS and audit `DO` list. `UNIQUE (id, practice_id)` exis
 - `shared/form-page`: config-driven form.
 - `features/clients`: list, form, detail with tabs "Patients" (empty until part 08) and "History" (admin only, `GET /api/v1/audit?table=clients&rowId=`).
 
+## As built (deviations)
+
+- `ApiExceptionHandler` and `ApiError` already existed from part 05; this part adds `DomainException`, `stale_update` (409), `bad_sort` (400).
+- Optimistic locking: the client sends `If-Match: <version>`; the service compares it to the loaded row and throws `stale_update` explicitly (deterministic, independent of Hibernate's handling of a manually set version). `@Version` still guards concurrent flushes.
+- `users.version` added in V5 so `User` fits `TenantEntity`.
+- Create/update return `ClientSaved {client, warnings}`; warnings are full `Client` rows.
+- Search in part 06 is `lower(full_name) LIKE %q%` or exact phone/email; part 07 replaces it.
+- Repeatable seeds renamed `R__010_dev_practice`, `R__020_dev_users`, `R__030_dev_clients` (Flyway orders repeatables by description).
+- Controller method names are unique across the API (`listClients`, `getUser`, ...) so springdoc operationIds and generated client names stay clean.
+- Spring Data `PagedModel` serialization (`spring.data.web.pageable.serialization-mode=via_dto`).
+- Checked headless (Playwright + Firefox): list, search, create with duplicate warning, unreachable rule in Arabic, detail, history tab, edit prefill, both directions, zero console errors.
+
 ## Decisions
 
 - `archived_at` instead of `active` because clients are people with history; reference data uses `active`.

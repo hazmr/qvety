@@ -25,6 +25,7 @@ spring:
     web:
       pageable:
         max-page-size: 100
+        serialization-mode: via_dto   # PagedModel: {content, page:{size,number,totalElements,totalPages}}, a stable shape
   threads:
     virtual:
       enabled: true

@@ -1,0 +1,26 @@
+<nz-table #t [nzData]="entries()" [nzLoading]="loading()" nzSize="small" [nzShowPagination]="false">
+  <thead>
+    <tr>
+      <th>{{ 'history.at' | transloco }}</th>
+      <th>{{ 'history.action' | transloco }}</th>
+      <th>{{ 'history.by' | transloco }}</th>
+      <th>{{ 'history.changes' | transloco }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (e of t.data; track e.id) {
+      <tr>
+        <td dir="ltr" class="ltr-field">{{ e.at | date:'medium':'':locale.angularLocale() }}</td>
+        <td>{{ 'history.' + e.action | transloco }}</td>
+        <td dir="ltr" class="ltr-field mono">{{ e.userId ?? '' }}</td>
+        <td>
+          <ul class="changes ltr-field" dir="ltr">
+            @for (ch of changes(e); track ch.field) {
+              <li><span class="mono">{{ ch.field }}</span>: <span class="muted">{{ ch.before | json }}</span> → <span>{{ ch.after | json }}</span></li>
+            }
+          </ul>
+        </td>
+      </tr>
+    }
+  </tbody>
+</nz-table>

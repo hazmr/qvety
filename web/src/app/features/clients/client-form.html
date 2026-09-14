@@ -1,0 +1,18 @@
+<div class="page-title">
+  <h2>{{ (isNew ? 'clients.add' : 'clients.edit') | transloco }}</h2>
+  <a nz-button [routerLink]="id ? ['/clients', id] : ['/clients']">{{ 'shared.back' | transloco }}</a>
+</div>
+@if (warnings().length) {
+  <nz-alert nzType="warning" nzShowIcon class="form-card" style="margin-bottom: 16px"
+            [nzMessage]="'clients.duplicateTitle' | transloco" [nzDescription]="dupes" />
+  <ng-template #dupes>
+    <p>{{ 'clients.duplicateText' | transloco }}</p>
+    <ul class="dupe-list">
+      @for (w of warnings(); track w.id) {
+        <li><a [routerLink]="['/clients', w.id]">{{ w.fullName }}</a> <span dir="ltr" class="ltr-field mono">{{ w.phone }}</span></li>
+      }
+    </ul>
+    <a nz-button nzType="primary" nzSize="small" [routerLink]="['/clients', savedId()]">{{ 'clients.openSaved' | transloco }}</a>
+  </ng-template>
+}
+<app-form-page [fields]="fields" [value]="current()" [busy]="busy()" (submitted)="save($event)" />

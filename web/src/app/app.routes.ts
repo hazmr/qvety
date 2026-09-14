@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
 import { adminGuard, authGuard } from './core/auth.guard';
 import { ChangePassword } from './features/change-password/change-password';
+import { ClientDetail } from './features/clients/client-detail';
+import { ClientForm } from './features/clients/client-form';
+import { ClientsList } from './features/clients/clients-list';
 import { Home } from './home/home';
 import { Login } from './features/login/login';
 import { UserForm } from './features/settings/users/user-form';
@@ -16,6 +19,10 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: '', component: Home },
+      { path: 'clients', component: ClientsList },
+      { path: 'clients/new', component: ClientForm },
+      { path: 'clients/:id', component: ClientDetail },
+      { path: 'clients/:id/edit', component: ClientForm },
       { path: 'settings/users', canActivate: [adminGuard], children: [
         { path: '', component: UsersList },
         { path: 'new', component: UserForm },

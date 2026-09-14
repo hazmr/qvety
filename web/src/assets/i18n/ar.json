@@ -5,7 +5,8 @@
     "users": "المستخدمون",
     "logout": "تسجيل الخروج",
     "language": "English",
-    "loggedInAs": "مسجّل الدخول باسم {{name}} ({{role}})"
+    "loggedInAs": "مسجّل الدخول باسم {{name}} ({{role}})",
+    "clients": "العملاء"
   },
   "login": {
     "title": "كيوفيتي",
@@ -81,5 +82,55 @@
     "past_due": "متأخر السداد",
     "suspended": "موقوف",
     "closed": "مغلق"
+  },
+  "shared": {
+    "add": "إضافة",
+    "save": "حفظ",
+    "back": "رجوع",
+    "edit": "تعديل",
+    "search": "بحث",
+    "required": "مطلوب",
+    "invalidEmail": "أدخل بريدًا إلكترونيًا صحيحًا",
+    "tooLong": "طويل جدًا",
+    "invalid": "غير صحيح",
+    "saveFailed": "تعذّر الحفظ.",
+    "history": "السجل",
+    "createdAt": "تاريخ الإنشاء"
+  },
+  "locales": {
+    "ar-EG": "العربية",
+    "en-EG": "الإنجليزية"
+  },
+  "clients": {
+    "title": "العملاء",
+    "add": "إضافة عميل",
+    "edit": "تعديل عميل",
+    "fullName": "الاسم الكامل",
+    "fullNameHint": "كما يقوله الشخص: الاسم والأب والعائلة.",
+    "preferredName": "الاسم المفضّل",
+    "phone": "الهاتف",
+    "phoneSecondary": "هاتف آخر",
+    "email": "البريد الإلكتروني",
+    "address": "العنوان",
+    "notes": "ملاحظات",
+    "preferredLocale": "اللغة المفضّلة",
+    "reachableHint": "رقم هاتف أو بريد إلكتروني مطلوب.",
+    "archived": "مؤرشف",
+    "archive": "أرشفة",
+    "confirmArchive": "أرشفة {{name}}؟ يبقى السجل ويختفي من القوائم.",
+    "tabPatients": "الحيوانات",
+    "patientsSoon": "تُضاف الحيوانات في الجزء 08.",
+    "duplicateTitle": "تم الحفظ. توجد سجلات مشابهة",
+    "duplicateText": "هؤلاء العملاء يشتركون في الهاتف أو الاسم. لم يُمنع شيء؛ راجع قبل المتابعة.",
+    "openSaved": "فتح العميل المحفوظ"
+  },
+  "history": {
+    "at": "متى",
+    "action": "الإجراء",
+    "by": "بواسطة",
+    "changes": "التغييرات",
+    "insert": "إنشاء",
+    "update": "تعديل",
+    "delete": "حذف"
   }
 }

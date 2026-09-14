@@ -7,11 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { PageMetadataDto } from './pageMetadata';
+import { ClientDto } from './client';
 
 
-export interface SortObjectDto { 
-    empty?: boolean;
-    sorted?: boolean;
-    unsorted?: boolean;
+export interface PagedModelClientDto { 
+    content?: Array<ClientDto>;
+    page?: PageMetadataDto;
 }
 

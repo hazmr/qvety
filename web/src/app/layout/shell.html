@@ -5,6 +5,7 @@
   </a>
   <nav class="shell__nav">
     <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">{{ 'app.home' | transloco }}</a>
+    <a routerLink="/clients" routerLinkActive="is-active">{{ 'app.clients' | transloco }}</a>
     @if (auth.isAdmin()) {
       <a routerLink="/settings/users" routerLinkActive="is-active">{{ 'app.users' | transloco }}</a>
     }

@@ -1,36 +1,24 @@
 package com.qvety.users;
 
+import com.qvety.tenant.TenantEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.OffsetDateTime;
-import java.util.UUID;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.type.PostgreSQLEnumJdbcType;
 
-/** Staff account. Tenant table; part 06 moves the shared columns into {@code TenantEntity}. */
+/** Staff account. Tenant table on the shared base. */
 @Entity
 @Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)   // Postgres default uuidv7(), read back via RETURNING
-    @Column(name = "id", insertable = false, updatable = false)
-    private UUID id;
-
-    @Column(name = "practice_id", nullable = false, updatable = false)
-    private UUID practiceId;
+public class User extends TenantEntity {
 
     /** E.164. Required; a login identifier together with email. */
     @Column(name = "phone", nullable = false)
@@ -68,12 +56,6 @@ public class User {
     /** ar-EG or en-EG; drives UI language and direction. */
     @Column(name = "locale", nullable = false)
     private String locale = "ar-EG";
-
-    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
-    private OffsetDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
-    private OffsetDateTime updatedAt;
 
     /** Invalidates every token this user holds. */
     public void revokeSessions() {

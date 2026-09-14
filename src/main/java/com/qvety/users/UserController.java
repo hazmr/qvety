@@ -27,33 +27,33 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserDto> list() {
+    public List<UserDto> listUsers() {
         return service.list();
     }
 
     @GetMapping("/{id}")
-    public UserDto get(@PathVariable UUID id) {
+    public UserDto getUser(@PathVariable UUID id) {
         return service.get(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto create(@Valid @RequestBody UserCreateRequest request) {
+    public UserDto createUser(@Valid @RequestBody UserCreateRequest request) {
         return service.create(request);
     }
 
     @PutMapping("/{id}")
-    public UserDto update(@PathVariable UUID id, @Valid @RequestBody UserUpdateRequest request) {
+    public UserDto updateUser(@PathVariable UUID id, @Valid @RequestBody UserUpdateRequest request) {
         return service.update(id, request);
     }
 
     @PostMapping("/{id}/deactivate")
-    public UserDto deactivate(@PathVariable UUID id) {
+    public UserDto deactivateUser(@PathVariable UUID id) {
         return service.deactivate(id);
     }
 
     @PostMapping("/{id}/reset-password")
-    public UserDto resetPassword(@PathVariable UUID id, @Valid @RequestBody ResetPasswordRequest request) {
+    public UserDto resetUserPassword(@PathVariable UUID id, @Valid @RequestBody ResetPasswordRequest request) {
         return service.resetPassword(id, request);
     }
 }
