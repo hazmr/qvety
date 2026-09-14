@@ -1,9 +1,10 @@
 package com.qvety.practice;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.UUID;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,12 +19,13 @@ public class PracticeController {
         this.service = service;
     }
 
-    /**
-     * Part 02 scaffolding: the practice comes from the X-Practice-Id header. Part 03 replaces the
-     * header with the JWT claim and deletes this parameter.
-     */
     @GetMapping
-    public PracticeDto getPractice(@RequestHeader("X-Practice-Id") UUID practiceId) {
-        return service.get(practiceId);
+    public PracticeDto getPractice() {
+        return service.get();
+    }
+
+    @PutMapping
+    public PracticeDto updatePractice(@Valid @RequestBody PracticeUpdateRequest request) {
+        return service.update(request);
     }
 }

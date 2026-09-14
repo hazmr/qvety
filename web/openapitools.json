@@ -12,7 +12,7 @@
           "ngVersion": "22.0.0",
           "serviceSuffix": "Api",
           "modelSuffix": "Dto",
-          "stringEnums": true,
+          "stringEnums": false,
           "supportsES6": true
         }
       }

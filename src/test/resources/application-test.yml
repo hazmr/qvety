@@ -3,6 +3,11 @@ spring:
   flyway:
     locations: classpath:db/migration,classpath:db/seed
 
+qvety:
+  jwt:
+    secret: test-only-secret-not-for-production-0123456789abcdef
+    ttl: 12h
+
 logging:
   level:
     com.qvety: DEBUG

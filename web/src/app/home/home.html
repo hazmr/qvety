@@ -1,9 +1,9 @@
-<main class="home">
-  <h1>Qvety</h1>
+<section class="home">
   @if (practice(); as p) {
-    <p class="home__practice">{{ p.name }}</p>
-    <p class="home__meta" dir="ltr">{{ p.country }} · {{ p.currency }} · {{ p.timezone }}</p>
+    <h1 class="home__practice">{{ p.name }}</h1>
+    <p class="home__meta" dir="ltr">{{ p.country }} · {{ p.currency }} · {{ p.timezone }} · {{ p.status }}</p>
+    <p>Logged in as {{ auth.user()?.fullName }} ({{ auth.user()?.role }})</p>
   } @else if (error(); as e) {
     <p class="home__error">{{ e }}</p>
   }
-</main>
+</section>

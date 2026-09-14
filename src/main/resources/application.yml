@@ -33,6 +33,11 @@ management:
       probes:
         enabled: true
 
+qvety:
+  jwt:
+    secret: ${QVETY_JWT_SECRET:}   # required outside the local profile; the app refuses to start without it
+    ttl: 12h
+
 springdoc:
   api-docs:
     path: /v3/api-docs

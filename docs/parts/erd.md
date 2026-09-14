@@ -714,3 +714,4 @@ Applied migrations, in order. The tables above are the target; this list is what
 | Migration | Part | Adds |
 | --- | --- | --- |
 | `V1__practices.sql` | 02 | `practice_status` enum, `practices` |
+| `V2__users.sql` | 03 | `user_role` enum, `users` (unique `(practice_id, email)`, unique `(id, practice_id)`, role/flag checks) |

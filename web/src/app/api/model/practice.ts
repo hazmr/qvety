@@ -10,26 +10,28 @@
 
 
 export interface PracticeDto { 
-    id?: string;
-    name?: string;
-    country?: string;
-    currency?: string;
-    locale?: string;
-    timezone?: string;
-    status?: PracticeDtoStatusEnum;
+    id: string;
+    name: string;
+    country: string;
+    currency: string;
+    locale: string;
+    timezone: string;
+    status: PracticeDto.StatusEnum;
     address?: string;
     phone?: string;
     vatNumber?: string;
-    taxRatePercent?: number;
+    taxRatePercent: number;
     trialEndsAt?: string;
 }
-export enum PracticeDtoStatusEnum {
-    Trial = 'trial',
-    Active = 'active',
-    PastDue = 'past_due',
-    Suspended = 'suspended',
-    Closed = 'closed'
-};
-
+export namespace PracticeDto {
+    export const StatusEnum = {
+        Trial: 'trial',
+        Active: 'active',
+        PastDue: 'past_due',
+        Suspended: 'suspended',
+        Closed: 'closed'
+    } as const;
+    export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
+}
 
 

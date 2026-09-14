@@ -1,0 +1,15 @@
+<header class="shell__header">
+  <a class="shell__brand" routerLink="/">Qvety</a>
+  <nav class="shell__nav">
+    <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    @if (auth.isAdmin()) {
+      <a routerLink="/settings/users" routerLinkActive="is-active">Users</a>
+    }
+  </nav>
+  <span class="shell__spacer"></span>
+  <span class="shell__user">{{ auth.user()?.fullName }}</span>
+  <button nz-button nzType="link" nzSize="small" class="shell__logout" (click)="auth.logout()">Logout</button>
+</header>
+<main class="shell__main">
+  <router-outlet />
+</main>

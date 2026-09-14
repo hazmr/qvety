@@ -1,0 +1,40 @@
+<div class="page-title">
+  <h2>Users</h2>
+  <a nz-button nzType="primary" routerLink="new">Add user</a>
+</div>
+<nz-table #table [nzData]="users()" [nzLoading]="loading()" nzSize="small" [nzShowPagination]="false">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Vet</th>
+      <th>License</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (u of table.data; track u.id) {
+      <tr>
+        <td>{{ u.fullName }}</td>
+        <td dir="ltr">{{ u.email }}</td>
+        <td>{{ u.role }}</td>
+        <td>@if (u.veterinarian) { <nz-tag>vet</nz-tag> }</td>
+        <td dir="ltr">{{ u.licenseNumber }}</td>
+        <td>
+          @if (!u.active) { <nz-tag>inactive</nz-tag> }
+          @else if (u.mustChangePassword) { <nz-tag nzColor="orange">password change pending</nz-tag> }
+          @else { <nz-tag nzColor="green">active</nz-tag> }
+        </td>
+        <td class="row-actions">
+          <a [routerLink]="[u.id]">Edit</a>
+          @if (u.active) {
+            <a (click)="resetPassword(u)">Reset password</a>
+            <a (click)="deactivate(u)">Deactivate</a>
+          }
+        </td>
+      </tr>
+    }
+  </tbody>
+</nz-table>

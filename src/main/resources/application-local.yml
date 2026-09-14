@@ -9,6 +9,10 @@ spring:
   jpa:
     show-sql: false
 
+qvety:
+  jwt:
+    secret: local-dev-only-secret-not-for-production-0123456789
+
 logging:
   level:
     com.qvety: DEBUG

@@ -1,0 +1,17 @@
+.shell__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 32px;
+  padding-inline: 12px;
+  background: #0f5c5a;   /* placeholder; part 05 wires --qv-primary */
+  color: #fff;
+}
+.shell__brand { color: #fff; font-weight: 600; text-decoration: none; }
+.shell__nav { display: flex; gap: 12px; }
+.shell__nav a { color: rgba(255, 255, 255, 0.8); text-decoration: none; }
+.shell__nav a.is-active { color: #fff; text-decoration: underline; }
+.shell__spacer { flex: 1; }
+.shell__user { font-size: 13px; }
+.shell__logout { color: #fff !important; }
+.shell__main { padding: 24px; }

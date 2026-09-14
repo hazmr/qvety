@@ -1,0 +1,56 @@
+<div class="page-title">
+  <h2>{{ isNew ? 'Add user' : 'Edit user' }}</h2>
+  <a nz-button routerLink="/settings/users">Back</a>
+</div>
+<form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="submit()" class="form-card">
+  @if (error(); as e) {
+    <nz-alert nzType="error" [nzMessage]="e" nzShowIcon style="margin-bottom: 16px" />
+  }
+  <nz-form-item>
+    <nz-form-label nzRequired>Email</nz-form-label>
+    <nz-form-control nzErrorTip="Enter a valid email">
+      <input nz-input type="email" formControlName="email" dir="ltr" autocomplete="off" />
+    </nz-form-control>
+  </nz-form-item>
+  @if (isNew) {
+    <nz-form-item>
+      <nz-form-label nzRequired>Temporary password</nz-form-label>
+      <nz-form-control nzErrorTip="At least 10 characters" nzExtra="The user must change it at first login.">
+        <input nz-input type="text" formControlName="temporaryPassword" dir="ltr" autocomplete="off" />
+      </nz-form-control>
+    </nz-form-item>
+  }
+  <nz-form-item>
+    <nz-form-label nzRequired>Full name</nz-form-label>
+    <nz-form-control nzErrorTip="Required">
+      <input nz-input formControlName="fullName" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired>Role</nz-form-label>
+    <nz-form-control>
+      <nz-select formControlName="role">
+        @for (r of roles; track r) { <nz-option [nzValue]="r" [nzLabel]="r" /> }
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label>Veterinarian (may finalize notes and prescribe)</nz-form-label>
+    <nz-form-control>
+      <nz-switch formControlName="veterinarian" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label>License number</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="licenseNumber" dir="ltr" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label>Phone</nz-form-label>
+    <nz-form-control>
+      <input nz-input formControlName="phone" dir="ltr" />
+    </nz-form-control>
+  </nz-form-item>
+  <button nz-button nzType="primary" [nzLoading]="busy()" type="submit">Save</button>
+</form>
