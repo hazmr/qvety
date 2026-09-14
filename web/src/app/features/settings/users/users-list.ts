@@ -35,6 +35,12 @@ export class UsersList {
     this.api.deactivateUser(u.id).subscribe(() => this.reload());
   }
 
+  activate(u: UserDto): void {
+    const temporary = prompt(this.t.translate('users.promptActivate', { name: u.fullName }));
+    if (!temporary) return;
+    this.api.activateUser(u.id, { temporaryPassword: temporary }).subscribe(() => this.reload());
+  }
+
   resetPassword(u: UserDto): void {
     const temporary = prompt(this.t.translate('users.promptTemporary', { name: u.fullName }));
     if (!temporary) return;

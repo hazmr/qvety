@@ -52,6 +52,11 @@ public class UserController {
         return service.deactivate(id);
     }
 
+    @PostMapping("/{id}/activate")
+    public UserDto activateUser(@PathVariable UUID id, @Valid @RequestBody ResetPasswordRequest request) {
+        return service.activate(id, request);
+    }
+
     @PostMapping("/{id}/reset-password")
     public UserDto resetUserPassword(@PathVariable UUID id, @Valid @RequestBody ResetPasswordRequest request) {
         return service.resetPassword(id, request);

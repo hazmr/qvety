@@ -73,6 +73,20 @@ public class UserService {
         return mapper.toDto(user);
     }
 
+    /** Returning staff member: same row, fresh temporary password, forced change. Old tokens are already dead. */
+    @Transactional
+    public UserDto activate(UUID id, ResetPasswordRequest request) {
+        var user = load(id);
+        if (user.isActive()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "already_active");
+        }
+        user.setActive(true);
+        user.setPasswordHash(passwords.encode(request.temporaryPassword()));
+        user.setMustChangePassword(true);
+        user.revokeSessions();
+        return mapper.toDto(user);
+    }
+
     /** Temporary password, forced change, every existing token dies. */
     @Transactional
     public UserDto resetPassword(UUID id, ResetPasswordRequest request) {

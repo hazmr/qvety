@@ -34,6 +34,8 @@
           @if (u.active) {
             <a (click)="resetPassword(u)">{{ 'users.resetPassword' | transloco }}</a>
             <a (click)="deactivate(u)">{{ 'users.deactivate' | transloco }}</a>
+          } @else {
+            <a (click)="activate(u)">{{ 'users.activate' | transloco }}</a>
           }
         </td>
       </tr>

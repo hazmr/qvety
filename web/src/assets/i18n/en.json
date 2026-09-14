@@ -49,6 +49,8 @@
     "editAction": "Edit",
     "resetPassword": "Reset password",
     "deactivate": "Deactivate",
+    "activate": "Reactivate",
+    "promptActivate": "Reactivate {{name}} with a temporary password (at least 10 characters):",
     "confirmDeactivate": "Deactivate {{name}}?",
     "promptTemporary": "Temporary password for {{name}} (at least 10 characters):",
     "statusActive": "active",

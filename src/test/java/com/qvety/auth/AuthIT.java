@@ -138,6 +138,20 @@ class AuthIT {
             .body(Map.of("identifier", "deactivate-case@clinic.example.com", "password", "temporary-1"))
             .retrieve().toEntity(String.class);
         assertThat(relogin.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+
+        // Returning staff member: same row comes back with a fresh temporary password and a forced change.
+        api().post().uri("/api/v1/users/" + id + "/activate").header("Authorization", "Bearer " + admin)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("temporaryPassword", "temporary-2"))
+            .retrieve().toEntity(String.class);
+        var back = login(api(), "deactivate-case@clinic.example.com", "temporary-2");
+        assertThat(status("/api/v1/me", back)).isEqualTo(HttpStatus.OK);
+        assertThat(status("/api/v1/practice", back)).isEqualTo(HttpStatus.FORBIDDEN);   // must change password first
+        var twice = api().post().uri("/api/v1/users/" + id + "/activate").header("Authorization", "Bearer " + admin)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("temporaryPassword", "temporary-3"))
+            .retrieve().toEntity(String.class);
+        assertThat(twice.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
     }
 
     @Test

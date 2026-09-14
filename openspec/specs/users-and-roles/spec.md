@@ -105,6 +105,13 @@ A deactivated user SHALL NOT log in but SHALL remain in the table; records that 
 - **WHEN** a veterinarian is deactivated
 - **THEN** notes they finalized still show their name
 
+### Requirement: A deactivated user can be reactivated
+An `admin` SHALL reactivate a deactivated user of the same practice with a new temporary password. The reactivated user SHALL change the password at first login. Reactivating an active user SHALL fail with 409.
+
+#### Scenario: Returning staff member
+- **WHEN** an admin reactivates a deactivated user with a temporary password
+- **THEN** the same row is active again, login with the temporary password works, and the user must change the password before any other request
+
 ### Requirement: Login is rate limited
 The system SHALL allow at most 10 failed logins per identifier (normalized phone or email) and 30 per IP in any 15 minute window. Beyond that it SHALL return 429 with a `Retry-After` header. A successful login SHALL reset the identifier bucket. Nothing SHALL be locked permanently.
 

@@ -49,6 +49,8 @@
     "editAction": "تعديل",
     "resetPassword": "إعادة تعيين كلمة المرور",
     "deactivate": "إيقاف",
+    "activate": "إعادة تفعيل",
+    "promptActivate": "إعادة تفعيل {{name}} بكلمة مرور مؤقتة (10 أحرف على الأقل):",
     "confirmDeactivate": "إيقاف {{name}}؟",
     "promptTemporary": "كلمة مرور مؤقتة لـ {{name}} (10 أحرف على الأقل):",
     "statusActive": "نشط",
