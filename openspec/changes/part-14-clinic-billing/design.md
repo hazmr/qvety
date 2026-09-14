@@ -64,3 +64,7 @@ Trigger `protect_issued_invoice()`: reject `invoice_lines` insert/update/delete 
 ## Angular
 
 Invoice page from the visit (prefilled), discount field, payment dialog generating the idempotency key once per open, print view (logo, VAT, discount line, RTL), `/billing/unbilled`, daily cash report page.
+
+## Phone layout
+
+Reference: `docs/design/MOBILE.md screen 12 (collect payment: line items, segmented method control, 52 px amount field, change due, action bar)`. Phone first (below 768 px): stacked rows, one scroller, bottom nav on top-level screens, action bar on detail screens; desktop layout above 768 px.

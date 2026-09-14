@@ -43,3 +43,7 @@ Same pre-signed pattern as part 12, keys prefixed `practices/<practice_id>/...`.
 ## Angular
 
 Visit page from the schedule ("start visit"): allergy banner, vitals form, note editor (read-only after finalize), finalize button (vet flag only), addendum dialog, vaccinations and prescriptions tabs, attachments upload, "Close visit" with no-charge option. "Print vaccination certificate" (A4) on the patient page; "Print prescription" (A5) on the prescriptions tab; `@media print` in RTL. Patient photo on the header. Controlled-substance log under settings (admin). "Open visits" list on the schedule page.
+
+## Phone layout
+
+Reference: `docs/design/MOBILE.md` layout skeleton. Phone first (below 768 px): stacked rows, one scroller, bottom nav on top-level screens, action bar on detail screens; desktop layout above 768 px.

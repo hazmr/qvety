@@ -70,3 +70,7 @@ CREATE TABLE practice_hours (
 - `/schedule`: day view, CSS grid, one column per vet, 15 min rows, placement by start and duration, RTL-safe (`inset-inline-start`, not `left`).
 - Booking dialog with NG-ZORRO date picker; status buttons.
 - `/board`: three columns (waiting, in exam, done), status buttons on cards, 30 s polling. Check RTL column order.
+
+## Phone layout
+
+Reference: `docs/design/MOBILE.md screen 09 (today: filter row All/Waiting/Unpaid, stacked rows with a fixed 46 px time column, bottom nav)`. Phone first (below 768 px): stacked rows, one scroller, bottom nav on top-level screens, action bar on detail screens; desktop layout above 768 px.

@@ -21,6 +21,7 @@
 - [ ] 4.2 "Add reminder" on patient and visit pages
 - [ ] 4.3 Settings page for window and templates
 - [ ] 4.4 WhatsApp opens with the Arabic message on a phone; checked in `ar` and `en`
+- [ ] 4.5 Checked at 390 px and 360 px: phone layout per MOBILE.md screen 11 (recalls list with a 44 px WhatsApp button per row; bottom sheet, not a route, for the handoff); no `nz-table` on phone, 16 px inputs, 44 px targets
 
 ## 5. Close
 - [ ] 5.1 `erd.md` updated

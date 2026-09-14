@@ -22,6 +22,7 @@
 - [ ] 4.2 Patient detail with Summary, Weights, Allergies, empty Visits
 - [ ] 4.3 Allergy banner; species labels from i18n
 - [ ] 4.4 Checked in `ar` and `en`
+- [ ] 4.5 Checked at 390 px and 360 px: phone layout per MOBILE.md screen 10 (patient record: title bar with back chevron, identity block, scrollable tab strip, timeline, action bar); no `nz-table` on phone, 16 px inputs, 44 px targets
 
 ## 5. Close
 - [ ] 5.1 `erd.md` updated

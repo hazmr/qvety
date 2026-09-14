@@ -26,6 +26,7 @@
 - [ ] 5.2 Practices list, create, status change with reason, export download
 - [ ] 5.3 Practice-side `/settings/export`; `past_due` banner
 - [ ] 5.4 Checked in `ar` and `en`
+- [ ] 5.5 Checked at 390 px and 360 px: phone layout per MOBILE.md layout skeleton; no `nz-table` on phone, 16 px inputs, 44 px targets
 
 ## 6. Close
 - [ ] 6.1 `erd.md` updated

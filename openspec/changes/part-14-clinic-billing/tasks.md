@@ -24,6 +24,7 @@
 - [ ] 4.3 Print view in RTL with logo, VAT, discount line
 - [ ] 4.4 `/billing/unbilled`; daily cash report page
 - [ ] 4.5 Checked in `ar` and `en`
+- [ ] 4.6 Checked at 390 px and 360 px: phone layout per MOBILE.md screen 12 (collect payment: line items, segmented method control, 52 px amount field, change due, action bar); no `nz-table` on phone, 16 px inputs, 44 px targets
 
 ## 5. Close
 - [ ] 5.1 `erd.md` updated

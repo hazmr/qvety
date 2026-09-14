@@ -3,6 +3,7 @@
 - [ ] 1.2 Fresh VPS to HTTPS login following only the README; time it (< 1 h)
 - [ ] 1.3 Header scan: part 03 headers present, no `unsafe-inline`
 - [ ] 1.4 Log rotation configured; JSON logs; no personal data in logs (test)
+- [ ] 1.5 Every screen checked on a real phone at 390 px and 360 px per `docs/design/MOBILE.md` before the pilot
 
 ## 2. Backup and monitoring
 - [ ] 2.1 Off-site `mc mirror` to a second provider

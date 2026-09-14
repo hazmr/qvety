@@ -18,6 +18,7 @@
 ## 5. Angular
 - [ ] 5.1 Search box with 300 ms debounce
 - [ ] 5.2 Duplicate warning on the form, non-blocking, with links
+- [ ] 5.3 Checked at 390 px and 360 px: phone layout per MOBILE.md layout skeleton; no `nz-table` on phone, 16 px inputs, 44 px targets
 
 ## 6. Close
 - [ ] 6.1 `erd.md` updated

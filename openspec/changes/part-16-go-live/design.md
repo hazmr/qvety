@@ -21,3 +21,7 @@ Logback JSON encoder to stdout; MDC with request id, practice id, user id; no DT
 - Contract (Arabic, short).
 - Operations manual: onboarding checklist, training rule, support rule, 60-day criteria, recovery numbers, runbook line for "alert at 21:00 Thursday", drill log.
 - "Qvety demo" practice as a second tenant with synthetic data only.
+
+## Phone layout
+
+Reference: `docs/design/MOBILE.md` layout skeleton. Phone first (below 768 px): stacked rows, one scroller, bottom nav on top-level screens, action bar on detail screens; desktop layout above 768 px.

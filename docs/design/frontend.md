@@ -2,7 +2,7 @@
 
 How the brand in `brand.md` is applied to screens, components, and behavior. Read this before building any Angular screen. The pixel reference for everything below is `canvas/Qvety App Screens.dc.html`, eight screens stacked top to bottom at 1280 px wide.
 
-The canvases are prototypes that show intended look, density, and behavior. They are not production code. Each screen is recreated with NG-ZORRO components themed from `tokens/qvety-theme.less`, Transloco strings, and `dir` switching on the document root. Parts 02 onward each build the screens they own; nothing here is built ahead of its part.
+Phone layout (below 768 px) is specified in `MOBILE.md`; the five phone screens sit in the same canvas under "The phone is not a narrow desktop". Build the phone layout first, then the desktop one. The canvases are prototypes that show intended look, density, and behavior. They are not production code. Each screen is recreated with NG-ZORRO components themed from `tokens/qvety-theme.less`, Transloco strings, and `dir` switching on the document root. Parts 02 onward each build the screens they own; nothing here is built ahead of its part.
 
 ## Fidelity
 
@@ -119,6 +119,7 @@ Nothing beyond what the screens imply: current language and direction (per user,
 
 - Zero hard-coded strings; everything from `web/src/assets/i18n/*.json`.
 - Checked in `ar` (RTL) and `en` (LTR). Mark and object icons not mirrored.
+- Checked at 390 px and 360 px: no `nz-table`, stacked rows, 16 px inputs, 44 px targets, bottom nav or action bar (never both), safe-area inset.
 - Radius 0, no shadows, rules not borders-with-radius.
 - Money and reminder states amber; clinical states teal or green; disabled grey.
 - Numbers Western, tabular, LTR inside Arabic.

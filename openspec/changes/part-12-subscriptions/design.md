@@ -61,3 +61,7 @@ Pre-signed PUT from MinIO client (`minio` SDK), 10 min validity, object key `pla
 ## Angular
 
 `/admin/plans`, `/admin/subscriptions`, record payment dialog with file upload (NG-ZORRO upload to the pre-signed URL); practice-side `/subscription` with pay instructions in both languages.
+
+## Phone layout
+
+Reference: `docs/design/MOBILE.md` layout skeleton. Phone first (below 768 px): stacked rows, one scroller, bottom nav on top-level screens, action bar on detail screens; desktop layout above 768 px.

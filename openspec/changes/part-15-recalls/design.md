@@ -76,3 +76,7 @@ ORDER BY l.next_due ASC
 ## Angular
 
 `/recalls` work list with default window and type filter; WhatsApp button builds `https://wa.me/<e164 without +>?text=<encodeURIComponent(message)>` (Arabic and newlines need encoding); outcome dialog refreshes the row; "Add reminder" on patient and visit pages; settings page for window and the four templates.
+
+## Phone layout
+
+Reference: `docs/design/MOBILE.md screen 11 (recalls list with a 44 px WhatsApp button per row; bottom sheet, not a route, for the handoff)`. Phone first (below 768 px): stacked rows, one scroller, bottom nav on top-level screens, action bar on detail screens; desktop layout above 768 px.

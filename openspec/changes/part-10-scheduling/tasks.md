@@ -21,6 +21,7 @@
 - [ ] 4.2 Status buttons
 - [ ] 4.3 `/board` whiteboard with 30 s refresh; RTL column order checked
 - [ ] 4.4 Two overlapping bookings fail with 409 in the browser
+- [ ] 4.5 Checked at 390 px and 360 px: phone layout per MOBILE.md screen 09 (today: filter row All/Waiting/Unpaid, stacked rows with a fixed 46 px time column, bottom nav); no `nz-table` on phone, 16 px inputs, 44 px targets
 
 ## 5. Close
 - [ ] 5.1 `erd.md` updated

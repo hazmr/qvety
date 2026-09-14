@@ -31,6 +31,7 @@
   <symbol id="i-doc" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l4.5 4.5V21H6z"></path><path d="M14 3v5h4.5M9 12.5h6M9 16.5h6"></path></g></symbol>
   <symbol id="i-box" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7.5 12 3.5l8.5 4v9L12 20.5l-8.5-4z"></path><path d="M3.5 7.5 12 11.5l8.5-4M12 11.5v9"></path></g></symbol>
   <symbol id="i-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4"></path><path d="M4 20h16M8 16V11M13 16V7M18 16v-4"></path></g></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5 8 12l6.5 7"></path></g></symbol>
   <symbol id="i-plus" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></g></symbol>
 </defs></svg>
 
@@ -460,7 +461,306 @@
 
 </div>
 
-</x-dc>
+
+<div style="width:1360px; padding:0 40px 80px; box-sizing:border-box; display:flex; flex-direction:column; gap:40px">
+
+  <div style="border-bottom:2px solid #1F2933; padding-bottom:18px">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#4A5A60">Qvety &nbsp;/&nbsp; Interface &nbsp;/&nbsp; Phone</div>
+    <h2 style="margin:10px 0 0; font-size:28px; font-weight:600; letter-spacing:-0.01em">The phone is not a narrow desktop</h2>
+    <p style="margin:12px 0 0; max-width:680px; font-size:14px; line-height:1.65; color:#4A5A60; text-wrap:pretty">Staff use their own phones, mostly away from the desk: a vet checking a record in the consult room, a receptionist sending a recall from the corridor. Four rules follow from that. Tables become stacked rows, because a six-column table cannot be read at 390 px. The sidebar becomes a five-item bottom bar, because a thumb reaches the bottom of a phone and not the top. Every target is at least 44 px. And the 32 px brand strip stays 32 px — it is chrome, not a control — with a separate 48 px title bar under it carrying the page name and its one action.</p>
+  </div>
+
+  <div style="display:flex; gap:28px; flex-wrap:wrap">
+
+    <!-- 09 Today, AR -->
+    <div style="display:flex; flex-direction:column; gap:10px">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#4A5A60">09 &nbsp; Today &nbsp;·&nbsp; Arabic</div>
+      <div style="width:390px; height:780px; background:#EEF3F2; border:2px solid #1F2933; display:flex; flex-direction:column; direction:rtl; font-family:'IBM Plex Sans Arabic',sans-serif; overflow:hidden">
+        <div style="height:32px; flex:none; background:#2F6E6A; display:flex; align-items:center; padding:0 14px; gap:9px">
+          <svg style="width:17px;height:17px;color:#FFFFFF;flex:none"><use href="#qm"></use></svg>
+          <span style="font-size:12px; font-weight:500; color:#FFFFFF; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">عيادة المعادي البيطرية</span>
+          <span style="margin-right:auto; font-size:12px; color:#FFFFFF; flex:none">س.م</span>
+        </div>
+        <div style="height:48px; flex:none; background:#FFFFFF; border-bottom:2px solid #D9DEE3; display:flex; align-items:center; justify-content:space-between; padding:0 14px; gap:12px">
+          <div style="min-width:0">
+            <div style="font-size:16px; font-weight:600; line-height:1.2">مواعيد اليوم</div>
+            <div style="font-family:'IBM Plex Sans',sans-serif; font-size:11px; color:#616E7C; line-height:1.2">12 سبتمبر 2026</div>
+          </div>
+          <button style="font-family:inherit; font-size:13px; font-weight:500; color:#FFFFFF; background:#2F6E6A; border:none; border-radius:0; height:36px; padding:0 14px; cursor:pointer; flex:none; display:flex; align-items:center; gap:5px" style-hover="background:#245855"><svg style="width:15px;height:15px"><use href="#i-plus"></use></svg>موعد</button>
+        </div>
+        <div style="flex:none; display:flex; background:#FFFFFF; border-bottom:2px solid #D9DEE3">
+          <div style="flex:1; padding:9px 0; text-align:center; font-size:13px; font-weight:500; color:#2F6E6A; border-bottom:2px solid #2F6E6A; margin-bottom:-2px; min-height:44px; display:flex; align-items:center; justify-content:center">الكل 18</div>
+          <div style="flex:1; padding:9px 0; text-align:center; font-size:13px; color:#616E7C; min-height:44px; display:flex; align-items:center; justify-content:center">انتظار 4</div>
+          <div style="flex:1; padding:9px 0; text-align:center; font-size:13px; color:#8A4F14; min-height:44px; display:flex; align-items:center; justify-content:center">غير مدفوع 7</div>
+        </div>
+        <div style="flex:1; overflow:hidden; background:#FFFFFF">
+          <div style="display:flex; gap:12px; align-items:flex-start; padding:13px 14px; background:#E1EEEC; border-bottom:1px solid #D9DEE3; min-height:44px">
+            <div style="font-family:'IBM Plex Sans',sans-serif; font-size:15px; font-weight:600; width:46px; flex:none">09:00</div>
+            <div style="flex:1; min-width:0">
+              <div style="font-size:15px; font-weight:500">مشمش</div>
+              <div style="font-size:13px; color:#616E7C; margin-top:2px">هدى فؤاد · تطعيم سعار</div>
+            </div>
+            <span style="font-size:11px; font-weight:500; color:#2F6E6A; background:#FFFFFF; padding:3px 8px; flex:none">في الكشف</span>
+          </div>
+          <div style="display:flex; gap:12px; align-items:flex-start; padding:13px 14px; border-bottom:1px solid #D9DEE3; min-height:44px">
+            <div style="font-family:'IBM Plex Sans',sans-serif; font-size:15px; font-weight:600; width:46px; flex:none">09:30</div>
+            <div style="flex:1; min-width:0">
+              <div style="font-size:15px; font-weight:500">لوكي</div>
+              <div style="font-size:13px; color:#616E7C; margin-top:2px">أحمد سمير · متابعة</div>
+            </div>
+            <span style="font-size:11px; font-weight:500; color:#616E7C; background:#EEF3F2; padding:3px 8px; flex:none">انتظار</span>
+          </div>
+          <div style="display:flex; gap:12px; align-items:flex-start; padding:13px 14px; border-bottom:1px solid #D9DEE3; min-height:44px">
+            <div style="font-family:'IBM Plex Sans',sans-serif; font-size:15px; font-weight:600; width:46px; flex:none">10:00</div>
+            <div style="flex:1; min-width:0">
+              <div style="font-size:15px; font-weight:500">بسبس</div>
+              <div style="font-size:13px; color:#616E7C; margin-top:2px">مريم خليل · قص أظافر</div>
+            </div>
+            <span style="font-size:11px; font-weight:500; color:#8A4F14; background:#FBEFE2; padding:3px 8px; flex:none; font-family:'IBM Plex Sans',sans-serif">450 غ.م</span>
+          </div>
+          <div style="display:flex; gap:12px; align-items:flex-start; padding:13px 14px; border-bottom:1px solid #D9DEE3; min-height:44px">
+            <div style="font-family:'IBM Plex Sans',sans-serif; font-size:15px; font-weight:600; width:46px; flex:none">10:30</div>
+            <div style="flex:1; min-width:0">
+              <div style="font-size:15px; font-weight:500">شادو</div>
+              <div style="font-size:13px; color:#616E7C; margin-top:2px">كريم عبد الله · تطعيم سنوي</div>
+            </div>
+            <span style="font-size:11px; font-weight:500; color:#1E8449; background:#E6F2EB; padding:3px 8px; flex:none">مكتمل</span>
+          </div>
+          <div style="display:flex; gap:12px; align-items:flex-start; padding:13px 14px; border-bottom:1px solid #D9DEE3; min-height:44px">
+            <div style="font-family:'IBM Plex Sans',sans-serif; font-size:15px; font-weight:600; width:46px; flex:none">11:00</div>
+            <div style="flex:1; min-width:0">
+              <div style="font-size:15px; font-weight:500">كوكو</div>
+              <div style="font-size:13px; color:#616E7C; margin-top:2px">ياسمين طارق · فحص جناح</div>
+            </div>
+            <span style="font-size:11px; font-weight:500; color:#616E7C; background:#EEF3F2; padding:3px 8px; flex:none">انتظار</span>
+          </div>
+          <div style="display:flex; gap:12px; align-items:flex-start; padding:13px 14px; border-bottom:1px solid #D9DEE3; min-height:44px">
+            <div style="font-family:'IBM Plex Sans',sans-serif; font-size:15px; font-weight:600; width:46px; flex:none">11:30</div>
+            <div style="flex:1; min-width:0">
+              <div style="font-size:15px; font-weight:500">ريكس</div>
+              <div style="font-size:13px; color:#616E7C; margin-top:2px">محمود عيد · إعادة ضمادة</div>
+            </div>
+            <span style="font-size:11px; font-weight:500; color:#B7791F; background:#FBEFE2; padding:3px 8px; flex:none">تذكير</span>
+          </div>
+          <div style="display:flex; gap:12px; align-items:flex-start; padding:13px 14px; min-height:44px">
+            <div style="font-family:'IBM Plex Sans',sans-serif; font-size:15px; font-weight:600; width:46px; flex:none">12:00</div>
+            <div style="flex:1; min-width:0">
+              <div style="font-size:15px; font-weight:500">نونا</div>
+              <div style="font-size:13px; color:#616E7C; margin-top:2px">سلمى راضي · كشف عام</div>
+            </div>
+            <span style="font-size:11px; font-weight:500; color:#616E7C; background:#EEF3F2; padding:3px 8px; flex:none">انتظار</span>
+          </div>
+        </div>
+        <nav style="height:60px; flex:none; background:#FFFFFF; border-top:2px solid #D9DEE3; display:flex">
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#2F6E6A; background:#E1EEEC; border-top:3px solid #2F6E6A; margin-top:-3px"><svg style="width:20px;height:20px"><use href="#i-cal"></use></svg><span style="font-size:10px; font-weight:500">اليوم</span></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#616E7C"><svg style="width:20px;height:20px"><use href="#i-users"></use></svg><span style="font-size:10px">المرضى</span></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#616E7C"><svg style="width:20px;height:20px"><use href="#i-doc"></use></svg><span style="font-size:10px">الفواتير</span></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#616E7C"><svg style="width:20px;height:20px"><use href="#i-box"></use></svg><span style="font-size:10px">المخزون</span></div>
+          <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:#616E7C"><svg style="width:20px;height:20px"><use href="#i-chart"></use></svg><span style="font-size:10px">التقارير</span></div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- 10 Patient record, AR -->
+    <div style="display:flex; flex-direction:column; gap:10px">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#4A5A60">10 &nbsp; Patient record &nbsp;·&nbsp; Arabic</div>
+      <div style="width:390px; height:780px; background:#EEF3F2; border:2px solid #1F2933; display:flex; flex-direction:column; direction:rtl; font-family:'IBM Plex Sans Arabic',sans-serif; overflow:hidden">
+        <div style="height:32px; flex:none; background:#2F6E6A; display:flex; align-items:center; padding:0 14px; gap:9px">
+          <svg style="width:17px;height:17px;color:#FFFFFF;flex:none"><use href="#qm"></use></svg>
+          <span style="font-size:12px; font-weight:500; color:#FFFFFF">عيادة المعادي البيطرية</span>
+        </div>
+        <div style="height:48px; flex:none; background:#FFFFFF; border-bottom:2px solid #D9DEE3; display:flex; align-items:center; padding:0 14px; gap:10px">
+          <svg style="width:20px;height:20px;color:#2F6E6A;flex:none;transform:scaleX(-1)"><use href="#i-back"></use></svg>
+          <span style="font-size:16px; font-weight:600">مشمش</span>
+          <span style="font-size:11px; font-weight:500; color:#B7791F; background:#FBEFE2; padding:3px 8px; flex:none">تذكير خلال 14 يومًا</span>
+        </div>
+        <div style="flex:none; background:#FFFFFF; padding:14px; border-bottom:2px solid #D9DEE3">
+          <div style="font-size:14px; color:#616E7C">قطة · أنثى، معقّمة · 3 سنوات و2 أشهر · <span style="font-family:'IBM Plex Sans',sans-serif">4.1</span> كجم</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#616E7C; margin-top:5px; direction:ltr; text-align:right">PAT-00831</div>
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:12px; padding-top:12px; border-top:1px solid #D9DEE3">
+            <div style="min-width:0">
+              <div style="font-size:14px; font-weight:500">هدى فؤاد</div>
+              <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; color:#1F2933; margin-top:2px; direction:ltr; text-align:right">+20 100 555 0142</div>
+            </div>
+            <button style="font-family:inherit; font-size:13px; font-weight:500; color:#2F6E6A; background:#FFFFFF; border:1px solid #2F6E6A; border-radius:0; height:44px; padding:0 14px; cursor:pointer; flex:none" style-hover="background:#E1EEEC">فتح واتساب</button>
+          </div>
+        </div>
+        <div style="flex:none; display:flex; background:#FFFFFF; border-bottom:2px solid #D9DEE3; overflow:hidden">
+          <div style="padding:0 14px; font-size:14px; font-weight:500; color:#2F6E6A; border-bottom:2px solid #2F6E6A; margin-bottom:-2px; min-height:44px; display:flex; align-items:center; flex:none">الزيارات</div>
+          <div style="padding:0 14px; font-size:14px; color:#616E7C; min-height:44px; display:flex; align-items:center; flex:none">التطعيمات</div>
+          <div style="padding:0 14px; font-size:14px; color:#616E7C; min-height:44px; display:flex; align-items:center; flex:none">الوزن</div>
+          <div style="padding:0 14px; font-size:14px; color:#616E7C; min-height:44px; display:flex; align-items:center; flex:none">الفواتير</div>
+        </div>
+        <div style="flex:1; overflow:hidden; background:#FFFFFF">
+          <div style="background:#FBEFE2; padding:12px 14px; display:flex; justify-content:space-between; align-items:baseline; gap:12px">
+            <span style="font-size:14px; font-weight:500; color:#8A4F14">التطعيم الثلاثي القادم</span>
+            <span style="font-family:'IBM Plex Sans',sans-serif; font-size:13px; color:#8A4F14; flex:none">26 سبتمبر 2026</span>
+          </div>
+          <div style="padding:14px; border-bottom:1px solid #D9DEE3">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px"><span style="font-size:14px; font-weight:500">تطعيم سعار</span><span style="font-family:'IBM Plex Sans',sans-serif; font-size:12px; color:#616E7C; flex:none">12 يوليو 2026</span></div>
+            <div style="font-size:12px; color:#616E7C; margin-top:3px">د. ر. عادل</div>
+            <p style="margin:7px 0 0; font-size:14px; line-height:1.6">نوبيفاك سعار، 1 مل تحت الجلد، الخاصرة اليسرى. تشغيلة R-4471. لا يوجد رد فعل بعد 15 دقيقة.</p>
+          </div>
+          <div style="padding:14px; border-bottom:1px solid #D9DEE3">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px"><span style="font-size:14px; font-weight:500">كشف — فقدان شهية</span><span style="font-family:'IBM Plex Sans',sans-serif; font-size:12px; color:#616E7C; flex:none">3 مايو 2026</span></div>
+            <div style="font-size:12px; color:#616E7C; margin-top:3px">د. ن. حسن</div>
+            <p style="margin:7px 0 0; font-size:14px; line-height:1.6">يومان من قلة الأكل. الحرارة 38.9 °م، الجفاف طبيعي، البطن لينة. نظام غذائي خفيف وإعادة الكشف بعد خمسة أيام.</p>
+          </div>
+          <div style="padding:14px">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px"><span style="font-size:14px; font-weight:500">جراحة تعقيم</span><span style="font-family:'IBM Plex Sans',sans-serif; font-size:12px; color:#616E7C; flex:none">18 نوفمبر 2025</span></div>
+            <div style="font-size:12px; color:#616E7C; margin-top:3px">د. ر. عادل</div>
+          </div>
+        </div>
+        <div style="flex:none; background:#FFFFFF; border-top:2px solid #D9DEE3; padding:10px 14px; display:flex; gap:10px">
+          <button style="flex:1; font-family:inherit; font-size:14px; font-weight:500; color:#1F2933; background:#FFFFFF; border:1px solid #D9DEE3; border-radius:0; height:48px; cursor:pointer" style-hover="background:#EEF3F2">طباعة شهادة</button>
+          <button style="flex:1; font-family:inherit; font-size:14px; font-weight:500; color:#FFFFFF; background:#2F6E6A; border:none; border-radius:0; height:48px; cursor:pointer" style-hover="background:#245855">زيارة جديدة</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11 Recall + WhatsApp, AR -->
+    <div style="display:flex; flex-direction:column; gap:10px">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#4A5A60">11 &nbsp; Recalls and WhatsApp handoff &nbsp;·&nbsp; Arabic</div>
+      <div style="width:390px; height:780px; background:#EEF3F2; border:2px solid #1F2933; display:flex; flex-direction:column; direction:rtl; font-family:'IBM Plex Sans Arabic',sans-serif; overflow:hidden">
+        <div style="height:32px; flex:none; background:#2F6E6A; display:flex; align-items:center; padding:0 14px; gap:9px">
+          <svg style="width:17px;height:17px;color:#FFFFFF;flex:none"><use href="#qm"></use></svg>
+          <span style="font-size:12px; font-weight:500; color:#FFFFFF">عيادة المعادي البيطرية</span>
+        </div>
+        <div style="height:48px; flex:none; background:#FFFFFF; border-bottom:2px solid #D9DEE3; display:flex; align-items:center; padding:0 14px">
+          <span style="font-size:16px; font-weight:600">تذكيرات مستحقة</span>
+          <span style="font-family:'IBM Plex Sans',sans-serif; font-size:13px; color:#616E7C; margin-right:8px">11</span>
+        </div>
+        <div style="flex:1; overflow:hidden; background:#FFFFFF">
+          <div style="padding:13px 14px; border-bottom:1px solid #D9DEE3; display:flex; align-items:center; gap:12px; min-height:44px">
+            <div style="flex:1; min-width:0">
+              <div style="font-size:15px; font-weight:500">مشمش · هدى فؤاد</div>
+              <div style="font-size:13px; color:#616E7C; margin-top:2px">تطعيم ثلاثي · <span style="font-family:'IBM Plex Sans',sans-serif">26 سبتمبر</span></div>
+            </div>
+            <button style="font-family:inherit; font-size:13px; font-weight:500; color:#FFFFFF; background:#2F6E6A; border:none; border-radius:0; height:44px; padding:0 14px; cursor:pointer; flex:none" style-hover="background:#245855">واتساب</button>
+          </div>
+          <div style="padding:13px 14px; border-bottom:1px solid #D9DEE3; display:flex; align-items:center; gap:12px; min-height:44px">
+            <div style="flex:1; min-width:0">
+              <div style="font-size:15px; font-weight:500">ريكس · محمود عيد</div>
+              <div style="font-size:13px; color:#616E7C; margin-top:2px">إعادة ضمادة · <span style="font-family:'IBM Plex Sans',sans-serif">متأخر 3 أيام</span></div>
+            </div>
+            <button style="font-family:inherit; font-size:13px; font-weight:500; color:#FFFFFF; background:#2F6E6A; border:none; border-radius:0; height:44px; padding:0 14px; cursor:pointer; flex:none" style-hover="background:#245855">واتساب</button>
+          </div>
+          <div style="padding:13px 14px; border-bottom:1px solid #D9DEE3; display:flex; align-items:center; gap:12px; min-height:44px">
+            <div style="flex:1; min-width:0">
+              <div style="font-size:15px; font-weight:500">كوكو · ياسمين طارق</div>
+              <div style="font-size:13px; color:#616E7C; margin-top:2px">فحص متابعة · <span style="font-family:'IBM Plex Sans',sans-serif">28 سبتمبر</span></div>
+            </div>
+            <button style="font-family:inherit; font-size:13px; font-weight:500; color:#FFFFFF; background:#2F6E6A; border:none; border-radius:0; height:44px; padding:0 14px; cursor:pointer; flex:none" style-hover="background:#245855">واتساب</button>
+          </div>
+        </div>
+        <div style="flex:none; background:rgba(31,41,51,0.45); padding:0; display:flex; flex-direction:column; justify-content:flex-end; min-height:392px">
+          <div style="background:#FFFFFF; border-top:2px solid #1F2933; padding:20px 18px; display:flex; flex-direction:column; gap:14px">
+            <div style="font-size:16px; font-weight:600">مراجعة الرسالة</div>
+            <div style="font-size:13px; color:#616E7C">إلى هدى فؤاد · <span style="font-family:'IBM Plex Mono',monospace; direction:ltr">+20 100 555 0142</span></div>
+            <div style="background:#EEF3F2; border:1px solid #D9DEE3; padding:13px 14px; font-size:14px; line-height:1.8">أهلاً أ. هدى، تطعيم مشمش القادم مستحق يوم <span style="font-family:'IBM Plex Sans',sans-serif">26 سبتمبر 2026</span>. تحبي نحجزلك ميعاد؟ — عيادة المعادي البيطرية</div>
+            <p style="margin:0; font-size:12px; line-height:1.6; color:#616E7C">الرسالة تُفتح في واتساب على هاتفك. الخادم لا يرسل أي شيء — أنت من يضغط إرسال.</p>
+            <div style="display:flex; gap:10px">
+              <button style="flex:none; font-family:inherit; font-size:14px; font-weight:500; color:#1F2933; background:#FFFFFF; border:1px solid #D9DEE3; border-radius:0; height:48px; padding:0 18px; cursor:pointer" style-hover="background:#EEF3F2">إلغاء</button>
+              <button style="flex:1; font-family:inherit; font-size:14px; font-weight:500; color:#FFFFFF; background:#2F6E6A; border:none; border-radius:0; height:48px; cursor:pointer" style-hover="background:#245855">فتح واتساب</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12 Payment, EN -->
+    <div style="display:flex; flex-direction:column; gap:10px">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#4A5A60">12 &nbsp; Collect payment &nbsp;·&nbsp; English</div>
+      <div style="width:390px; height:780px; background:#EEF3F2; border:2px solid #1F2933; display:flex; flex-direction:column; overflow:hidden">
+        <div style="height:32px; flex:none; background:#2F6E6A; display:flex; align-items:center; padding:0 14px; gap:9px">
+          <svg style="width:17px;height:17px;color:#FFFFFF;flex:none"><use href="#qm"></use></svg>
+          <span style="font-size:12px; font-weight:500; color:#FFFFFF">Maadi Veterinary Clinic</span>
+        </div>
+        <div style="height:48px; flex:none; background:#FFFFFF; border-bottom:2px solid #D9DEE3; display:flex; align-items:center; padding:0 14px; gap:10px">
+          <svg style="width:20px;height:20px;color:#2F6E6A;flex:none"><use href="#i-back"></use></svg>
+          <div style="min-width:0">
+            <div style="font-size:16px; font-weight:600; line-height:1.2">Invoice</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:#616E7C; line-height:1.3">INV-2026-0417</div>
+          </div>
+          <span style="font-size:11px; font-weight:500; color:#8A4F14; background:#FBEFE2; padding:3px 8px; margin-left:auto; flex:none">Unpaid</span>
+        </div>
+        <div style="flex:1; overflow:hidden">
+          <div style="background:#FFFFFF; padding:14px; border-bottom:2px solid #D9DEE3">
+            <div style="font-size:15px; font-weight:500">Basbas · Cat</div>
+            <div style="font-size:13px; color:#616E7C; margin-top:3px">Mariam Khalil · 10 Sep 2026 · Dr R. Adel</div>
+          </div>
+          <div style="background:#FFFFFF; padding:4px 14px 14px; border-bottom:2px solid #D9DEE3">
+            <div style="display:flex; justify-content:space-between; gap:12px; padding:11px 0; border-bottom:1px solid #D9DEE3; font-size:14px"><span>Consultation</span><span style="font-variant-numeric:tabular-nums">250.00</span></div>
+            <div style="display:flex; justify-content:space-between; gap:12px; padding:11px 0; border-bottom:1px solid #D9DEE3; font-size:14px"><span>Nail trim</span><span style="font-variant-numeric:tabular-nums">80.00</span></div>
+            <div style="display:flex; justify-content:space-between; gap:12px; padding:11px 0; font-size:14px"><span>Ear drops 15 ml &nbsp;×2</span><span style="font-variant-numeric:tabular-nums">120.00</span></div>
+            <div style="display:flex; justify-content:space-between; gap:12px; padding:10px 0 0; margin-top:6px; border-top:2px solid #1F2933; font-size:18px; font-weight:600"><span>Total EGP</span><span style="font-variant-numeric:tabular-nums">450.00</span></div>
+          </div>
+          <div style="background:#FFFFFF; padding:16px 14px; display:flex; flex-direction:column; gap:14px">
+            <div style="font-size:16px; font-weight:600">Collect payment</div>
+            <div style="display:flex; gap:2px; background:#D9DEE3">
+              <div style="flex:1; background:#2F6E6A; color:#FFFFFF; font-size:14px; font-weight:500; height:48px; display:flex; align-items:center; justify-content:center">Cash</div>
+              <div style="flex:1; background:#FFFFFF; color:#1F2933; font-size:14px; height:48px; display:flex; align-items:center; justify-content:center">Card</div>
+              <div style="flex:1; background:#FFFFFF; color:#1F2933; font-size:14px; height:48px; display:flex; align-items:center; justify-content:center">Wallet</div>
+            </div>
+            <label style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:#616E7C">Amount received
+              <input type="text" value="500.00" readonly style="font-family:inherit; font-size:20px; font-weight:600; color:#1F2933; background:#FFFFFF; border:1px solid #D9DEE3; border-radius:0; height:52px; padding:0 12px; box-sizing:border-box; font-variant-numeric:tabular-nums">
+            </label>
+            <div style="display:flex; justify-content:space-between; font-size:15px; background:#E1EEEC; padding:12px 14px; color:#2F6E6A; font-weight:500"><span>Change due</span><span style="font-variant-numeric:tabular-nums">50.00</span></div>
+          </div>
+        </div>
+        <div style="flex:none; background:#FFFFFF; border-top:2px solid #D9DEE3; padding:10px 14px; display:flex; gap:10px">
+          <button style="flex:none; font-family:inherit; font-size:14px; font-weight:500; color:#1F2933; background:#FFFFFF; border:1px solid #D9DEE3; border-radius:0; height:48px; padding:0 18px; cursor:pointer" style-hover="background:#EEF3F2">Print</button>
+          <button style="flex:1; font-family:inherit; font-size:14px; font-weight:500; color:#FFFFFF; background:#2F6E6A; border:none; border-radius:0; height:48px; cursor:pointer" style-hover="background:#245855">Confirm payment</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 13 Login, AR -->
+    <div style="display:flex; flex-direction:column; gap:10px">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#4A5A60">13 &nbsp; Login &nbsp;·&nbsp; Arabic</div>
+      <div style="width:390px; height:780px; background:#8FB5B0; border:2px solid #1F2933; display:flex; flex-direction:column; direction:rtl; font-family:'IBM Plex Sans Arabic',sans-serif; overflow:hidden">
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; color:#FFFFFF">
+          <svg style="width:64px;height:64px"><use href="#qm"></use></svg>
+          <span style="font-family:'IBM Plex Sans',sans-serif; font-size:34px; font-weight:500; letter-spacing:0.03em; line-height:1">Qvety</span>
+        </div>
+        <div style="flex:none; background:#FFFFFF; border-top:2px solid #1F2933; padding:24px 18px 20px; display:flex; flex-direction:column; gap:16px">
+          <label style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:#616E7C">البريد الإلكتروني
+            <input type="text" value="reception@almaadi.vet" readonly style="font-family:'IBM Plex Sans',sans-serif; font-size:16px; color:#1F2933; background:#FFFFFF; border:1px solid #D9DEE3; border-radius:0; height:52px; padding:0 12px; box-sizing:border-box; direction:ltr; text-align:left">
+          </label>
+          <label style="display:flex; flex-direction:column; gap:6px; font-size:12px; color:#616E7C">كلمة المرور
+            <input type="password" value="password" readonly style="font-family:'IBM Plex Sans',sans-serif; font-size:16px; color:#1F2933; background:#FFFFFF; border:1px solid #D9DEE3; border-radius:0; height:52px; padding:0 12px; box-sizing:border-box; direction:ltr; text-align:left">
+          </label>
+          <button style="font-family:inherit; font-size:15px; font-weight:500; color:#FFFFFF; background:#2F6E6A; border:none; border-radius:0; height:52px; cursor:pointer" style-hover="background:#245855">تسجيل الدخول</button>
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:13px; color:#616E7C; min-height:44px">
+            <a href="#" style="color:#2F6E6A">نسيت كلمة المرور؟</a>
+            <span style="font-family:'IBM Plex Sans',sans-serif">العربية · <a href="#" style="color:#2F6E6A">English</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:2px; background:#C9D4D2; border-top:2px solid #1F2933; padding-top:2px">
+    <div style="background:#FFFFFF; padding:22px 24px">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#616E7C; margin-bottom:10px">Tables become rows</div>
+      <p style="margin:0; font-size:13px; line-height:1.6; color:#1F2933; text-wrap:pretty">One row per appointment: time in a fixed leading column at 15 px / 600, patient and owner stacked in the middle, state tag pinned to the trailing edge. The six desktop columns collapse to three pieces of information, chosen because those are the three a receptionist reads out loud.</p>
+    </div>
+    <div style="background:#FFFFFF; padding:22px 24px">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#616E7C; margin-bottom:10px">Sidebar becomes a bottom bar</div>
+      <p style="margin:0; font-size:13px; line-height:1.6; color:#1F2933; text-wrap:pretty">The same five destinations, 60 px tall, icon over a 10 px label. The active item keeps the desktop treatment — <code style="font-family:'IBM Plex Mono',monospace">primary-light</code> fill with a 3 px bar — moved from the leading edge to the top edge of the cell.</p>
+    </div>
+    <div style="background:#FFFFFF; padding:22px 24px">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#616E7C; margin-bottom:10px">Primary action is anchored</div>
+      <p style="margin:0; font-size:13px; line-height:1.6; color:#1F2933; text-wrap:pretty">On record and invoice screens the buttons sit in a fixed 48 px bar at the bottom of the viewport, above the scroll. A vet holding a cat in one hand should not have to scroll to find "New visit".</p>
+    </div>
+    <div style="background:#FFFFFF; padding:22px 24px">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:#616E7C; margin-bottom:10px">Sizes that change</div>
+      <p style="margin:0; font-size:13px; line-height:1.6; color:#1F2933; text-wrap:pretty">Body goes 14 → 15 px in list rows, inputs to 16 px so iOS does not zoom on focus, and every target to 44 px minimum. The 32 px brand strip and the type scale everywhere else stay exactly as specified.</p>
+    </div>
+  </div>
+
+</div></x-dc>
 <script type="text/x-dc" data-dc-script data-props="{}"></script>
 </body>
 </html>

@@ -21,7 +21,7 @@ web/                    Angular workspace; web/src/app/api is generated, never e
 docs/domain/            business rules in plain language
 docs/parts/             the learning path, one file per part
 docs/backlog.md         post-pilot items; never built without an explicit part
-docs/design/            brand.md and frontend.md: colors, type, screens; tokens/ for NG-ZORRO; read before any Angular screen
+docs/design/            brand.md, frontend.md (desktop), MOBILE.md (phone): colors, type, screens; tokens/ for NG-ZORRO; read before any Angular screen
 docs/help/              user guide, seeded from docs/domain after go-live
 ```
 
@@ -56,6 +56,7 @@ Shortcuts: `make up` (compose + backend + web), `make down` (stop all), `make te
 - **Page size is capped** at 100 (`spring.data.web.pageable.max-page-size`).
 - **Money** is `numeric(12,2)` with a currency column, never floating point.
 - **Text** shown to users comes from `web/src/assets/i18n/*.json`. No hard-coded strings in templates. Every screen works in `ar` (RTL) and `en` (LTR).
+- **Mobile first.** Staff use their own phones more than the desk PC. One phone layout below 768 px per `docs/design/MOBILE.md` (brand strip, title bar with one action, one scroller, bottom nav or action bar, stacked rows instead of tables, 16 px inputs, 44 px targets); desktop layout above. A part is not done until its screens are checked at 390 px and 360 px as well as desktop.
 - **Tests:** one integration test per feature over Testcontainers; it must include a cross-tenant case. Unit tests for pure helpers (normalization, phone).
 - **`erd.md` is the schema of record.** Update it in the same commit as any migration.
 - **Never commit real clinic, client, or patient data.** Synthetic names and `*.example.com` only.

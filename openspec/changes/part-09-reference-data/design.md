@@ -35,3 +35,7 @@ Data, not code: the catalog is versioned SQL, applied once per practice, editabl
 ## Angular
 
 `features/settings` with a side menu of the three lists, each a config object for `list-page` and `form-page`.
+
+## Phone layout
+
+Reference: `docs/design/MOBILE.md` layout skeleton. Phone first (below 768 px): stacked rows, one scroller, bottom nav on top-level screens, action bar on detail screens; desktop layout above 768 px.

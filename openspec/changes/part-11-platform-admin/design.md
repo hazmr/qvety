@@ -62,3 +62,7 @@ Spring Security filter after JWT: loads practice status from a cache (refresh on
 ## Angular
 
 `/admin`: platform login, practices list, create practice (shows the temporary password once), status change with reason, download export. Practice side: `/settings/export` button. `past_due` banner in the practice layout.
+
+## Phone layout
+
+Reference: `docs/design/MOBILE.md` layout skeleton. Phone first (below 768 px): stacked rows, one scroller, bottom nav on top-level screens, action bar on detail screens; desktop layout above 768 px.

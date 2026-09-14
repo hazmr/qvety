@@ -21,6 +21,7 @@
 ## 4. Angular
 - [ ] 4.1 `/admin/plans`, `/admin/subscriptions`, payment dialog with file
 - [ ] 4.2 Practice `/subscription` page in `ar` and `en`
+- [ ] 4.3 Checked at 390 px and 360 px: phone layout per MOBILE.md layout skeleton; no `nz-table` on phone, 16 px inputs, 44 px targets
 
 ## 5. Close
 - [ ] 5.1 `erd.md` updated

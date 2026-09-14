@@ -37,3 +37,7 @@ Phone branch: `WHERE phone_e164 = :e164 OR phone_secondary_e164 = :e164`.
 ## Angular
 
 Search input on the client list, 300 ms debounce. Duplicate warning as a non-blocking alert with links to the candidates.
+
+## Phone layout
+
+Reference: `docs/design/MOBILE.md` layout skeleton. Phone first (below 768 px): stacked rows, one scroller, bottom nav on top-level screens, action bar on detail screens; desktop layout above 768 px.

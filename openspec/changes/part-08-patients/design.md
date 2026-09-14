@@ -84,3 +84,7 @@ CREATE TABLE patient_allergies (
 ## Angular
 
 Patients tab on client detail; patient detail at `/clients/:id/patients/:pid` with tabs Summary, Weights, Allergies, Visits (empty until part 13). Allergy banner in the patient header. Species labels from i18n.
+
+## Phone layout
+
+Reference: `docs/design/MOBILE.md screen 10 (patient record: title bar with back chevron, identity block, scrollable tab strip, timeline, action bar)`. Phone first (below 768 px): stacked rows, one scroller, bottom nav on top-level screens, action bar on detail screens; desktop layout above 768 px.
