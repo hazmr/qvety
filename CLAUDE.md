@@ -37,6 +37,8 @@ cd web && npm run api:generate                        # regenerate client from /
 deploy/release.sh                                     # production: pull, build, compose up (part 16)
 ```
 
+Shortcuts: `make dev` (compose + backend + web), `make test`, `make check` (tests, jar, health probe).
+
 ## Rules
 
 - **This is a clean-room rewrite.** Never read, reference, port, or reproduce code from any other veterinary system, including the previous Qvety codebase. Work only from `docs/` and the task at hand.
