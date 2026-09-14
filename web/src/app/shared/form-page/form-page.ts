@@ -7,6 +7,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { apiMessage, applyFieldErrors } from '../../core/api-error';
+import { ActionBar } from '../../layout/action-bar/action-bar';
 
 export type FieldType = 'text' | 'tel' | 'email' | 'textarea' | 'select';
 
@@ -27,7 +28,7 @@ export interface FormField {
  */
 @Component({
   selector: 'app-form-page',
-  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzButtonModule, NzAlertModule, TranslocoPipe],
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzButtonModule, NzAlertModule, TranslocoPipe, ActionBar],
   templateUrl: './form-page.html',
 })
 export class FormPage {

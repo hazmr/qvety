@@ -1,21 +1,68 @@
-<header class="shell__header">
-  <a class="shell__brand" routerLink="/">
-    <img src="brand/mark-white.svg" alt="" class="shell__mark" />
-    <span>{{ 'app.name' | transloco }}</span>
-  </a>
-  <nav class="shell__nav">
-    <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">{{ 'app.home' | transloco }}</a>
-    <a routerLink="/clients" routerLinkActive="is-active">{{ 'app.clients' | transloco }}</a>
-    @if (auth.isAdmin()) {
-      <a routerLink="/settings/users" routerLinkActive="is-active">{{ 'app.users' | transloco }}</a>
+@if (viewport.isPhone()) {
+  <!-- phone: strip, scroller, bottom nav (or the screen's action bar) -->
+  <div class="phone">
+    <header class="strip">
+      <img src="brand/mark-white.svg" alt="" class="strip__mark" />
+      <span class="strip__name">{{ auth.practiceName() ?? ('app.name' | transloco) }}</span>
+      <span class="strip__spacer"></span>
+      <button type="button" class="strip__me" (click)="meOpen.set(true)" [attr.aria-label]="auth.user()?.fullName">{{ initials() }}</button>
+    </header>
+    <main class="scroller">
+      <div class="page-body">
+        <router-outlet />
+      </div>
+    </main>
+    @if (!viewport.actionBarPresent()) {
+      <nav class="bottom-nav">
+        @for (item of items(); track item.link) {
+          <a class="bottom-nav__cell" [routerLink]="item.link" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: item.exact ?? false }">
+            <nz-icon [nzType]="item.icon" class="bottom-nav__icon" />
+            <span class="bottom-nav__label">{{ item.labelKey | transloco }}</span>
+          </a>
+        }
+      </nav>
     }
-  </nav>
-  <span class="shell__spacer"></span>
-  <span class="shell__date">{{ today | date:'fullDate':'':locale.angularLocale() }}</span>
-  <button type="button" class="shell__lang" (click)="toggleLanguage()">{{ 'app.language' | transloco }}</button>
-  <span class="shell__user">{{ auth.user()?.fullName }}</span>
-  <button type="button" class="shell__logout" (click)="auth.logout()">{{ 'app.logout' | transloco }}</button>
-</header>
-<main class="shell__main">
-  <router-outlet />
-</main>
+    <nz-drawer [nzVisible]="meOpen()" nzPlacement="bottom" [nzClosable]="false" [nzHeight]="'auto'" nzWrapClassName="me-sheet" (nzOnClose)="meOpen.set(false)">
+      <ng-container *nzDrawerContent>
+        <div class="me">
+          <div class="me__name">{{ auth.user()?.fullName }}</div>
+          <div class="me__role muted">{{ 'roles.' + auth.user()?.role | transloco }}</div>
+          <button nz-button nzBlock class="me__btn" (click)="toggleLanguage(); meOpen.set(false)">{{ 'app.language' | transloco }}</button>
+          <button nz-button nzBlock class="me__btn" (click)="auth.logout()">{{ 'app.logout' | transloco }}</button>
+        </div>
+      </ng-container>
+    </nz-drawer>
+  </div>
+} @else {
+  <!-- desktop: header strip + sidebar + page -->
+  <div class="desktop" [class.desktop--collapsed]="viewport.sidebarCollapsed()">
+    <header class="strip">
+      <a class="strip__brand" routerLink="/">
+        <img src="brand/mark-white.svg" alt="" class="strip__mark" />
+        <span class="strip__name">{{ auth.practiceName() ?? ('app.name' | transloco) }}</span>
+      </a>
+      <span class="strip__spacer"></span>
+      <span class="strip__date">{{ today | date:'fullDate':'':locale.angularLocale() }}</span>
+      <button type="button" class="strip__lang" (click)="toggleLanguage()">{{ 'app.language' | transloco }}</button>
+      <span class="strip__user">{{ auth.user()?.fullName }}</span>
+      <button type="button" class="strip__logout" (click)="auth.logout()">{{ 'app.logout' | transloco }}</button>
+    </header>
+    <div class="desktop__body">
+      <aside class="sidebar">
+        @for (item of items(); track item.link) {
+          <a class="sidebar__item" [routerLink]="item.link" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: item.exact ?? false }" [attr.title]="item.labelKey | transloco">
+            <nz-icon [nzType]="item.icon" class="sidebar__icon" />
+            <span class="sidebar__label">{{ item.labelKey | transloco }}</span>
+          </a>
+        }
+        <span class="sidebar__spacer"></span>
+        <button type="button" class="sidebar__collapse" (click)="viewport.toggleSidebar()" [attr.aria-label]="'app.collapse' | transloco">
+          <nz-icon [nzType]="viewport.sidebarCollapsed() ? 'menu-unfold' : 'menu-fold'" class="mirror-rtl" />
+        </button>
+      </aside>
+      <main class="page">
+        <router-outlet />
+      </main>
+    </div>
+  </div>
+}

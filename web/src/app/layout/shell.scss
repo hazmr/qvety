@@ -1,24 +1,60 @@
-/* Header per docs/design/frontend.md: 32 px primary strip, mark 18 px, no wordmark. Logical properties so RTL mirrors. */
-.shell__header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  height: 32px;
-  padding-inline: 12px;
-  background: var(--qv-primary);
-  color: #fff;
-  font-size: 13px;
+/* Brand strip, both sizes: 32 px primary, mark 18 px white, no wordmark. */
+.strip {
+  display: flex; align-items: center; gap: 16px; flex: none;
+  height: 32px; padding-inline: 12px; background: var(--qv-primary); color: #fff; font-size: 13px;
 }
-.shell__brand { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-weight: 600; text-decoration: none; }
-.shell__mark { width: 18px; height: 18px; }
-.shell__nav { display: flex; gap: 12px; }
-.shell__nav a { color: rgba(255, 255, 255, 0.8); text-decoration: none; }
-.shell__nav a.is-active { color: #fff; border-block-end: 2px solid #fff; }
-.shell__spacer { flex: 1; }
-.shell__date { opacity: 0.85; }
-.shell__lang, .shell__logout {
-  background: none; border: 0; color: #fff; cursor: pointer; padding: 2px 6px; font: inherit;
+.strip__brand { display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; }
+.strip__mark { width: 18px; height: 18px; }
+.strip__name { font-weight: 600; }
+.strip__spacer { flex: 1; }
+.strip__date { opacity: 0.85; }
+.strip__lang, .strip__logout { background: none; border: 0; color: #fff; cursor: pointer; padding: 2px 6px; font: inherit; }
+.strip__lang { border: 1px solid rgba(255, 255, 255, 0.6); }
+.strip__lang:focus-visible, .strip__logout:focus-visible, .strip__me:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+
+/* ---------- phone ---------- */
+.phone { display: flex; flex-direction: column; height: 100dvh; }
+.phone .strip { gap: 8px; }
+.strip__me {
+  width: 26px; height: 26px; border: 1px solid rgba(255, 255, 255, 0.7); background: none; color: #fff;
+  font: 600 11px/1 'IBM Plex Sans', sans-serif; cursor: pointer;
 }
-.shell__lang { border: 1px solid rgba(255, 255, 255, 0.6); }
-.shell__lang:focus-visible, .shell__logout:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
-.shell__main { padding: 24px; }
+.scroller { flex: 1; min-height: 0; overflow: auto; background: var(--qv-canvas); }
+.page-body { padding: 0 14px 14px; }
+.bottom-nav {
+  display: flex; flex: none; height: calc(60px + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--qv-surface); border-block-start: 2px solid var(--qv-line);
+}
+.bottom-nav__cell {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  color: var(--qv-ink-muted); text-decoration: none; border-block-start: 3px solid transparent;
+}
+.bottom-nav__cell.is-active { background: var(--qv-primary-light); color: var(--qv-primary); border-block-start-color: var(--qv-primary); }
+.bottom-nav__icon { font-size: 20px; }
+.bottom-nav__label { font-size: 10px; }
+.me { padding: 20px 18px calc(18px + env(safe-area-inset-bottom)); border-block-start: 2px solid var(--qv-ink); }
+.me__name { font-size: 16px; font-weight: 600; }
+.me__role { margin-bottom: 12px; }
+.me__btn { min-height: 48px; margin-top: 8px; }
+
+/* ---------- desktop ---------- */
+.desktop { display: flex; flex-direction: column; min-height: 100vh; }
+.desktop__body { display: flex; flex: 1; min-height: 0; }
+.sidebar {
+  display: flex; flex-direction: column; flex: none; width: 196px;
+  background: var(--qv-surface); border-inline-end: 2px solid var(--qv-line);
+}
+.sidebar__item {
+  display: flex; align-items: center; gap: 10px; min-height: 40px; padding-inline: 14px;
+  color: var(--qv-ink); text-decoration: none; border-inline-start: 3px solid transparent;
+}
+.sidebar__item:hover { background: var(--qv-canvas); }
+.sidebar__item.is-active { background: var(--qv-primary-light); color: var(--qv-primary); border-inline-start-color: var(--qv-primary); }
+.sidebar__icon { font-size: 16px; }
+.sidebar__spacer { flex: 1; }
+.sidebar__collapse { height: 40px; border: 0; border-block-start: 1px solid var(--qv-line); background: none; color: var(--qv-ink-muted); cursor: pointer; }
+.desktop--collapsed .sidebar { width: 48px; }
+.desktop--collapsed .sidebar__label { display: none; }
+.desktop--collapsed .sidebar__item { justify-content: center; padding-inline: 0; }
+.page { flex: 1; min-width: 0; padding: 24px; }

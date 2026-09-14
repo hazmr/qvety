@@ -1,39 +1,64 @@
-<div class="page-title">
-  <h2>{{ titleKey() | transloco }}</h2>
-  <div class="page-title__actions">
-    @if (searchable()) {
-      <input nz-input type="search" class="list-search" [placeholder]="'shared.search' | transloco"
-             (input)="onSearch($any($event.target).value)" />
+<app-title-bar [titleKey]="titleKey()" [actionKey]="createLink() ? createKey() : undefined" [actionLink]="createLink()">
+  @if (searchable() && !viewport.isPhone()) {
+    <input nz-input type="search" class="list-search" [placeholder]="'shared.search' | transloco"
+           (input)="onSearch($any($event.target).value)" />
+  }
+</app-title-bar>
+
+@if (viewport.isPhone()) {
+  <!-- phone: stacked rows, load-more paging, no table -->
+  @if (searchable()) {
+    <input nz-input type="search" class="list-search list-search--phone" [placeholder]="'shared.search' | transloco"
+           (input)="onSearch($any($event.target).value)" />
+  }
+  <ul class="rows">
+    @for (row of rows(); track row.id) {
+      <li class="row" (click)="open(row)">
+        <div class="row__text">
+          <div class="row__title">{{ cell(titleCol(), row) }}</div>
+          @if (secondaryParts(row).length) {
+            <div class="row__secondary">
+              @for (part of secondaryParts(row); track part.key; let last = $last) {
+                <span [attr.dir]="part.ltr ? 'ltr' : null" [class.ltr-field]="part.ltr" [class.mono]="part.mono">{{ part.value }}</span>@if (!last) { <span class="row__dot"> · </span> }
+              }
+            </div>
+          }
+        </div>
+        @if (tagCol(); as t) { @if (cell(t, row); as v) { <span class="row__tag">{{ v }}</span> } }
+      </li>
+    } @empty {
+      @if (!loading()) { <li class="row row--empty muted">{{ 'shared.empty' | transloco }}</li> }
     }
-    @if (createLink(); as link) {
-      <a nz-button nzType="primary" [routerLink]="link">{{ createKey() | transloco }}</a>
-    }
-  </div>
-</div>
-<nz-table #table
-          [nzData]="rows()"
-          [nzLoading]="loading()"
-          [nzFrontPagination]="false"
-          [nzTotal]="total()"
-          [nzPageIndex]="pageIndex()"
-          [nzPageSize]="pageSize()"
-          [nzShowSizeChanger]="false"
-          nzSize="small"
-          (nzQueryParams)="onQuery($event)">
-  <thead>
-    <tr>
-      @for (col of columns(); track col.key) {
-        <th [nzColumnKey]="col.key" [nzShowSort]="col.sortable ?? false">{{ col.labelKey | transloco }}</th>
-      }
-    </tr>
-  </thead>
-  <tbody>
-    @for (row of table.data; track row.id) {
-      <tr class="list-row" (click)="open(row)">
+  </ul>
+  @if (hasMore()) {
+    <button nz-button nzBlock class="load-more" [nzLoading]="loading()" (click)="loadMore()">{{ 'shared.loadMore' | transloco }}</button>
+  }
+} @else {
+  <nz-table #table
+            [nzData]="rows()"
+            [nzLoading]="loading()"
+            [nzFrontPagination]="false"
+            [nzTotal]="total()"
+            [nzPageIndex]="pageIndex()"
+            [nzPageSize]="pageSize()"
+            [nzShowSizeChanger]="false"
+            nzSize="small"
+            (nzQueryParams)="onQuery($event)">
+    <thead>
+      <tr>
         @for (col of columns(); track col.key) {
-          <td [attr.dir]="col.ltr ? 'ltr' : null" [class.ltr-field]="col.ltr" [class.mono]="col.mono">{{ cell(col, row) }}</td>
+          <th [nzColumnKey]="col.key" [nzShowSort]="col.sortable ?? false">{{ col.labelKey | transloco }}</th>
         }
       </tr>
-    }
-  </tbody>
-</nz-table>
+    </thead>
+    <tbody>
+      @for (row of table.data; track row.id) {
+        <tr class="list-row" (click)="open(row)">
+          @for (col of columns(); track col.key) {
+            <td [attr.dir]="col.ltr ? 'ltr' : null" [class.ltr-field]="col.ltr" [class.mono]="col.mono">{{ cell(col, row) }}</td>
+          }
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+}

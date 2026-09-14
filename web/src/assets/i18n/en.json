@@ -6,7 +6,8 @@
     "logout": "Log out",
     "language": "العربية",
     "loggedInAs": "Logged in as {{name}} ({{role}})",
-    "clients": "Clients"
+    "clients": "Clients",
+    "collapse": "Collapse menu"
   },
   "login": {
     "title": "Qvety",
@@ -97,7 +98,9 @@
     "invalid": "Invalid",
     "saveFailed": "Could not save.",
     "history": "History",
-    "createdAt": "Created"
+    "createdAt": "Created",
+    "empty": "Nothing here yet.",
+    "loadMore": "Load more"
   },
   "locales": {
     "ar-EG": "Arabic",

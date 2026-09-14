@@ -1,7 +1,22 @@
+/* Desktop: centred card on canvas. Phone (screen 13): teal-soft ground, white stacked lockup, form as a bottom sheet. */
 .login { display: grid; place-items: center; min-height: 100vh; padding: 16px; background: var(--qv-canvas); }
 .login__card { width: min(360px, 100%); padding: 24px; border: 2px solid var(--qv-line); background: var(--qv-surface); }
 .login__top { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
 .login__mark { width: 28px; height: 28px; }
 .login__title { margin: 0; flex: 1; font-size: 20px; font-weight: 600; }
-.login__lang { background: none; border: 1px solid var(--qv-line); padding: 2px 8px; cursor: pointer; font: inherit; color: var(--qv-ink-muted); }
+.login__lang { background: none; border: 1px solid var(--qv-line); padding: 2px 8px; cursor: pointer; font: inherit; color: var(--qv-ink-muted); min-height: 32px; }
 .login__alert { margin-bottom: 16px; }
+
+.login--phone {
+  display: flex; flex-direction: column; justify-content: flex-end; min-height: 100dvh; padding: 0;
+  background: var(--qv-teal-soft);
+}
+.login--phone .login__hero { flex: 1; display: grid; place-items: center; padding: 32px 24px; }
+.login--phone .login__lockup { width: 140px; }
+.login--phone .login__card {
+  width: 100%; border: 0; border-block-start: 2px solid var(--qv-ink);
+  padding: 24px 18px calc(18px + env(safe-area-inset-bottom));
+}
+.login--phone .login__submit { min-height: 52px; font-size: 16px; }
+.login--phone .login__footer { display: flex; align-items: center; justify-content: flex-end; min-height: 44px; margin-top: 8px; }
+.login--phone .login__footer .login__lang { min-height: 44px; padding-inline: 14px; }

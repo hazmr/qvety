@@ -1,7 +1,8 @@
-<div class="page-title">
-  <h2>{{ (isNew ? 'users.add' : 'users.edit') | transloco }}</h2>
-  <a nz-button routerLink="/settings/users">{{ 'users.back' | transloco }}</a>
-</div>
+<app-title-bar [titleKey]="isNew ? 'users.add' : 'users.edit'" [back]="['/settings/users']" />
+@if (current(); as u) {
+  @if (!u.active) { <nz-alert nzType="warning" [nzMessage]="'users.statusInactive' | transloco" nzShowIcon style="margin-bottom: 16px" /> }
+  @else if (u.mustChangePassword) { <nz-alert nzType="info" [nzMessage]="'users.statusPending' | transloco" nzShowIcon style="margin-bottom: 16px" /> }
+}
 <ng-template #serverTip let-control>
   {{ control.errors?.server }}
 </ng-template>
@@ -55,5 +56,15 @@
       <input nz-input formControlName="licenseNumber" dir="ltr" class="ltr-field" />
     </nz-form-control>
   </nz-form-item>
-  <button nz-button nzType="primary" [nzLoading]="busy()" type="submit">{{ 'users.save' | transloco }}</button>
+  <app-action-bar>
+    @if (current(); as u) {
+      @if (!u.active) {
+        <button nz-button type="button" class="action-bar__secondary" (click)="activate()">{{ 'users.activate' | transloco }}</button>
+      } @else if (!isSelf()) {
+        <button nz-button type="button" class="action-bar__secondary" (click)="resetPassword()">{{ 'users.resetPassword' | transloco }}</button>
+        <button nz-button nzDanger type="button" class="action-bar__secondary" (click)="deactivate()">{{ 'users.deactivate' | transloco }}</button>
+      }
+    }
+    <button nz-button nzType="primary" [nzLoading]="busy()" type="submit">{{ 'users.save' | transloco }}</button>
+  </app-action-bar>
 </form>

@@ -1,0 +1,10 @@
+.action-bar { display: flex; gap: 8px; margin-top: 16px; }
+.action-bar ::ng-deep button, .action-bar ::ng-deep a[nz-button] { min-height: 38px; }
+
+.action-bar--phone {
+  position: sticky; bottom: 0; z-index: 5;
+  margin: 16px -14px 0; padding: 8px 14px calc(8px + env(safe-area-inset-bottom));
+  background: var(--qv-surface); border-block-start: 2px solid var(--qv-line);
+}
+.action-bar--phone ::ng-deep button, .action-bar--phone ::ng-deep a[nz-button] { flex: 1; min-height: 48px; font-size: 15px; }
+.action-bar--phone ::ng-deep .action-bar__secondary { flex: 0 0 auto; }

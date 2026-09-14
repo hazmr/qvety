@@ -1,7 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
-import { AuthApi, ChangePasswordRequestDto, LoginResponseDto, MeApi, UserDto } from '../api';
+import { AuthApi, ChangePasswordRequestDto, LoginResponseDto, MeApi, PracticeApi, UserDto } from '../api';
 import { AppLocale, LocaleService } from './locale.service';
 
 const TOKEN_KEY = 'qvety.token';
@@ -14,11 +14,14 @@ const TOKEN_KEY = 'qvety.token';
 export class AuthService {
   private readonly authApi = inject(AuthApi);
   private readonly meApi = inject(MeApi);
+  private readonly practiceApi = inject(PracticeApi);
   private readonly router = inject(Router);
   private readonly locale = inject(LocaleService);
 
   private readonly tokenSignal = signal<string | null>(readStoredToken());
   readonly user = signal<UserDto | null>(null);
+  /** Clinic name for the brand strip; loaded once per login. */
+  readonly practiceName = signal<string | null>(null);
 
   readonly token = this.tokenSignal.asReadonly();
   readonly isLoggedIn = computed(() => this.tokenSignal() !== null);
@@ -49,6 +52,7 @@ export class AuthService {
   logout(): void {
     this.tokenSignal.set(null);
     this.user.set(null);
+    this.practiceName.set(null);
     try { sessionStorage.removeItem(TOKEN_KEY); } catch { /* storage unavailable */ }
     this.router.navigateByUrl('/login');
   }
@@ -56,6 +60,9 @@ export class AuthService {
   /** The user's stored locale drives language and direction everywhere. */
   private setUser(u: UserDto): void {
     this.user.set(u);
+    if (!this.practiceName()) {
+      this.practiceApi.getPractice().subscribe({ next: (p) => this.practiceName.set(p.name), error: () => { /* strip falls back to the app name */ } });
+    }
     if (u.locale === 'ar-EG' || u.locale === 'en-EG') {
       this.locale.apply(u.locale);
     }

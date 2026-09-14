@@ -9,6 +9,7 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { AuthService } from '../../core/auth.service';
 import { LocaleService } from '../../core/locale.service';
 import { apiMessage } from '../../core/api-error';
+import { ViewportService } from '../../core/viewport.service';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class Login {
   private readonly route = inject(ActivatedRoute);
   private readonly t = inject(TranslocoService);
   readonly locale = inject(LocaleService);
+  readonly viewport = inject(ViewportService);
 
   readonly form = this.fb.nonNullable.group({
     identifier: ['', [Validators.required]],

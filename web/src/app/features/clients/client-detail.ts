@@ -9,11 +9,13 @@ import { ClientDto, ClientsApi } from '../../api';
 import { AuthService } from '../../core/auth.service';
 import { LocaleService } from '../../core/locale.service';
 import { HistoryTab } from './history-tab';
+import { TitleBar } from '../../layout/title-bar/title-bar';
+import { ActionBar } from '../../layout/action-bar/action-bar';
 
 /** Client summary with tabs: Patients (part 08 fills it) and History (admin only, audit log). */
 @Component({
   selector: 'app-client-detail',
-  imports: [RouterLink, NzTabsModule, NzButtonModule, NzTagModule, TranslocoPipe, DatePipe, HistoryTab],
+  imports: [RouterLink, NzTabsModule, NzButtonModule, NzTagModule, TranslocoPipe, DatePipe, HistoryTab, TitleBar, ActionBar],
   templateUrl: './client-detail.html',
 })
 export class ClientDetail {

@@ -1,20 +1,27 @@
 import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzTableModule, NzTableQueryParams } from 'ng-zorro-antd/table';
 import { Observable, Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ViewportService } from '../../core/viewport.service';
+import { TitleBar } from '../../layout/title-bar/title-bar';
 
-/** One column of a generic list. `ltr` marks Latin values (phones, emails, ids) that stay LTR inside Arabic. */
+/**
+ * One column of a generic list. `ltr` marks Latin values (phones, emails, ids) that stay LTR inside Arabic.
+ * `role` says where the value goes in the phone row: the title line, the secondary line, or a trailing tag;
+ * `hidden` keeps a column desktop-only.
+ */
 export interface ListColumn<T> {
   key: string;
   labelKey: string;
   sortable?: boolean;
   ltr?: boolean;
   mono?: boolean;
+  role?: 'title' | 'secondary' | 'tag' | 'hidden';
   value?: (row: T) => unknown;
 }
 
@@ -38,11 +45,12 @@ export interface ListQuery {
  */
 @Component({
   selector: 'app-list-page',
-  imports: [FormsModule, RouterLink, NzTableModule, NzInputModule, NzButtonModule, TranslocoPipe],
+  imports: [FormsModule, NzTableModule, NzInputModule, NzButtonModule, TranslocoPipe, TitleBar],
   templateUrl: './list-page.html',
 })
 export class ListPage<T extends { id: string }> {
   private readonly router = inject(Router);
+  readonly viewport = inject(ViewportService);
 
   readonly titleKey = input.required<string>();
   readonly columns = input.required<ListColumn<T>[]>();
@@ -61,6 +69,11 @@ export class ListPage<T extends { id: string }> {
   readonly sort = signal<string | undefined>(undefined);
   readonly q = signal('');
   readonly trackBy = computed(() => (_: number, row: T) => row.id);
+  /** Phone row parts, derived from column roles (first column is the title when none is marked). */
+  readonly titleCol = computed(() => this.columns().find((c) => c.role === 'title') ?? this.columns()[0]);
+  readonly secondaryCols = computed(() => this.columns().filter((c) => c.role === 'secondary'));
+  readonly tagCol = computed(() => this.columns().find((c) => c.role === 'tag'));
+  readonly hasMore = computed(() => this.rows().length < this.total());
 
   private readonly search$ = new Subject<string>();
 
@@ -97,15 +110,29 @@ export class ListPage<T extends { id: string }> {
     return col.value ? col.value(row) : (row as Record<string, unknown>)[col.key];
   }
 
-  load(): void {
+  /** Phone paging: append the next page instead of replacing the list. */
+  loadMore(): void {
+    this.pageIndex.update((i) => i + 1);
+    this.load(true);
+  }
+
+  load(append = false): void {
     this.loading.set(true);
     this.loader()({ q: this.q(), page: this.pageIndex() - 1, size: this.pageSize(), sort: this.sort() }).subscribe({
       next: (p) => {
-        this.rows.set(p.content ?? []);
+        const content = p.content ?? [];
+        this.rows.set(append ? [...this.rows(), ...content] : content);
         this.total.set(p.page?.totalElements ?? 0);
         this.loading.set(false);
       },
       error: () => this.loading.set(false),
     });
+  }
+
+  /** Secondary line parts; Latin values keep their own LTR span so a phone reads +20... inside Arabic. */
+  secondaryParts(row: T): { key: string; value: unknown; ltr?: boolean; mono?: boolean }[] {
+    return this.secondaryCols()
+      .map((c) => ({ key: c.key, value: this.cell(c, row), ltr: c.ltr, mono: c.mono }))
+      .filter((p) => p.value !== null && p.value !== undefined && p.value !== '');
   }
 }

@@ -1,7 +1,4 @@
-<div class="page-title">
-  <h2>{{ (isNew ? 'clients.add' : 'clients.edit') | transloco }}</h2>
-  <a nz-button [routerLink]="id ? ['/clients', id] : ['/clients']">{{ 'shared.back' | transloco }}</a>
-</div>
+<app-title-bar [titleKey]="isNew ? 'clients.add' : 'clients.edit'" [back]="id ? ['/clients', id] : ['/clients']" />
 @if (warnings().length) {
   <nz-alert nzType="warning" nzShowIcon class="form-card" style="margin-bottom: 16px"
             [nzMessage]="'clients.duplicateTitle' | transloco" [nzDescription]="dupes" />

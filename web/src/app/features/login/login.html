@@ -1,10 +1,17 @@
-<div class="login">
-  <form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="submit()" class="login__card">
-    <div class="login__top">
-      <img src="brand/mark.svg" alt="" class="login__mark" />
-      <h1 class="login__title">{{ 'login.title' | transloco }}</h1>
-      <button type="button" class="login__lang" (click)="toggleLanguage()">{{ 'app.language' | transloco }}</button>
+<div class="login" [class.login--phone]="viewport.isPhone()">
+  @if (viewport.isPhone()) {
+    <div class="login__hero">
+      <img src="brand/lockup-stacked-white.svg" alt="Qvety" class="login__lockup" />
     </div>
+  }
+  <form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="submit()" class="login__card">
+    @if (!viewport.isPhone()) {
+      <div class="login__top">
+        <img src="brand/mark.svg" alt="" class="login__mark" />
+        <h1 class="login__title">{{ 'login.title' | transloco }}</h1>
+        <button type="button" class="login__lang" (click)="toggleLanguage()">{{ 'app.language' | transloco }}</button>
+      </div>
+    }
     @if (error(); as e) {
       <nz-alert nzType="error" [nzMessage]="e" nzShowIcon class="login__alert" />
     }
@@ -20,6 +27,11 @@
         <input nz-input id="password" type="password" formControlName="password" autocomplete="current-password" dir="ltr" class="ltr-field" />
       </nz-form-control>
     </nz-form-item>
-    <button nz-button nzType="primary" nzBlock [nzLoading]="busy()" type="submit">{{ 'login.submit' | transloco }}</button>
+    <button nz-button nzType="primary" nzBlock [nzLoading]="busy()" type="submit" class="login__submit">{{ 'login.submit' | transloco }}</button>
+    @if (viewport.isPhone()) {
+      <div class="login__footer">
+        <button type="button" class="login__lang" (click)="toggleLanguage()">{{ 'app.language' | transloco }}</button>
+      </div>
+    }
   </form>
 </div>

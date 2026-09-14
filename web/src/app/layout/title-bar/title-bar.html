@@ -1,0 +1,19 @@
+<div class="title-bar" [class.title-bar--phone]="viewport.isPhone()">
+  @if (back(); as b) {
+    <a class="title-bar__back" [routerLink]="b" [attr.aria-label]="'shared.back' | transloco">
+      <nz-icon nzType="left" class="mirror-rtl" />
+    </a>
+  }
+  <div class="title-bar__text">
+    <h2 class="title-bar__title">{{ title() ?? (titleKey() ? (titleKey()! | transloco) : '') }}<ng-content select="[title-extra]" /></h2>
+    @if (subtitle(); as s) { <div class="title-bar__subtitle">{{ s }}</div> }
+  </div>
+  @if (actionKey(); as k) {
+    @if (actionLink(); as link) {
+      <a nz-button nzType="primary" [nzSize]="viewport.isPhone() ? 'small' : 'default'" [routerLink]="link" class="title-bar__action">{{ k | transloco }}</a>
+    } @else {
+      <button nz-button nzType="primary" [nzSize]="viewport.isPhone() ? 'small' : 'default'" (click)="actionClick.emit()" class="title-bar__action">{{ k | transloco }}</button>
+    }
+  }
+  <ng-content />
+</div>

@@ -24,5 +24,8 @@
       </nz-form-control>
     </nz-form-item>
   }
-  <button nz-button nzType="primary" [nzLoading]="busy()" type="submit">{{ submitKey() | transloco }}</button>
+  <app-action-bar>
+    <ng-content select="[secondary-action]" />
+    <button nz-button nzType="primary" [nzLoading]="busy()" type="submit">{{ submitKey() | transloco }}</button>
+  </app-action-bar>
 </form>

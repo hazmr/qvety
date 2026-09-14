@@ -1,0 +1,14 @@
+.title-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.title-bar__back { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; margin-inline-start: -10px; color: var(--qv-ink); font-size: 18px; }
+.title-bar__text { flex: 1; min-width: 0; }
+.title-bar__title { margin: 0; font-size: var(--qv-size-page); font-weight: 600; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.title-bar__subtitle { font-size: 11px; color: var(--qv-ink-muted); }
+
+/* Phone: 48 px bar on surface with a 2 px line rule below; sits under the brand strip and does not scroll. */
+.title-bar--phone {
+  position: sticky; top: 0; z-index: 5;
+  min-height: 48px; margin: 0 -14px 14px; padding: 0 14px;
+  background: var(--qv-surface); border-block-end: 2px solid var(--qv-line);
+}
+.title-bar--phone .title-bar__title { font-size: 16px; }
+.title-bar--phone .title-bar__action { height: 36px; min-height: 36px; padding-inline: 12px; font-size: 14px; }

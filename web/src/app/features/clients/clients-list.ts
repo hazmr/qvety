@@ -19,10 +19,10 @@ export class ClientsList {
   private readonly api = inject(ClientsApi);
 
   readonly columns: ListColumn<ClientDto>[] = [
-    { key: 'fullName', labelKey: 'clients.fullName', sortable: true },
-    { key: 'phone', labelKey: 'clients.phone', ltr: true, mono: true },
-    { key: 'email', labelKey: 'clients.email', ltr: true },
-    { key: 'address', labelKey: 'clients.address' },
+    { key: 'fullName', labelKey: 'clients.fullName', sortable: true, role: 'title' },
+    { key: 'phone', labelKey: 'clients.phone', ltr: true, mono: true, role: 'secondary' },
+    { key: 'email', labelKey: 'clients.email', ltr: true, role: 'secondary' },
+    { key: 'address', labelKey: 'clients.address', role: 'hidden' },
   ];
 
   readonly loader = (q: ListQuery) =>

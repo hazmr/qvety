@@ -8,6 +8,8 @@ body { background: var(--qv-canvas); color: var(--qv-ink); }
 /* Latin values inside an Arabic layout: phone, email, ids, numbers. Always LTR, always Plex Sans, Western digits. */
 .ltr-field { direction: ltr; unicode-bidi: isolate; text-align: start; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-variant-numeric: tabular-nums; }
 .mono { font-family: 'IBM Plex Mono', monospace; }
+/* Directional icons (back, next, send, collapse) mirror in RTL; the mark and object icons never do. */
+[dir='rtl'] .mirror-rtl { transform: scaleX(-1); }
 
 .home__practice { margin: 0 0 4px; font-size: 20px; font-weight: 600; }
 .home__meta { margin: 0 0 8px; color: var(--qv-ink-muted); }
@@ -27,3 +29,32 @@ body { background: var(--qv-canvas); color: var(--qv-ink); }
 .summary dd { margin: 0; }
 .dupe-list { margin: 8px 0; padding-inline-start: 20px; }
 .changes { margin: 0; padding-inline-start: 16px; }
+
+/* ---------- phone rows (list-page) ---------- */
+.rows { list-style: none; margin: 0 -14px; padding: 0; background: var(--qv-surface); border-block: 1px solid var(--qv-line); }
+.row { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 13px 14px; border-block-end: 1px solid var(--qv-line); cursor: pointer; }
+.row:last-child { border-block-end: 0; }
+.row__text { flex: 1; min-width: 0; }
+.row__title { font-size: 15px; font-weight: 600; }
+.row__secondary { font-size: 13px; color: var(--qv-ink-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row__tag { flex: none; font-size: 11px; font-weight: 500; padding: 3px 8px; background: var(--qv-primary-light); color: var(--qv-primary); }
+.row--empty { cursor: default; }
+.list-search--phone { width: 100%; margin-bottom: 12px; }
+.load-more { margin-top: 12px; min-height: 44px; }
+.title-tag { margin-inline-start: 8px; vertical-align: middle; }
+
+/* ---------- phone sizes: 16 px inputs (no iOS zoom), 52 px boxes, 44 px buttons, 14 px padding ---------- */
+@media (max-width: 767.98px) {
+  .ant-input, .ant-input-affix-wrapper, .ant-select-selector, textarea.ant-input { font-size: 16px !important; }
+  input.ant-input, .ant-input-affix-wrapper, .ant-select-single:not(.ant-select-customize-input) .ant-select-selector { min-height: 52px !important; }
+  .ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-search-input,
+  .ant-select-single .ant-select-selector .ant-select-selection-item,
+  .ant-select-single .ant-select-selector .ant-select-selection-placeholder { line-height: 50px !important; }
+  .ant-btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .ant-btn-sm { min-height: 36px; }
+  .form-card, .summary { padding: 14px; max-width: none; }
+  .summary { grid-template-columns: 1fr; gap: 2px; }
+  .summary dt { margin-top: 8px; }
+  .page-title { margin-bottom: 12px; }
+  .me-sheet .ant-drawer-content { border-radius: 0; box-shadow: none; }
+}

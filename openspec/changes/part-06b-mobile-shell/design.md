@@ -6,7 +6,7 @@ One CSS custom media point: `@media (max-width: 767.98px)` = phone. A `ViewportS
 
 `layout/shell`:
 - Phone: `<header class="strip">` (32 px, mark, clinic name, initials) → `<router-outlet>` inside `<main class="scroller">` (flex: 1, `overflow: auto`) → `<nav class="bottom-nav">` (60 px, `Home`, `Clients`, `Users` for admins; active cell `primary-light` fill, 3 px primary bar on the top edge). Language toggle and logout move into a small "Me" sheet opened from the initials (out of scope to over-design: a simple `nz-drawer` bottom with name, language toggle, logout).
-- Desktop: current header unchanged.
+- Desktop: 32 px header strip (mark, clinic name, date, language toggle, user, logout) plus a 196 px white sidebar with a 2 px `line` edge holding the same destinations as the bottom nav; active item `primary-light` fill and a 3 px primary bar on the leading edge; a collapse control reduces it to the 24 px mark with icons only (state in `localStorage`). The desktop header nav links from part 03 go away.
 - Column layout with `height: 100dvh` (visual viewport, so the keyboard does not hide the action bar) and only `.scroller` scrolling.
 
 `layout/title-bar` component: inputs `titleKey` / `title`, optional `back` (route), optional one `action` (`{labelKey, link | click}`), optional `subtitle`. Renders the 48 px bar with a 2 px line rule; back chevron uses a directional icon that mirrors under `[dir=rtl]` (`transform: scaleX(-1)`).
@@ -31,6 +31,17 @@ Phone template branch: `teal-soft` full-bleed ground, `lockup-stacked-white.svg`
 - Clients list: title-bar action "Add"; rows name / phone · email.
 - Client detail: back chevron, summary, tabs, action bar with Edit and Archive.
 - Client form and user form: back chevron, Save in the action bar.
+
+## As built
+
+- Users list moved onto `list-page` (roles: name / phone · role / status tag); reset password and deactivate live on the user form's action bar.
+- Title-bar action on phone is the 36 px compact button from MOBILE.md screen 09.
+- Search box on phone sits under the title bar (the bar holds one action only).
+- Change-password keeps the card layout on phone (reached only when logged in).
+- Directional-icon mirroring is a global rule `[dir='rtl'] .mirror-rtl`.
+- Scroller has no padding; a `.page-body` wrapper carries 14 px side/bottom padding so the sticky title bar sits flush under the strip (negative top margins fought `position: sticky`).
+- Brand strip shows the practice name (`AuthService.practiceName`, loaded once after login), app name only as a fallback.
+- Phone buttons are `inline-flex` centred so any min-height keeps the label vertically centred.
 
 ## Checks
 

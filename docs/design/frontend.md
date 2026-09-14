@@ -19,6 +19,7 @@ High. Colors, type sizes, weights, spacing, and copy are final and should be mat
 
 - **Header**: 32 px `primary` strip. Mark at 18 px white, clinic name, then language toggle and user name pushed to the trailing edge. No wordmark.
 - **Sidebar**: 196 px white with a 2 px `line` edge. Active item has a `primary-light` fill and a 3 px `primary` bar on its leading edge. Collapsed: mark only at 24 px.
+- **Phone (< 768 px)**: no sidebar; a 60 px bottom nav or a 48 px action bar, a 48 px title bar with one action, one scroller. Built by `layout/shell`, `layout/title-bar`, `layout/action-bar`; see `MOBILE.md`.
 - **Page title row**: 20 px / 600 title, date or context beside it, primary action button at the trailing edge.
 - **Stat cells**: a row of white cells on `line` with 2 px gutters. Money and reminder counts in `accent-text`; clinical counts in `ink`.
 

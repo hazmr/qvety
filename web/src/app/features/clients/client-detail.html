@@ -1,17 +1,7 @@
 @if (client(); as c) {
-  <div class="page-title">
-    <div>
-      <h2>{{ c.fullName }} @if (archived()) { <nz-tag>{{ 'clients.archived' | transloco }}</nz-tag> }</h2>
-      @if (c.preferredName) { <span class="muted">{{ c.preferredName }}</span> }
-    </div>
-    <div class="page-title__actions">
-      <a nz-button [routerLink]="['/clients']">{{ 'shared.back' | transloco }}</a>
-      @if (auth.canWriteClients() && !archived()) {
-        <a nz-button [routerLink]="['/clients', c.id, 'edit']">{{ 'shared.edit' | transloco }}</a>
-        <button nz-button nzDanger (click)="archive()">{{ 'clients.archive' | transloco }}</button>
-      }
-    </div>
-  </div>
+  <app-title-bar [title]="c.fullName" [subtitle]="c.preferredName" [back]="['/clients']">
+    <ng-container title-extra>@if (archived()) { <nz-tag class="title-tag">{{ 'clients.archived' | transloco }}</nz-tag> }</ng-container>
+  </app-title-bar>
   <dl class="summary">
     <dt>{{ 'clients.phone' | transloco }}</dt><dd dir="ltr" class="ltr-field mono">{{ c.phone }}</dd>
     <dt>{{ 'clients.phoneSecondary' | transloco }}</dt><dd dir="ltr" class="ltr-field mono">{{ c.phoneSecondary }}</dd>
@@ -33,4 +23,10 @@
       </nz-tab>
     }
   </nz-tabs>
+  @if (auth.canWriteClients() && !archived()) {
+    <app-action-bar>
+      <button nz-button nzDanger class="action-bar__secondary" (click)="archive()">{{ 'clients.archive' | transloco }}</button>
+      <a nz-button nzType="primary" [routerLink]="['/clients', c.id, 'edit']">{{ 'shared.edit' | transloco }}</a>
+    </app-action-bar>
+  }
 }

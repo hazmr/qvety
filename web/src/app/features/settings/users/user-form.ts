@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
@@ -9,6 +9,9 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { UserDto, UsersApi } from '../../../api';
+import { AuthService } from '../../../core/auth.service';
+import { TitleBar } from '../../../layout/title-bar/title-bar';
+import { ActionBar } from '../../../layout/action-bar/action-bar';
 import { apiMessage, applyFieldErrors } from '../../../core/api-error';
 
 const ROLES: UserDto.RoleEnum[] = Object.values(UserDto.RoleEnum);
@@ -16,7 +19,7 @@ const ROLES: UserDto.RoleEnum[] = Object.values(UserDto.RoleEnum);
 /** Create (with temporary password) or edit. The role/flag rule mirrors the database check. */
 @Component({
   selector: 'app-user-form',
-  imports: [ReactiveFormsModule, RouterLink, NzFormModule, NzInputModule, NzSelectModule, NzSwitchModule, NzButtonModule, NzAlertModule, TranslocoPipe],
+  imports: [ReactiveFormsModule, NzFormModule, NzInputModule, NzSelectModule, NzSwitchModule, NzButtonModule, NzAlertModule, TranslocoPipe, TitleBar, ActionBar],
   templateUrl: './user-form.html',
 })
 export class UserForm {
@@ -25,12 +28,14 @@ export class UserForm {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly t = inject(TranslocoService);
+  private readonly auth = inject(AuthService);
 
   readonly roles = ROLES;
   readonly id = this.route.snapshot.paramMap.get('id');
   readonly isNew = this.id === null;
   readonly error = signal<string | null>(null);
   readonly busy = signal(false);
+  readonly current = signal<UserDto | null>(null);
 
   readonly form = this.fb.nonNullable.group({
     phone: ['', [Validators.required]],
@@ -45,6 +50,7 @@ export class UserForm {
   constructor() {
     if (this.id) {
       this.api.getUser(this.id).subscribe((u) => {
+        this.current.set(u);
         this.form.patchValue({
           phone: u.phone, email: u.email ?? '', fullName: u.fullName, role: u.role, veterinarian: u.veterinarian,
           licenseNumber: u.licenseNumber ?? '',
@@ -58,6 +64,31 @@ export class UserForm {
       else if (role === 'admin') { vet.enable(); }
       else { vet.setValue(false); vet.disable(); }
     });
+  }
+
+  /** Own account: password changes go through /change-password; deactivation needs another admin. */
+  readonly isSelf = computed(() => !!this.current() && this.current()!.id === this.auth.user()?.id);
+
+  deactivate(): void {
+    const u = this.current();
+    if (!u || !confirm(this.t.translate('users.confirmDeactivate', { name: u.fullName }))) return;
+    this.api.deactivateUser(u.id).subscribe(() => this.router.navigateByUrl('/settings/users'));
+  }
+
+  activate(): void {
+    const u = this.current();
+    if (!u) return;
+    const temporary = prompt(this.t.translate('users.promptActivate', { name: u.fullName }));
+    if (!temporary) return;
+    this.api.activateUser(u.id, { temporaryPassword: temporary }).subscribe((updated) => this.current.set(updated));
+  }
+
+  resetPassword(): void {
+    const u = this.current();
+    if (!u) return;
+    const temporary = prompt(this.t.translate('users.promptTemporary', { name: u.fullName }));
+    if (!temporary) return;
+    this.api.resetUserPassword(u.id, { temporaryPassword: temporary }).subscribe((updated) => this.current.set(updated));
   }
 
   submit(): void {

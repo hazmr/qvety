@@ -5,11 +5,12 @@ import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { ClientDto, ClientRequestDto, ClientSavedDto, ClientsApi } from '../../api';
 import { FormField, FormPage } from '../../shared/form-page/form-page';
+import { TitleBar } from '../../layout/title-bar/title-bar';
 
 /** Create or edit a client. Duplicate warnings show as a non-blocking alert with links; the save already happened. */
 @Component({
   selector: 'app-client-form',
-  imports: [FormPage, RouterLink, NzAlertModule, NzButtonModule, TranslocoPipe],
+  imports: [FormPage, RouterLink, NzAlertModule, NzButtonModule, TranslocoPipe, TitleBar],
   templateUrl: './client-form.html',
 })
 export class ClientForm {

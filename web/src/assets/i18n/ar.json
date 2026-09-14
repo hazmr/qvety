@@ -6,7 +6,8 @@
     "logout": "تسجيل الخروج",
     "language": "English",
     "loggedInAs": "مسجّل الدخول باسم {{name}} ({{role}})",
-    "clients": "العملاء"
+    "clients": "العملاء",
+    "collapse": "طيّ القائمة"
   },
   "login": {
     "title": "كيوفيتي",
@@ -97,7 +98,9 @@
     "invalid": "غير صحيح",
     "saveFailed": "تعذّر الحفظ.",
     "history": "السجل",
-    "createdAt": "تاريخ الإنشاء"
+    "createdAt": "تاريخ الإنشاء",
+    "empty": "لا شيء هنا بعد.",
+    "loadMore": "تحميل المزيد"
   },
   "locales": {
     "ar-EG": "العربية",

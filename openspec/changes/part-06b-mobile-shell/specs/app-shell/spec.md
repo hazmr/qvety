@@ -13,7 +13,7 @@ The application SHALL render a single phone layout when the viewport is narrower
 
 #### Scenario: Desktop viewport
 - **WHEN** the viewport is 1280 px wide
-- **THEN** the desktop layout (32 px header with inline navigation) is shown
+- **THEN** the desktop layout is shown: a 32 px header strip and a 196 px sidebar holding the navigation, collapsible to the mark
 
 ### Requirement: Phone skeleton
 On phone every screen SHALL be a column of: a 32 px brand strip (primary fill, white mark, clinic name, user initials); a 48 px title bar with the page name and at most one action; an optional filter or tab row with 44 px cells; exactly one scrolling region; and either a 60 px bottom navigation bar or a 48 px action bar, never both. Brand strip and title bar SHALL NOT scroll. The bottom element SHALL respect `env(safe-area-inset-bottom)`.

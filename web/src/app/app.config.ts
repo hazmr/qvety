@@ -6,6 +6,8 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { provideTransloco } from '@jsverse/transloco';
 import { provideNzI18n, ar_EG } from 'ng-zorro-antd/i18n';
+import { provideNzIcons } from 'ng-zorro-antd/icon';
+import { HomeOutline, LeftOutline, MenuFoldOutline, MenuUnfoldOutline, SettingOutline, TeamOutline } from '@ant-design/icons-angular/icons';
 import { provideApi } from './api';
 import { authInterceptor } from './core/auth.interceptor';
 import { TranslocoHttpLoader } from './core/transloco-loader';
@@ -23,6 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideApi(''),
     // Arabic first; LocaleService switches language, direction, and NG-ZORRO i18n at runtime.
     provideNzI18n(ar_EG),
+    provideNzIcons([HomeOutline, TeamOutline, SettingOutline, LeftOutline, MenuFoldOutline, MenuUnfoldOutline]),
     provideTransloco({
       config: {
         availableLangs: ['ar', 'en'],
