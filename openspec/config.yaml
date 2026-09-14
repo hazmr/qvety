@@ -1,0 +1,38 @@
+schema: spec-driven
+
+context: |
+  Qvety: veterinary practice management for Egyptian clinics. Spring Boot 4.1, Java 25,
+  Angular 22, PostgreSQL 18, multi-tenant by practice, Arabic-first.
+  Rules of record: CLAUDE.md (read it first). Business vocabulary: docs/domain/glossary.md.
+  Schema of record: docs/parts/erd.md. Update it in the same change as any migration.
+  Backlog: docs/backlog.md. Items there are never built without an explicit change.
+  Work is one change per part, named part-NN-<name>, applied strictly in NN order;
+  each change's design.md assumes every earlier part is archived. Never build ahead.
+  openspec/specs/ is the business rules of record once a change is archived.
+
+rules:
+  proposal:
+    - Business section first, in plain language, using glossary terms
+    - Include a "Non-goals" section listing what stays in later parts or docs/backlog.md
+    - Under 500 words
+  specs:
+    - One capability per business area matching docs/domain topics (tenant, users, clients, patients, scheduling, clinical, billing, recalls, platform)
+    - Requirements in SHALL form; every scenario states the tenant boundary where relevant
+    - Never restate rules already in CLAUDE.md; reference them
+  design:
+    - Propose migration SQL and REST endpoints before any Java
+    - Explain any column or endpoint whose purpose is not obvious
+    - Money is numeric(12,2) plus currency; no soft delete; evidence tables append-only
+  tasks:
+    - "Follow docs/parts/00-workflow.md order: migration, entity, repository, DTO, mapper, service, controller, integration test with cross-tenant case, Angular page in ar and en, erd.md, progress.md"
+    - Each task small enough to review in one diff
+
+operations:
+  apply:
+    guidance:
+      - Never edit an applied migration; add a new V<n> file
+      - Never change a test assertion to make it pass; explain the failure first
+      - Run ./mvnw verify before marking the change complete
+  archive:
+    guidance:
+      - Confirm erd.md and docs/progress.md were updated before archiving
