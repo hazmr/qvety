@@ -1,0 +1,85 @@
+{
+  "app": {
+    "name": "كيوفيتي",
+    "home": "الرئيسية",
+    "users": "المستخدمون",
+    "logout": "تسجيل الخروج",
+    "language": "English",
+    "loggedInAs": "مسجّل الدخول باسم {{name}} ({{role}})"
+  },
+  "login": {
+    "title": "كيوفيتي",
+    "identifier": "رقم الهاتف أو البريد الإلكتروني",
+    "identifierHint": "أدخل رقم هاتفك أو بريدك الإلكتروني",
+    "password": "كلمة المرور",
+    "passwordHint": "أدخل كلمة المرور",
+    "submit": "تسجيل الدخول",
+    "errorCredentials": "رقم الهاتف أو البريد أو كلمة المرور غير صحيحة.",
+    "errorTooMany": "محاولات كثيرة. حاول مرة أخرى لاحقًا.",
+    "errorGeneric": "تعذّر تسجيل الدخول."
+  },
+  "changePassword": {
+    "title": "تغيير كلمة المرور",
+    "forced": "اختر كلمة مرور جديدة قبل المتابعة.",
+    "current": "كلمة المرور الحالية",
+    "new": "كلمة المرور الجديدة",
+    "newHint": "10 أحرف على الأقل",
+    "required": "مطلوب",
+    "submit": "حفظ",
+    "errorCurrent": "كلمة المرور الحالية غير صحيحة.",
+    "errorGeneric": "تعذّر تغيير كلمة المرور."
+  },
+  "home": {
+    "error": "تعذّر تحميل بيانات العيادة."
+  },
+  "users": {
+    "title": "المستخدمون",
+    "add": "إضافة مستخدم",
+    "edit": "تعديل مستخدم",
+    "back": "رجوع",
+    "name": "الاسم",
+    "phone": "الهاتف",
+    "email": "البريد الإلكتروني",
+    "role": "الدور",
+    "vet": "طبيب",
+    "license": "رقم الترخيص",
+    "status": "الحالة",
+    "actions": "إجراءات",
+    "editAction": "تعديل",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "deactivate": "إيقاف",
+    "confirmDeactivate": "إيقاف {{name}}؟",
+    "promptTemporary": "كلمة مرور مؤقتة لـ {{name}} (10 أحرف على الأقل):",
+    "statusActive": "نشط",
+    "statusInactive": "موقوف",
+    "statusPending": "بانتظار تغيير كلمة المرور",
+    "vetTag": "طبيب",
+    "phoneHint": "يُستخدم لتسجيل الدخول. بأي صيغة مصرية: 01xxxxxxxxx أو +20...",
+    "emailHint": "اختياري. يمكن استخدامه لتسجيل الدخول أيضًا.",
+    "emailInvalid": "أدخل بريدًا إلكترونيًا صحيحًا",
+    "temporaryPassword": "كلمة مرور مؤقتة",
+    "temporaryHint": "10 أحرف على الأقل",
+    "temporaryExtra": "يجب على المستخدم تغييرها عند أول تسجيل دخول.",
+    "fullName": "الاسم الكامل",
+    "veterinarian": "طبيب بيطري (يمكنه اعتماد الملاحظات ووصف الأدوية)",
+    "licenseNumber": "رقم الترخيص",
+    "save": "حفظ",
+    "required": "مطلوب",
+    "errorConflict": "رقم الهاتف أو البريد مسجّل بالفعل في العيادة.",
+    "errorPhone": "أدخل رقم هاتف مصري صحيح.",
+    "errorGeneric": "تعذّر الحفظ."
+  },
+  "roles": {
+    "admin": "مدير",
+    "veterinarian": "طبيب بيطري",
+    "technician": "فني",
+    "front_desk": "استقبال"
+  },
+  "practiceStatus": {
+    "trial": "تجريبي",
+    "active": "نشط",
+    "past_due": "متأخر السداد",
+    "suspended": "موقوف",
+    "closed": "مغلق"
+  }
+}

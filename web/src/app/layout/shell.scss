@@ -1,17 +1,24 @@
+/* Header per docs/design/frontend.md: 32 px primary strip, mark 18 px, no wordmark. Logical properties so RTL mirrors. */
 .shell__header {
   display: flex;
   align-items: center;
   gap: 16px;
   height: 32px;
   padding-inline: 12px;
-  background: #0f5c5a;   /* placeholder; part 05 wires --qv-primary */
+  background: var(--qv-primary);
   color: #fff;
+  font-size: 13px;
 }
-.shell__brand { color: #fff; font-weight: 600; text-decoration: none; }
+.shell__brand { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-weight: 600; text-decoration: none; }
+.shell__mark { width: 18px; height: 18px; }
 .shell__nav { display: flex; gap: 12px; }
 .shell__nav a { color: rgba(255, 255, 255, 0.8); text-decoration: none; }
-.shell__nav a.is-active { color: #fff; text-decoration: underline; }
+.shell__nav a.is-active { color: #fff; border-block-end: 2px solid #fff; }
 .shell__spacer { flex: 1; }
-.shell__user { font-size: 13px; }
-.shell__logout { color: #fff !important; }
+.shell__date { opacity: 0.85; }
+.shell__lang, .shell__logout {
+  background: none; border: 0; color: #fff; cursor: pointer; padding: 2px 6px; font: inherit;
+}
+.shell__lang { border: 1px solid rgba(255, 255, 255, 0.6); }
+.shell__lang:focus-visible, .shell__logout:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
 .shell__main { padding: 24px; }

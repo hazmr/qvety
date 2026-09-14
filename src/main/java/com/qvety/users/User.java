@@ -65,6 +65,10 @@ public class User {
     @Column(name = "must_change_password", nullable = false)
     private boolean mustChangePassword;
 
+    /** ar-EG or en-EG; drives UI language and direction. */
+    @Column(name = "locale", nullable = false)
+    private String locale = "ar-EG";
+
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
     private OffsetDateTime createdAt;
 

@@ -1,14 +1,19 @@
 <header class="shell__header">
-  <a class="shell__brand" routerLink="/">Qvety</a>
+  <a class="shell__brand" routerLink="/">
+    <img src="brand/mark-white.svg" alt="" class="shell__mark" />
+    <span>{{ 'app.name' | transloco }}</span>
+  </a>
   <nav class="shell__nav">
-    <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">{{ 'app.home' | transloco }}</a>
     @if (auth.isAdmin()) {
-      <a routerLink="/settings/users" routerLinkActive="is-active">Users</a>
+      <a routerLink="/settings/users" routerLinkActive="is-active">{{ 'app.users' | transloco }}</a>
     }
   </nav>
   <span class="shell__spacer"></span>
+  <span class="shell__date">{{ today | date:'fullDate':'':locale.lang() }}</span>
+  <button type="button" class="shell__lang" (click)="toggleLanguage()">{{ 'app.language' | transloco }}</button>
   <span class="shell__user">{{ auth.user()?.fullName }}</span>
-  <button nz-button nzType="link" nzSize="small" class="shell__logout" (click)="auth.logout()">Logout</button>
+  <button type="button" class="shell__logout" (click)="auth.logout()">{{ 'app.logout' | transloco }}</button>
 </header>
 <main class="shell__main">
   <router-outlet />

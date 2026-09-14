@@ -1,56 +1,59 @@
 <div class="page-title">
-  <h2>{{ isNew ? 'Add user' : 'Edit user' }}</h2>
-  <a nz-button routerLink="/settings/users">Back</a>
+  <h2>{{ (isNew ? 'users.add' : 'users.edit') | transloco }}</h2>
+  <a nz-button routerLink="/settings/users">{{ 'users.back' | transloco }}</a>
 </div>
+<ng-template #serverTip let-control>
+  {{ control.errors?.server }}
+</ng-template>
 <form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="submit()" class="form-card">
   @if (error(); as e) {
     <nz-alert nzType="error" [nzMessage]="e" nzShowIcon style="margin-bottom: 16px" />
   }
   <nz-form-item>
-    <nz-form-label nzRequired>Phone</nz-form-label>
-    <nz-form-control nzErrorTip="Required" nzExtra="Used to log in. Any Egyptian shape: 01xxxxxxxxx or +20...">
-      <input nz-input type="tel" formControlName="phone" dir="ltr" inputmode="tel" autocomplete="off" />
+    <nz-form-label nzRequired>{{ 'users.phone' | transloco }}</nz-form-label>
+    <nz-form-control [nzErrorTip]="form.controls.phone.errors?.['server'] ? serverTip : ('users.required' | transloco)" [nzExtra]="'users.phoneHint' | transloco">
+      <input nz-input type="tel" formControlName="phone" dir="ltr" class="ltr-field" inputmode="tel" autocomplete="off" />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label>Email</nz-form-label>
-    <nz-form-control nzErrorTip="Enter a valid email" nzExtra="Optional. Can also be used to log in.">
-      <input nz-input type="email" formControlName="email" dir="ltr" autocomplete="off" />
+    <nz-form-label>{{ 'users.email' | transloco }}</nz-form-label>
+    <nz-form-control [nzErrorTip]="form.controls.email.errors?.['server'] ? serverTip : ('users.emailInvalid' | transloco)" [nzExtra]="'users.emailHint' | transloco">
+      <input nz-input type="email" formControlName="email" dir="ltr" class="ltr-field" autocomplete="off" />
     </nz-form-control>
   </nz-form-item>
   @if (isNew) {
     <nz-form-item>
-      <nz-form-label nzRequired>Temporary password</nz-form-label>
-      <nz-form-control nzErrorTip="At least 10 characters" nzExtra="The user must change it at first login.">
-        <input nz-input type="text" formControlName="temporaryPassword" dir="ltr" autocomplete="off" />
+      <nz-form-label nzRequired>{{ 'users.temporaryPassword' | transloco }}</nz-form-label>
+      <nz-form-control [nzErrorTip]="form.controls.temporaryPassword.errors?.['server'] ? serverTip : ('users.temporaryHint' | transloco)" [nzExtra]="'users.temporaryExtra' | transloco">
+        <input nz-input type="text" formControlName="temporaryPassword" dir="ltr" class="ltr-field" autocomplete="off" />
       </nz-form-control>
     </nz-form-item>
   }
   <nz-form-item>
-    <nz-form-label nzRequired>Full name</nz-form-label>
-    <nz-form-control nzErrorTip="Required">
+    <nz-form-label nzRequired>{{ 'users.fullName' | transloco }}</nz-form-label>
+    <nz-form-control [nzErrorTip]="form.controls.fullName.errors?.['server'] ? serverTip : ('users.required' | transloco)">
       <input nz-input formControlName="fullName" />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label nzRequired>Role</nz-form-label>
+    <nz-form-label nzRequired>{{ 'users.role' | transloco }}</nz-form-label>
     <nz-form-control>
       <nz-select formControlName="role">
-        @for (r of roles; track r) { <nz-option [nzValue]="r" [nzLabel]="r" /> }
+        @for (r of roles; track r) { <nz-option [nzValue]="r" [nzLabel]="'roles.' + r | transloco" /> }
       </nz-select>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label>Veterinarian (may finalize notes and prescribe)</nz-form-label>
+    <nz-form-label>{{ 'users.veterinarian' | transloco }}</nz-form-label>
     <nz-form-control>
       <nz-switch formControlName="veterinarian" />
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label>License number</nz-form-label>
+    <nz-form-label>{{ 'users.licenseNumber' | transloco }}</nz-form-label>
     <nz-form-control>
-      <input nz-input formControlName="licenseNumber" dir="ltr" />
+      <input nz-input formControlName="licenseNumber" dir="ltr" class="ltr-field" />
     </nz-form-control>
   </nz-form-item>
-  <button nz-button nzType="primary" [nzLoading]="busy()" type="submit">Save</button>
+  <button nz-button nzType="primary" [nzLoading]="busy()" type="submit">{{ 'users.save' | transloco }}</button>
 </form>

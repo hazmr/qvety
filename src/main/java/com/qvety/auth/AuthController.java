@@ -3,7 +3,9 @@ package com.qvety.auth;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import java.util.Map;
+import com.qvety.common.ApiError;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService service;
+    private final MessageSource messages;
 
-    public AuthController(AuthService service) {
+    public AuthController(AuthService service, MessageSource messages) {
         this.service = service;
+        this.messages = messages;
     }
 
     @PostMapping("/login")
@@ -29,10 +33,11 @@ public class AuthController {
     }
 
     @ExceptionHandler(TooManyLoginAttemptsException.class)
-    ResponseEntity<Map<String, String>> tooMany(TooManyLoginAttemptsException e) {
+    ResponseEntity<ApiError> tooMany(TooManyLoginAttemptsException e) {
+        var message = messages.getMessage("too_many_attempts", null, "too_many_attempts", LocaleContextHolder.getLocale());
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
             .header("Retry-After", Long.toString(e.retryAfterSeconds()))
-            .body(Map.of("code", "too_many_attempts", "message", "Too many login attempts"));
+            .body(new ApiError("too_many_attempts", message, null));
     }
 
     /** Behind Caddy (part 16) the real address is in X-Forwarded-For; locally it is the socket address. */

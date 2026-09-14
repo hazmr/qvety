@@ -64,6 +64,13 @@ public class AuthService {
         return mapper.toDto(load());
     }
 
+    @Transactional
+    public UserDto updateMe(UpdateMeRequest request) {
+        var user = load();
+        user.setLocale(request.locale());
+        return mapper.toDto(user);
+    }
+
     /** Bumps session_version: every other token dies, the caller gets a fresh one. */
     @Transactional
     public LoginResponse changePassword(ChangePasswordRequest request) {

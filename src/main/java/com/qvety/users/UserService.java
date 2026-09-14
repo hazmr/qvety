@@ -87,15 +87,15 @@ public class UserService {
     private void applyContact(User user, String rawPhone, String rawEmail) {
         var practiceId = currentUser.practiceId();
         var phone = PhoneNormalizer.toE164(rawPhone)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "phone_invalid"));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "phone.invalid"));
         var email = rawEmail == null || rawEmail.isBlank() ? null : rawEmail.trim().toLowerCase();
         users.findByPracticeIdAndPhone(practiceId, phone)
             .filter(other -> !other.getId().equals(user.getId()))
-            .ifPresent(other -> { throw new ResponseStatusException(HttpStatus.CONFLICT, "phone_taken"); });
+            .ifPresent(other -> { throw new ResponseStatusException(HttpStatus.CONFLICT, "phone.taken"); });
         if (email != null) {
             users.findByPracticeIdAndEmailIgnoreCase(practiceId, email)
                 .filter(other -> !other.getId().equals(user.getId()))
-                .ifPresent(other -> { throw new ResponseStatusException(HttpStatus.CONFLICT, "email_taken"); });
+                .ifPresent(other -> { throw new ResponseStatusException(HttpStatus.CONFLICT, "email.taken"); });
         }
         user.setPhone(phone);
         user.setEmail(email);

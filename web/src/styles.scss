@@ -1,9 +1,15 @@
-/* Global styles. Part 05 adds the tokens, fonts, and RTL/LTR handling. */
+/* Global styles. Tokens come from styles/qvety-tokens.css; NG-ZORRO theme from theme.less. */
+body { background: var(--qv-canvas); color: var(--qv-ink); }
+
+/* Latin values inside an Arabic layout: phone, email, ids, numbers. Always LTR, always Plex Sans, Western digits. */
+.ltr-field { direction: ltr; unicode-bidi: isolate; text-align: start; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+.mono { font-family: 'IBM Plex Mono', monospace; }
+
 .home__practice { margin: 0 0 4px; font-size: 20px; font-weight: 600; }
-.home__meta { margin: 0 0 8px; opacity: 0.7; }
-.home__error { margin: 0; color: #b00020; }
+.home__meta { margin: 0 0 8px; color: var(--qv-ink-muted); }
+.home__error { margin: 0; color: var(--qv-error, #C0392B); }
 
 .page-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .page-title h2 { margin: 0; font-size: 20px; font-weight: 600; }
-.form-card { max-width: 480px; }
+.form-card { max-width: 480px; padding: 24px; background: var(--qv-surface); border: 2px solid var(--qv-line); }
 .row-actions { display: flex; gap: 12px; }

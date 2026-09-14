@@ -2,6 +2,7 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { AuthApi, ChangePasswordRequestDto, LoginResponseDto, MeApi, UserDto } from '../api';
+import { AppLocale, LocaleService } from './locale.service';
 
 const TOKEN_KEY = 'qvety.token';
 
@@ -14,6 +15,7 @@ export class AuthService {
   private readonly authApi = inject(AuthApi);
   private readonly meApi = inject(MeApi);
   private readonly router = inject(Router);
+  private readonly locale = inject(LocaleService);
 
   private readonly tokenSignal = signal<string | null>(readStoredToken());
   readonly user = signal<UserDto | null>(null);
@@ -34,7 +36,12 @@ export class AuthService {
 
   /** Called by the guard when a token exists but the user is not loaded yet (page refresh). */
   loadMe(): Observable<UserDto> {
-    return this.meApi.me().pipe(tap((u) => this.user.set(u)));
+    return this.meApi.me().pipe(tap((u) => this.setUser(u)));
+  }
+
+  /** Saves the preference on the user row and applies it at once. */
+  setLocale(locale: AppLocale): Observable<UserDto> {
+    return this.meApi.updateMe({ locale }).pipe(tap((u) => this.setUser(u)));
   }
 
   logout(): void {
@@ -44,9 +51,17 @@ export class AuthService {
     this.router.navigateByUrl('/login');
   }
 
+  /** The user's stored locale drives language and direction everywhere. */
+  private setUser(u: UserDto): void {
+    this.user.set(u);
+    if (u.locale === 'ar-EG' || u.locale === 'en-EG') {
+      this.locale.apply(u.locale);
+    }
+  }
+
   private accept(r: LoginResponseDto): void {
     this.tokenSignal.set(r.token);
-    this.user.set(r.user);
+    this.setUser(r.user);
     try { sessionStorage.setItem(TOKEN_KEY, r.token); } catch { /* storage unavailable */ }
   }
 }

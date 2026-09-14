@@ -19,6 +19,7 @@ export interface UserDto {
     licenseNumber?: string;
     active?: boolean;
     mustChangePassword?: boolean;
+    locale: string;
 }
 export namespace UserDto {
     export const RoleEnum = {

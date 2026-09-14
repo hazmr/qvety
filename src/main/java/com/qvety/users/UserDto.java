@@ -14,5 +14,6 @@ public record UserDto(
     boolean veterinarian,
     String licenseNumber,
     boolean active,
-    boolean mustChangePassword
+    boolean mustChangePassword,
+    @Schema(requiredMode = RequiredMode.REQUIRED) String locale
 ) {}

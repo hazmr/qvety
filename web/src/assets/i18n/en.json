@@ -1,0 +1,85 @@
+{
+  "app": {
+    "name": "Qvety",
+    "home": "Home",
+    "users": "Users",
+    "logout": "Log out",
+    "language": "العربية",
+    "loggedInAs": "Logged in as {{name}} ({{role}})"
+  },
+  "login": {
+    "title": "Qvety",
+    "identifier": "Phone or email",
+    "identifierHint": "Enter your phone number or email",
+    "password": "Password",
+    "passwordHint": "Enter your password",
+    "submit": "Log in",
+    "errorCredentials": "Wrong phone, email, or password.",
+    "errorTooMany": "Too many attempts. Try again later.",
+    "errorGeneric": "Login failed."
+  },
+  "changePassword": {
+    "title": "Change password",
+    "forced": "Choose a new password before continuing.",
+    "current": "Current password",
+    "new": "New password",
+    "newHint": "At least 10 characters",
+    "required": "Required",
+    "submit": "Save",
+    "errorCurrent": "Current password is wrong.",
+    "errorGeneric": "Could not change the password."
+  },
+  "home": {
+    "error": "Could not load the practice."
+  },
+  "users": {
+    "title": "Users",
+    "add": "Add user",
+    "edit": "Edit user",
+    "back": "Back",
+    "name": "Name",
+    "phone": "Phone",
+    "email": "Email",
+    "role": "Role",
+    "vet": "Vet",
+    "license": "License",
+    "status": "Status",
+    "actions": "Actions",
+    "editAction": "Edit",
+    "resetPassword": "Reset password",
+    "deactivate": "Deactivate",
+    "confirmDeactivate": "Deactivate {{name}}?",
+    "promptTemporary": "Temporary password for {{name}} (at least 10 characters):",
+    "statusActive": "active",
+    "statusInactive": "inactive",
+    "statusPending": "password change pending",
+    "vetTag": "vet",
+    "phoneHint": "Used to log in. Any Egyptian shape: 01xxxxxxxxx or +20...",
+    "emailHint": "Optional. Can also be used to log in.",
+    "emailInvalid": "Enter a valid email",
+    "temporaryPassword": "Temporary password",
+    "temporaryHint": "At least 10 characters",
+    "temporaryExtra": "The user must change it at first login.",
+    "fullName": "Full name",
+    "veterinarian": "Veterinarian (may finalize notes and prescribe)",
+    "licenseNumber": "License number",
+    "save": "Save",
+    "required": "Required",
+    "errorConflict": "This phone or email already exists in the practice.",
+    "errorPhone": "Enter a valid Egyptian phone number.",
+    "errorGeneric": "Could not save."
+  },
+  "roles": {
+    "admin": "Admin",
+    "veterinarian": "Veterinarian",
+    "technician": "Technician",
+    "front_desk": "Front desk"
+  },
+  "practiceStatus": {
+    "trial": "Trial",
+    "active": "Active",
+    "past_due": "Past due",
+    "suspended": "Suspended",
+    "closed": "Closed"
+  }
+}

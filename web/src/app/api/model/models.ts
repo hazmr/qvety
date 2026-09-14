@@ -8,6 +8,7 @@ export * from './practice';
 export * from './practiceUpdateRequest';
 export * from './resetPasswordRequest';
 export * from './sortObject';
+export * from './updateMeRequest';
 export * from './userCreateRequest';
 export * from './user';
 export * from './userUpdateRequest';

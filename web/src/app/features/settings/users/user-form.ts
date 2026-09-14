@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { NzAlertModule } from 'ng-zorro-antd/alert';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -8,13 +9,14 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { UserDto, UsersApi } from '../../../api';
+import { apiMessage, applyFieldErrors } from '../../../core/api-error';
 
 const ROLES: UserDto.RoleEnum[] = Object.values(UserDto.RoleEnum);
 
 /** Create (with temporary password) or edit. The role/flag rule mirrors the database check. */
 @Component({
   selector: 'app-user-form',
-  imports: [ReactiveFormsModule, RouterLink, NzFormModule, NzInputModule, NzSelectModule, NzSwitchModule, NzButtonModule, NzAlertModule],
+  imports: [ReactiveFormsModule, RouterLink, NzFormModule, NzInputModule, NzSelectModule, NzSwitchModule, NzButtonModule, NzAlertModule, TranslocoPipe],
   templateUrl: './user-form.html',
 })
 export class UserForm {
@@ -22,6 +24,7 @@ export class UserForm {
   private readonly api = inject(UsersApi);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly t = inject(TranslocoService);
 
   readonly roles = ROLES;
   readonly id = this.route.snapshot.paramMap.get('id');
@@ -65,8 +68,10 @@ export class UserForm {
     const done = () => this.router.navigateByUrl('/settings/users');
     const fail = (e: { status?: number }) => {
       this.busy.set(false);
-      this.error.set(e?.status === 409 ? 'This phone or email already exists in the practice.'
-        : e?.status === 400 ? 'Enter a valid Egyptian phone number.' : 'Could not save.');
+      // backend text is already in the user's language; field messages go on the controls
+      if (applyFieldErrors(e, this.form)) { this.error.set(null); return; }
+      const fallback = this.t.translate(e?.status === 409 ? 'users.errorConflict' : e?.status === 400 ? 'users.errorPhone' : 'users.errorGeneric');
+      this.error.set(apiMessage(e, fallback));
     };
     if (this.isNew) {
       this.api.create({
