@@ -10,11 +10,12 @@
 
 
 export interface UserUpdateRequestDto { 
+    phone: string;
+    email?: string;
     fullName: string;
     role: UserUpdateRequestDto.RoleEnum;
     veterinarian?: boolean;
     licenseNumber?: string;
-    phone?: string;
 }
 export namespace UserUpdateRequestDto {
     export const RoleEnum = {

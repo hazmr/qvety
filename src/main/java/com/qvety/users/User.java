@@ -32,7 +32,11 @@ public class User {
     @Column(name = "practice_id", nullable = false, updatable = false)
     private UUID practiceId;
 
-    @Column(name = "email", nullable = false)
+    /** E.164. Required; a login identifier together with email. */
+    @Column(name = "phone", nullable = false)
+    private String phone;
+
+    @Column(name = "email")
     private String email;
 
     @Column(name = "password_hash", nullable = false)
@@ -51,9 +55,6 @@ public class User {
 
     @Column(name = "license_number")
     private String licenseNumber;
-
-    @Column(name = "phone")
-    private String phone;
 
     @Column(name = "active", nullable = false)
     private boolean active = true;

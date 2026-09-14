@@ -5,15 +5,19 @@ Defines staff accounts inside a practice: one role each, a separate veterinarian
 ## ADDED Requirements
 
 ### Requirement: A user belongs to exactly one practice and has one role
-The system SHALL store each user under one practice with exactly one role from `admin`, `veterinarian`, `technician`, `front_desk`. Email SHALL be unique per practice, not globally.
+The system SHALL store each user under one practice with exactly one role from `admin`, `veterinarian`, `technician`, `front_desk`. Each user SHALL have a phone (stored E.164) and MAY have an email. Phone and email SHALL each be unique per practice, not globally.
 
-#### Scenario: Same email at two clinics
-- **WHEN** practice A and practice B each create a user with `vet@clinic.example.com`
+#### Scenario: Same phone at two clinics
+- **WHEN** practice A and practice B each create a user with phone `01012345678`
 - **THEN** both users exist, each visible only inside its own practice
 
-#### Scenario: Duplicate email inside one practice
-- **WHEN** practice A creates a second user with an email that already exists in practice A
-- **THEN** the request is rejected with a validation error on `email`
+#### Scenario: Duplicate phone inside one practice
+- **WHEN** practice A creates a second user with a phone that already exists in practice A
+- **THEN** the request is rejected with 409
+
+#### Scenario: Invalid phone
+- **WHEN** a user is created with a phone that does not parse as an Egyptian number
+- **THEN** the request is rejected with a validation error on `phone`
 
 ### Requirement: Roles decide what a user may manage
 - `admin` SHALL do everything in the practice, including managing users and settings.
@@ -55,6 +59,21 @@ The admin SHALL create a user with a temporary password and the flag `must_chang
 - **WHEN** the user calls `POST /api/v1/me/password` with the temporary and a new password
 - **THEN** the flag clears, `session_version` increments, a fresh token is returned, and other endpoints work
 
+### Requirement: Login accepts phone or email
+`POST /api/v1/auth/login` SHALL take one `identifier` field: an email address (contains `@`) or a phone in any Egyptian shape (`01...`, `+20...`, `0020...`, with or without spaces), normalized to E.164 before lookup. A phone that does not parse SHALL be treated as unknown credentials (401), never as a validation error.
+
+#### Scenario: Phone in local shape
+- **WHEN** a user whose phone is `+201000000104` logs in with `01000000104`
+- **THEN** a token is issued
+
+#### Scenario: Email
+- **WHEN** the same user logs in with their email
+- **THEN** a token is issued
+
+#### Scenario: Missing trunk zero
+- **WHEN** login is attempted with `1000000104`
+- **THEN** the response is 401
+
 ### Requirement: Login issues a stateless token for one working day
 `POST /api/v1/auth/login` SHALL verify the password and return a signed token carrying user id, practice id, role, veterinarian flag, session version, and an expiry 12 hours after issue. There SHALL be no refresh token. The signing secret SHALL come from the environment; outside the `local` profile the application SHALL refuse to start without it.
 
@@ -85,10 +104,10 @@ A deactivated user SHALL NOT log in but SHALL remain in the table; records that 
 - **THEN** notes they finalized still show their name
 
 ### Requirement: Login is rate limited
-The system SHALL allow at most 10 failed logins per email and 30 per IP in any 15 minute window. Beyond that it SHALL return 429 with a `Retry-After` header. A successful login SHALL reset the email bucket. Nothing SHALL be locked permanently.
+The system SHALL allow at most 10 failed logins per identifier (normalized phone or email) and 30 per IP in any 15 minute window. Beyond that it SHALL return 429 with a `Retry-After` header. A successful login SHALL reset the identifier bucket. Nothing SHALL be locked permanently.
 
 #### Scenario: Eleventh failure
-- **WHEN** an email has 10 failed logins in 15 minutes and an eleventh attempt arrives
+- **WHEN** an identifier has 10 failed logins in 15 minutes and an eleventh attempt arrives
 - **THEN** the response is 429 with `Retry-After`
 
 ### Requirement: Practice id comes from the token

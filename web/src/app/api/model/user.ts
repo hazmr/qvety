@@ -11,12 +11,12 @@
 
 export interface UserDto { 
     id: string;
-    email: string;
+    phone: string;
+    email?: string;
     fullName: string;
     role: UserDto.RoleEnum;
     veterinarian?: boolean;
     licenseNumber?: string;
-    phone?: string;
     active?: boolean;
     mustChangePassword?: boolean;
 }

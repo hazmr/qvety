@@ -10,13 +10,13 @@
 
 
 export interface UserCreateRequestDto { 
-    email: string;
+    phone: string;
+    email?: string;
     temporaryPassword: string;
     fullName: string;
     role: UserCreateRequestDto.RoleEnum;
     veterinarian?: boolean;
     licenseNumber?: string;
-    phone?: string;
 }
 export namespace UserCreateRequestDto {
     export const RoleEnum = {

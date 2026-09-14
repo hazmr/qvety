@@ -38,7 +38,7 @@ Spring Security filter after JWT: loads practice status from a cache (refresh on
 
 ## Practice creation
 
-`PracticeAdminService.create(name, country, adminEmail, adminName)` in one transaction under system context: insert practice (`trial_ends_at = now + trial_days`), `StarterCatalogSeeder.apply(country, practiceId)` (fails on unmapped country), insert admin user with temporary password and `must_change_password`, insert platform audit row. Returns the temporary password once.
+`PracticeAdminService.create(name, country, adminPhone, adminEmail?, adminName)` in one transaction under system context: insert practice (`trial_ends_at = now + trial_days`), `StarterCatalogSeeder.apply(country, practiceId)` (fails on unmapped country), insert admin user (phone required, email optional, per part 03) with temporary password and `must_change_password`, insert platform audit row. Returns the temporary password once.
 
 ## Export
 

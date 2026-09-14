@@ -7,8 +7,14 @@
     <nz-alert nzType="error" [nzMessage]="e" nzShowIcon style="margin-bottom: 16px" />
   }
   <nz-form-item>
-    <nz-form-label nzRequired>Email</nz-form-label>
-    <nz-form-control nzErrorTip="Enter a valid email">
+    <nz-form-label nzRequired>Phone</nz-form-label>
+    <nz-form-control nzErrorTip="Required" nzExtra="Used to log in. Any Egyptian shape: 01xxxxxxxxx or +20...">
+      <input nz-input type="tel" formControlName="phone" dir="ltr" inputmode="tel" autocomplete="off" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label>Email</nz-form-label>
+    <nz-form-control nzErrorTip="Enter a valid email" nzExtra="Optional. Can also be used to log in.">
       <input nz-input type="email" formControlName="email" dir="ltr" autocomplete="off" />
     </nz-form-control>
   </nz-form-item>
@@ -44,12 +50,6 @@
     <nz-form-label>License number</nz-form-label>
     <nz-form-control>
       <input nz-input formControlName="licenseNumber" dir="ltr" />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label>Phone</nz-form-label>
-    <nz-form-control>
-      <input nz-input formControlName="phone" dir="ltr" />
     </nz-form-control>
   </nz-form-item>
   <button nz-button nzType="primary" [nzLoading]="busy()" type="submit">Save</button>

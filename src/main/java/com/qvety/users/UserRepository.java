@@ -11,12 +11,14 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     Optional<User> findByPracticeIdAndEmailIgnoreCase(UUID practiceId, String email);
 
+    Optional<User> findByPracticeIdAndPhone(UUID practiceId, String phone);
+
     /**
      * Login has no tenant yet, and users is under forced RLS, so this goes through the definer
-     * function login_lookup(): active users with this email across practices. First match wins.
+     * function login_lookup(): active users with this E.164 phone or email across practices.
      */
-    @Query(value = "SELECT * FROM login_lookup(:email)", nativeQuery = true)
-    List<User> findForLogin(@Param("email") String email);
+    @Query(value = "SELECT * FROM login_lookup(:identifier)", nativeQuery = true)
+    List<User> findForLogin(@Param("identifier") String identifier);
 
     List<User> findByPracticeIdOrderByFullName(UUID practiceId);
 

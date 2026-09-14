@@ -62,6 +62,14 @@ HS256, 256-bit secret from `QVETY_JWT_SECRET`. Claims: `sub` (user id), `practic
 
 `/login`, `AuthService` (token in memory + `sessionStorage`), HTTP interceptor adding `Authorization: Bearer`, route guard on everything but `/login`, header with user name and logout, `/change-password` forced by the guard when `mustChangePassword`, `/settings/users` list and form (admin only).
 
+## As built (deviations)
+
+- Login identifier is phone **or** email (owner decision, 2026-09-14). `users.phone` E.164 required, `email` optional, both unique per practice. `PhoneNormalizer` (libphonenumber, region `EG`) pulled forward from part 07; a number without the trunk zero or `+` is rejected.
+- Rate limit is applied in `AuthService`, not a servlet filter: it needs the identifier from the JSON body.
+- `@GeneratedValue(IDENTITY)` on Postgres-defaulted uuid ids (`INSERT … RETURNING`).
+- Response DTOs carry `@Schema(requiredMode = REQUIRED)`; `openapitools.json` uses `stringEnums: false`.
+- Filters are registered in the security chain only (`FilterRegistrationBean.setEnabled(false)`); no `@Transactional` on filters.
+
 ## Decisions
 
 - Stateless JWT instead of server sessions: one jar, no session store, revocation handled by `session_version` lookup which is one indexed read per request.

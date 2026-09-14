@@ -1,6 +1,7 @@
 package com.qvety.users;
 
 import com.qvety.auth.CurrentUser;
+import com.qvety.common.PhoneNormalizer;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
@@ -40,18 +41,13 @@ public class UserService {
     @Transactional
     public UserDto create(UserCreateRequest request) {
         var practiceId = currentUser.practiceId();
-        var email = request.email().trim();
-        if (users.findByPracticeIdAndEmailIgnoreCase(practiceId, email).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "email_taken");
-        }
         var user = new User();
         user.setPracticeId(practiceId);
-        user.setEmail(email);
+        applyContact(user, request.phone(), request.email());
         user.setFullName(request.fullName());
         user.setRole(request.role());
         user.setVeterinarian(request.veterinarian());
         user.setLicenseNumber(request.licenseNumber());
-        user.setPhone(request.phone());
         user.setPasswordHash(passwords.encode(request.temporaryPassword()));
         user.setMustChangePassword(true);
         return mapper.toDto(users.saveAndFlush(user));
@@ -60,6 +56,7 @@ public class UserService {
     @Transactional
     public UserDto update(UUID id, UserUpdateRequest request) {
         var user = load(id);
+        applyContact(user, request.phone(), request.email());
         mapper.updateFromRequest(request, user);
         return mapper.toDto(users.saveAndFlush(user));
     }
@@ -84,6 +81,24 @@ public class UserService {
         user.setMustChangePassword(true);
         user.revokeSessions();
         return mapper.toDto(user);
+    }
+
+    /** Phone to E.164 (must parse), email lowercased or null; both unique inside the practice. */
+    private void applyContact(User user, String rawPhone, String rawEmail) {
+        var practiceId = currentUser.practiceId();
+        var phone = PhoneNormalizer.toE164(rawPhone)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "phone_invalid"));
+        var email = rawEmail == null || rawEmail.isBlank() ? null : rawEmail.trim().toLowerCase();
+        users.findByPracticeIdAndPhone(practiceId, phone)
+            .filter(other -> !other.getId().equals(user.getId()))
+            .ifPresent(other -> { throw new ResponseStatusException(HttpStatus.CONFLICT, "phone_taken"); });
+        if (email != null) {
+            users.findByPracticeIdAndEmailIgnoreCase(practiceId, email)
+                .filter(other -> !other.getId().equals(user.getId()))
+                .ifPresent(other -> { throw new ResponseStatusException(HttpStatus.CONFLICT, "email_taken"); });
+        }
+        user.setPhone(phone);
+        user.setEmail(email);
     }
 
     private User load(UUID id) {

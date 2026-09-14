@@ -25,6 +25,7 @@
     <springdoc.version>3.1.1</springdoc.version>
     <frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
     <bucket4j.version>8.14.0</bucket4j.version>
+    <libphonenumber.version>9.0.19</libphonenumber.version>
     <node.version>v26.8.1</node.version>
     <npm.version>11.19.0</npm.version>
   </properties>
@@ -78,6 +79,13 @@
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
+      <!-- Egyptian phone parsing to E.164: staff login (part 03) and client search (part 07). -->
+      <groupId>com.googlecode.libphonenumber</groupId>
+      <artifactId>libphonenumber</artifactId>
+      <version>${libphonenumber.version}</version>
     </dependency>
 
     <!-- API docs -->

@@ -47,7 +47,7 @@ A closed practice's data SHALL be kept for `closed_retention_days` (platform set
 Creating a practice SHALL, atomically: insert the row with `trial_ends_at = now + trial_days`, apply the country starter catalog, create the first admin user with a temporary password and `must_change_password`, and write a platform audit row. The login SHALL be handed over by the super admin in person or by WhatsApp; no email.
 
 #### Scenario: Create Egyptian practice
-- **WHEN** the super admin creates a practice with country `EG`, admin email, and admin name
+- **WHEN** the super admin creates a practice with country `EG`, admin phone (email optional), and admin name
 - **THEN** the practice exists on trial, the Egyptian catalog rows exist, one admin user exists with `must_change_password`, and one platform audit row exists
 
 #### Scenario: Catalog missing

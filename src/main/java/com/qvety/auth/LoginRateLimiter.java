@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;
 
 /**
- * 10 failures per email and 30 per IP in any 15 minute window. In-memory: one JVM in the pilot.
+ * 10 failures per identifier (E.164 phone or email) and 30 per IP in any 15 minute window. In-memory: one JVM in the pilot.
  * A second instance would need a shared store (Redis); recorded, not built.
  */
 @Component

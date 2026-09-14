@@ -214,13 +214,13 @@ erDiagram
     users {
         uuid id PK
         uuid practice_id FK
-        varchar email "unique per practice"
+        varchar phone "E.164; login id; unique per practice"
+        varchar email "optional; login id; unique per practice"
         varchar password_hash
         varchar full_name
         enum role "admin|veterinarian|technician|front_desk"
         bool is_veterinarian "clinical acts; check vs role"
         varchar license_number "syndicate no.; printed"
-        varchar phone
         varchar locale "ar-EG default"
         bool active
         int session_version "bump = revoke all JWTs"
@@ -716,5 +716,5 @@ Applied migrations, in order. The tables above are the target; this list is what
 | Migration | Part | Adds |
 | --- | --- | --- |
 | `V1__practices.sql` | 02 | `practice_status` enum, `practices` |
-| `V2__users.sql` | 03 | `user_role` enum, `users` (unique `(practice_id, email)`, unique `(id, practice_id)`, role/flag checks) |
+| `V2__users.sql` | 03 | `user_role` enum, `users` (`phone` E.164 required, `email` optional; unique `(practice_id, phone)`, `(practice_id, email)`, `(id, practice_id)`; role/flag checks) |
 | `V3__rls.sql` | 04 | role `qvety_app`; `current_practice_id()`, `current_user_id()`; `audit_action` enum, `audit_log`; `audit_row()` trigger function; `tenant_table_setup(regclass)` (RLS + policy + grants + audit trigger, one call per tenant table); `login_lookup(text)` definer function (the only cross-tenant read); RLS on `users`, `audit_log`, `practices` with column-level `UPDATE` grant |

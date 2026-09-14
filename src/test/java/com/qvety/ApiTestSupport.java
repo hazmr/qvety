@@ -12,6 +12,7 @@ public final class ApiTestSupport {
     public static final String VET = "vet@clinic.example.com";
     public static final String TECH = "tech@clinic.example.com";
     public static final String DESK = "desk@clinic.example.com";
+    public static final String DESK_PHONE = "+201000000104";
     public static final String PASSWORD = "password123";
 
     private ApiTestSupport() {}
@@ -24,13 +25,14 @@ public final class ApiTestSupport {
     }
 
     @SuppressWarnings("unchecked")
-    public static String login(RestClient client, String email, String password) {
+    /** identifier: email or phone, exactly as a user would type it. */
+    public static String login(RestClient client, String identifier, String password) {
         var body = client.post().uri("/api/v1/auth/login")
             .contentType(MediaType.APPLICATION_JSON)
-            .body(Map.of("email", email, "password", password))
+            .body(Map.of("identifier", identifier, "password", password))
             .retrieve().body(Map.class);
         if (body == null || body.get("token") == null) {
-            throw new IllegalStateException("login failed for " + email + ": " + body);
+            throw new IllegalStateException("login failed for " + identifier + ": " + body);
         }
         return (String) body.get("token");
     }

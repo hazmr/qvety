@@ -37,14 +37,14 @@ class AuditIT {
 
         var created = client(port).post().uri("/api/v1/users").header("Authorization", "Bearer " + admin)
             .contentType(MediaType.APPLICATION_JSON)
-            .body(Map.of("email", "audit-case@clinic.example.com", "temporaryPassword", "temporary-1",
+            .body(Map.of("phone", "01000000203", "email", "audit-case@clinic.example.com", "temporaryPassword", "temporary-1",
                 "fullName", "Before Name", "role", "technician", "veterinarian", false))
             .retrieve().body(Map.class);
         var id = (String) created.get("id");
 
         client(port).put().uri("/api/v1/users/" + id).header("Authorization", "Bearer " + admin)
             .contentType(MediaType.APPLICATION_JSON)
-            .body(Map.of("fullName", "After Name", "role", "technician", "veterinarian", false))
+            .body(Map.of("phone", "01000000203", "email", "audit-case@clinic.example.com", "fullName", "After Name", "role", "technician", "veterinarian", false))
             .retrieve().toBodilessEntity();
 
         var page = client(port).get().uri("/api/v1/audit?table=users&rowId=" + id)

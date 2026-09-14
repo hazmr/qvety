@@ -5,9 +5,9 @@
       <nz-alert nzType="error" [nzMessage]="e" nzShowIcon class="login__alert" />
     }
     <nz-form-item>
-      <nz-form-label nzFor="email" nzRequired>Email</nz-form-label>
-      <nz-form-control nzErrorTip="Enter a valid email">
-        <input nz-input id="email" type="email" formControlName="email" autocomplete="username" dir="ltr" />
+      <nz-form-label nzFor="identifier" nzRequired>Phone or email</nz-form-label>
+      <nz-form-control nzErrorTip="Enter your phone number or email">
+        <input nz-input id="identifier" type="text" formControlName="identifier" autocomplete="username" inputmode="email" dir="ltr" placeholder="01xxxxxxxxx" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

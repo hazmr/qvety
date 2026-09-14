@@ -23,8 +23,9 @@ export class AuthService {
   readonly isAdmin = computed(() => this.user()?.role === 'admin');
   readonly mustChangePassword = computed(() => this.user()?.mustChangePassword === true);
 
-  login(email: string, password: string): Observable<LoginResponseDto> {
-    return this.authApi.login({ email, password }).pipe(tap((r) => this.accept(r)));
+  /** identifier: phone (any Egyptian shape) or email. */
+  login(identifier: string, password: string): Observable<LoginResponseDto> {
+    return this.authApi.login({ identifier, password }).pipe(tap((r) => this.accept(r)));
   }
 
   changePassword(request: ChangePasswordRequestDto): Observable<LoginResponseDto> {

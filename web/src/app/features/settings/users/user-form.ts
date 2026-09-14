@@ -30,23 +30,22 @@ export class UserForm {
   readonly busy = signal(false);
 
   readonly form = this.fb.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
+    phone: ['', [Validators.required]],
+    email: ['', [Validators.email]],
     temporaryPassword: ['', this.isNew ? [Validators.required, Validators.minLength(10)] : []],
     fullName: ['', [Validators.required]],
     role: this.fb.nonNullable.control<UserDto.RoleEnum>(UserDto.RoleEnum.FrontDesk, [Validators.required]),
     veterinarian: [false],
     licenseNumber: [''],
-    phone: [''],
   });
 
   constructor() {
     if (this.id) {
       this.api.get(this.id).subscribe((u) => {
         this.form.patchValue({
-          email: u.email, fullName: u.fullName, role: u.role, veterinarian: u.veterinarian,
-          licenseNumber: u.licenseNumber ?? '', phone: u.phone ?? '',
+          phone: u.phone, email: u.email ?? '', fullName: u.fullName, role: u.role, veterinarian: u.veterinarian,
+          licenseNumber: u.licenseNumber ?? '',
         });
-        this.form.controls.email.disable();
       });
     }
     // veterinarian role always has the flag; technician and front desk never do
@@ -66,17 +65,18 @@ export class UserForm {
     const done = () => this.router.navigateByUrl('/settings/users');
     const fail = (e: { status?: number }) => {
       this.busy.set(false);
-      this.error.set(e?.status === 409 ? 'This email already exists in the practice.' : 'Could not save.');
+      this.error.set(e?.status === 409 ? 'This phone or email already exists in the practice.'
+        : e?.status === 400 ? 'Enter a valid Egyptian phone number.' : 'Could not save.');
     };
     if (this.isNew) {
       this.api.create({
-        email: v.email, temporaryPassword: v.temporaryPassword, fullName: v.fullName, role: v.role,
-        veterinarian: v.veterinarian, licenseNumber: v.licenseNumber || undefined, phone: v.phone || undefined,
+        phone: v.phone, email: v.email || undefined, temporaryPassword: v.temporaryPassword, fullName: v.fullName, role: v.role,
+        veterinarian: v.veterinarian, licenseNumber: v.licenseNumber || undefined,
       }).subscribe({ next: done, error: fail });
     } else {
       this.api.update(this.id!, {
-        fullName: v.fullName, role: v.role, veterinarian: v.veterinarian,
-        licenseNumber: v.licenseNumber || undefined, phone: v.phone || undefined,
+        phone: v.phone, email: v.email || undefined, fullName: v.fullName, role: v.role, veterinarian: v.veterinarian,
+        licenseNumber: v.licenseNumber || undefined,
       }).subscribe({ next: done, error: fail });
     }
   }

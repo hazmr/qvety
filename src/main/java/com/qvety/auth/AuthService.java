@@ -3,6 +3,7 @@ package com.qvety.auth;
 import com.qvety.users.User;
 import com.qvety.users.UserDto;
 import com.qvety.users.UserMapper;
+import com.qvety.common.PhoneNormalizer;
 import com.qvety.tenant.SystemContext;
 import com.qvety.users.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class AuthService {
 
-    /** Bcrypt hash of a throwaway password, compared when the email is unknown so timing does not reveal existence. */
+    /** Bcrypt hash of a throwaway password, compared when the identifier is unknown so timing does not reveal existence. */
     private static final String DUMMY_HASH = "$2a$12$tRrkJgHmsapCuGvMgs1yT.kiQJf.56xF7z9UuX6b517QZJL7UY0E2";
 
     private final UserRepository users;
@@ -34,22 +35,27 @@ public class AuthService {
         this.currentUser = currentUser;
     }
 
-    /** No tenant before login: the lookup runs in SystemContext through the definer function. */
+    /**
+     * No tenant before login: the lookup runs in SystemContext through the definer function.
+     * The identifier is an email (contains '@') or a phone normalized to E.164; a phone that does
+     * not parse is treated as unknown (401), never as a validation error, so nothing is revealed.
+     */
     public LoginResponse login(LoginRequest request, String ip) {
-        long wait = limiter.retryAfterSeconds(request.email(), ip);
+        var identifier = normalizeIdentifier(request.identifier());
+        long wait = limiter.retryAfterSeconds(identifier, ip);
         if (wait > 0) {
             throw new TooManyLoginAttemptsException(wait);
         }
-        var user = SystemContext.call(() -> users.findForLogin(request.email().trim()).stream()
+        var user = identifier.isEmpty() ? null : SystemContext.call(() -> users.findForLogin(identifier).stream()
             .filter(User::isActive)
             .findFirst()
             .orElse(null));
         var hash = user == null ? DUMMY_HASH : user.getPasswordHash();
         if (user == null || !passwords.matches(request.password(), hash)) {
-            limiter.recordFailure(request.email(), ip);
+            limiter.recordFailure(identifier, ip);
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "invalid_credentials");
         }
-        limiter.recordSuccess(request.email());
+        limiter.recordSuccess(identifier);
         return new LoginResponse(jwt.issue(user), mapper.toDto(user));
     }
 
@@ -69,6 +75,15 @@ public class AuthService {
         user.setMustChangePassword(false);
         user.revokeSessions();
         return new LoginResponse(jwt.issue(user), mapper.toDto(user));
+    }
+
+    /** Email lowercased, phone as E.164, or "" when it is neither (rate limited under the raw value's bucket). */
+    private static String normalizeIdentifier(String raw) {
+        var trimmed = raw == null ? "" : raw.trim();
+        if (PhoneNormalizer.looksLikeEmail(trimmed)) {
+            return trimmed.toLowerCase();
+        }
+        return PhoneNormalizer.toE164(trimmed).orElse("");
     }
 
     private User load() {

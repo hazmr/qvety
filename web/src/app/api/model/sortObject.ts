@@ -9,8 +9,9 @@
  */
 
 
-export interface LoginRequestDto { 
-    identifier: string;
-    password: string;
+export interface SortObjectDto { 
+    empty?: boolean;
+    sorted?: boolean;
+    unsorted?: boolean;
 }
 

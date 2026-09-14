@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Phone</th>
       <th>Email</th>
       <th>Role</th>
       <th>Vet</th>
@@ -18,6 +19,7 @@
     @for (u of table.data; track u.id) {
       <tr>
         <td>{{ u.fullName }}</td>
+        <td dir="ltr">{{ u.phone }}</td>
         <td dir="ltr">{{ u.email }}</td>
         <td>{{ u.role }}</td>
         <td>@if (u.veterinarian) { <nz-tag>vet</nz-tag> }</td>

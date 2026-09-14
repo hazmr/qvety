@@ -104,11 +104,11 @@ GRANT UPDATE (name, address, phone, vat_number, tax_rate_percent, updated_at) ON
 CREATE TRIGGER audit AFTER INSERT OR UPDATE OR DELETE ON practices FOR EACH ROW EXECUTE FUNCTION audit_row();
 
 -- 7. Login runs before any tenant is known, and users is under forced RLS. This is the one
---    deliberate exception: a definer function that returns active users by email. Nothing else
---    reads across tenants without a session variable.
-CREATE FUNCTION login_lookup(p_email text) RETURNS SETOF users
+--    deliberate exception: a definer function that returns active users by phone (E.164) or email.
+--    Nothing else reads across tenants without a session variable.
+CREATE FUNCTION login_lookup(p_identifier text) RETURNS SETOF users
     LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public
-    AS $$ SELECT * FROM users WHERE lower(email) = lower(p_email) AND active $$;
+    AS $$ SELECT * FROM users WHERE active AND (phone = p_identifier OR lower(email) = lower(p_identifier)) $$;
 
 REVOKE ALL ON FUNCTION login_lookup(text) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION login_lookup(text) TO qvety_app;

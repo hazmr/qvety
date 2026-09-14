@@ -20,7 +20,7 @@ export class Login {
   private readonly route = inject(ActivatedRoute);
 
   readonly form = this.fb.nonNullable.group({
-    email: ['', [Validators.required, Validators.email]],
+    identifier: ['', [Validators.required]],
     password: ['', [Validators.required]],
   });
   readonly error = signal<string | null>(null);
@@ -30,8 +30,8 @@ export class Login {
     if (this.form.invalid) { this.form.markAllAsTouched(); return; }
     this.busy.set(true);
     this.error.set(null);
-    const { email, password } = this.form.getRawValue();
-    this.auth.login(email, password).subscribe({
+    const { identifier, password } = this.form.getRawValue();
+    this.auth.login(identifier, password).subscribe({
       next: (r) => {
         this.busy.set(false);
         const next = this.route.snapshot.queryParamMap.get('next');
@@ -40,7 +40,7 @@ export class Login {
       error: (e) => {
         this.busy.set(false);
         this.error.set(e?.status === 429 ? 'Too many attempts. Try again later.'
-          : e?.status === 401 ? 'Wrong email or password.' : 'Login failed.');
+          : e?.status === 401 ? 'Wrong phone, email, or password.' : 'Login failed.');
       },
     });
   }

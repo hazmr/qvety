@@ -70,8 +70,8 @@ class TenantIsolationIT {
                 VALUES ('%s', 'Other Clinic', 'EG', 'EGP', 'ar-EG', 'Africa/Cairo') ON CONFLICT (id) DO NOTHING
                 """.formatted(PRACTICE_B));
             st.execute("""
-                INSERT INTO users (id, practice_id, email, password_hash, full_name, role, is_veterinarian)
-                VALUES ('%s', '%s', '%s', '%s', 'Admin B', 'admin', true) ON CONFLICT (id) DO NOTHING
+                INSERT INTO users (id, practice_id, phone, email, password_hash, full_name, role, is_veterinarian)
+                VALUES ('%s', '%s', '+201000000201', '%s', '%s', 'Admin B', 'admin', true) ON CONFLICT (id) DO NOTHING
                 """.formatted(ADMIN_B, PRACTICE_B, ADMIN_B_EMAIL, HASH));
         }
     }
@@ -224,8 +224,8 @@ class TenantIsolationIT {
                     "DELETE FROM audit_log",
                     "SELECT audit_row()",
                     "SELECT tenant_table_setup('users')",
-                    "INSERT INTO users (practice_id, email, password_hash, full_name, role) VALUES ('" + PRACTICE_B
-                        + "', 'smuggled@other.example.com', 'x', 'X', 'front_desk')")) {
+                    "INSERT INTO users (practice_id, phone, email, password_hash, full_name, role) VALUES ('" + PRACTICE_B
+                        + "', '+201000000299', 'smuggled@other.example.com', 'x', 'X', 'front_desk')")) {
                 try (var st = app.createStatement()) {
                     st.execute("SELECT set_config('app.practice_id', '" + PRACTICE_A + "', true)");
                     assertThatThrownBy(() -> st.execute(sql)).as(sql)
@@ -246,7 +246,7 @@ class TenantIsolationIT {
         var tokenA = login(client(port), ADMIN, PASSWORD);
         client(port).put().uri("/api/v1/users/" + DESK_A).header("Authorization", "Bearer " + tokenA)
             .contentType(MediaType.APPLICATION_JSON)
-            .body(Map.of("fullName", "Mona Adel", "role", "front_desk", "veterinarian", false))
+            .body(Map.of("phone", "+201000000104", "email", DESK, "fullName", "Mona Adel", "role", "front_desk", "veterinarian", false))
             .retrieve().toBodilessEntity();
 
         var tokenB = login(client(port), ADMIN_B_EMAIL, PASSWORD);

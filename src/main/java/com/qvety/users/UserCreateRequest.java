@@ -6,14 +6,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-/** Admin creates a user with a temporary password; the user must change it at first login. */
+/** Admin creates a user with a temporary password; the user must change it at first login. Phone required, email optional. */
 @Schema(name = "UserCreateRequest")
 public record UserCreateRequest(
-    @NotBlank @Email String email,
+    @NotBlank String phone,
+    @Email String email,
     @NotBlank @Size(min = 10, max = 200) String temporaryPassword,
     @NotBlank String fullName,
     @NotNull UserRole role,
     boolean veterinarian,
-    String licenseNumber,
-    String phone
+    String licenseNumber
 ) {}
