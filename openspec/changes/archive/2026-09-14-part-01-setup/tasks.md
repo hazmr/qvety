@@ -18,10 +18,10 @@
 - [x] 4.2 `SmokeIT` green over Testcontainers
 
 ## 5. Business page
-- [ ] 5.1 `docs/domain/clinic-day.md` written in the owner's words (six sections, one page)
-- [ ] 5.2 Ask: "What did I miss that a real clinic would need on day one?"
+- [x] 5.1 `docs/domain/clinic-day.md` written in the owner's words (six sections, one page)
+- [x] 5.2 Ask: "What did I miss that a real clinic would need on day one?"
 
 ## 6. Close
-- [ ] 6.1 `docs/progress.md` Part 01 entry
-- [ ] 6.2 Self-check answered (Boot parent POM, why the jar serves Angular, where Claude reads instructions)
+- [x] 6.1 `docs/progress.md` Part 01 entry
+- [x] 6.2 Self-check answered (Boot parent POM, why the jar serves Angular, where Claude reads instructions)
 - [x] 6.3 Committed (`4d22b61`)
