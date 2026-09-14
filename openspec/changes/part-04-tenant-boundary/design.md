@@ -43,3 +43,14 @@
 
 - Trigger, not service code, for audit: cannot be forgotten, applies to native queries. It does not know the HTTP request or the business reason; those live in the service and its DTO, not in the audit row.
 - `FORCE` so the owner role is also subject to policies when it ever reads through the app path.
+
+## As built (deviations from the plan above)
+
+- `tenant_table_setup(regclass)` function instead of a `DO` loop; later migrations call it once per table. Policy has `WITH CHECK` too, so a smuggled `practice_id` on insert is refused, not only hidden.
+- `login_lookup(email)` `SECURITY DEFINER` function: login runs before any tenant exists and `users` is under forced RLS. The single cross-tenant read.
+- `JwtFilter` loads the user row under `TenantContext.runAs(practiceId, userId)` from the signed claims and rejects a token whose `practiceId` claim does not match the row.
+- `SystemContext` lives in `com.qvety.tenant` (public) because `auth` needs it for login; part 11 restricts callers with an ArchUnit rule rather than package visibility.
+- Tenant variables are set by a `TenantTransactionManager` (subclass of `JpaTransactionManager`, `doBegin`) with `set_config(..., true)`, not by a `TransactionSynchronization`; this catches repository and filter transactions too.
+- `Practice` entity: `@DynamicUpdate` and `updatable = false` on country, currency, locale, timezone, status, `trial_ends_at`. The column-level grant refused Hibernate's full-row `UPDATE`.
+- `qvety_app` cannot change `practices.status` at all; part 11's super-admin path needs a definer function or a separate role.
+- Role password via Flyway placeholder `${app_password}` from `DB_APP_PASSWORD`; local and test use `qvety_app`.

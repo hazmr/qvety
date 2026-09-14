@@ -704,6 +704,8 @@ erDiagram
 | One payment per attempt | Unique `(practice_id, idempotency_key)` |
 | Subscription and clinic money never mixed | Separate tables, separate zones, no FK between them |
 | Unknown country rejected | Check constraint on `practices.country` |
+| Login before a tenant is known | `login_lookup(email)` is `SECURITY DEFINER`; no other path reads across practices |
+| New tenant table cannot skip the lists | `tenant_table_setup()` does RLS, policy, grants, and trigger in one call; `TenantIsolationIT` derives the expected set from `information_schema` (every table with `practice_id`) |
 | Practice cannot change its own status | Column-level `UPDATE` grant on `practices` for `qvety_app`: identity columns only |
 | Invoice numbers gapless | `invoice_counters` row locked in the issue transaction; `number` set once, unique per practice |
 
@@ -715,3 +717,4 @@ Applied migrations, in order. The tables above are the target; this list is what
 | --- | --- | --- |
 | `V1__practices.sql` | 02 | `practice_status` enum, `practices` |
 | `V2__users.sql` | 03 | `user_role` enum, `users` (unique `(practice_id, email)`, unique `(id, practice_id)`, role/flag checks) |
+| `V3__rls.sql` | 04 | role `qvety_app`; `current_practice_id()`, `current_user_id()`; `audit_action` enum, `audit_log`; `audit_row()` trigger function; `tenant_table_setup(regclass)` (RLS + policy + grants + audit trigger, one call per tenant table); `login_lookup(text)` definer function (the only cross-tenant read); RLS on `users`, `audit_log`, `practices` with column-level `UPDATE` grant |

@@ -25,3 +25,12 @@ jobs:
 
       - name: Build and test
         run: ./mvnw -B verify
+
+      # The tenant boundary is a required check: the build is red unless TenantIsolationIT ran and passed.
+      - name: Tenant isolation ran and passed
+        if: always()
+        run: |
+          report=target/failsafe-reports/TEST-com.qvety.tenant.TenantIsolationIT.xml
+          test -f "$report" || { echo "TenantIsolationIT did not run"; exit 1; }
+          grep -q 'errors="0"' "$report" && grep -q 'failures="0"' "$report" \
+            || { echo "TenantIsolationIT failed"; exit 1; }

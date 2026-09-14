@@ -1,5 +1,7 @@
 package com.qvety.auth;
 
+import com.qvety.tenant.TenantContext;
+import com.qvety.tenant.TenantScope;
 import com.qvety.users.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -44,7 +46,9 @@ public class JwtFilter extends OncePerRequestFilter {
             var jwt = jwtService.verify(header.substring(7));
             var userId = UUID.fromString(jwt.getSubject());
             var practiceId = UUID.fromString(jwt.getClaimAsString("practiceId"));
-            var user = users.findById(userId).orElse(null);
+            // The row read goes through RLS under the tenant the signed token names.
+            var user = TenantContext.runAs(new TenantScope(practiceId, userId),
+                () -> users.findById(userId).orElse(null));
             int tokenVersion = jwt.getClaim("sv") instanceof Number n ? n.intValue() : -1;
             if (user == null || !user.isActive() || !user.getPracticeId().equals(practiceId)
                     || user.getSessionVersion() != tokenVersion) {

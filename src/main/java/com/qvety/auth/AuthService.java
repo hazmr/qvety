@@ -3,6 +3,7 @@ package com.qvety.auth;
 import com.qvety.users.User;
 import com.qvety.users.UserDto;
 import com.qvety.users.UserMapper;
+import com.qvety.tenant.SystemContext;
 import com.qvety.users.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,15 +34,16 @@ public class AuthService {
         this.currentUser = currentUser;
     }
 
+    /** No tenant before login: the lookup runs in SystemContext through the definer function. */
     public LoginResponse login(LoginRequest request, String ip) {
         long wait = limiter.retryAfterSeconds(request.email(), ip);
         if (wait > 0) {
             throw new TooManyLoginAttemptsException(wait);
         }
-        var user = users.findByEmailIgnoreCase(request.email().trim()).stream()
+        var user = SystemContext.call(() -> users.findForLogin(request.email().trim()).stream()
             .filter(User::isActive)
             .findFirst()
-            .orElse(null);
+            .orElse(null));
         var hash = user == null ? DUMMY_HASH : user.getPasswordHash();
         if (user == null || !passwords.matches(request.password(), hash)) {
             limiter.recordFailure(request.email(), ip);

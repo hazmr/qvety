@@ -11,6 +11,9 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+    placeholders:
+      db_name: qvety
+      app_password: ${DB_APP_PASSWORD:}   # role password for qvety_app; required outside local
   data:
     web:
       pageable:

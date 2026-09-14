@@ -2,10 +2,14 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/qvety
-    username: qvety_owner
-    password: qvety_owner
+    username: qvety_app        # the application never connects as the owner
+    password: qvety_app
   flyway:
     locations: classpath:db/migration,classpath:db/seed
+    user: qvety_owner
+    password: qvety_owner
+    placeholders:
+      app_password: qvety_app
   jpa:
     show-sql: false
 
