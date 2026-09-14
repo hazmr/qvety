@@ -1,6 +1,10 @@
 /* Global styles. Tokens come from styles/qvety-tokens.css; NG-ZORRO theme from theme.less. */
 body { background: var(--qv-canvas); color: var(--qv-ink); }
 
+/* NG-ZORRO vertical forms hard-code text-align: left on labels (and its RTL rule mirrors the horizontal layout);
+   logical start follows the document direction. !important beats the several equal-specificity rules. */
+.ant-form-vertical .ant-form-item-label { text-align: start !important; }
+
 /* Latin values inside an Arabic layout: phone, email, ids, numbers. Always LTR, always Plex Sans, Western digits. */
 .ltr-field { direction: ltr; unicode-bidi: isolate; text-align: start; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-variant-numeric: tabular-nums; }
 .mono { font-family: 'IBM Plex Mono', monospace; }

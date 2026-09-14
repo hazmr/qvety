@@ -22,6 +22,8 @@ export class LocaleService {
   readonly locale = signal<AppLocale>(readStored() ?? 'ar-EG');
   readonly lang = computed<AppLang>(() => (this.locale() === 'ar-EG' ? 'ar' : 'en'));
   readonly dir = computed<'rtl' | 'ltr'>(() => (this.lang() === 'ar' ? 'rtl' : 'ltr'));
+  /** Angular locale id for date/number pipes: registered in app.config (ar-EG, en). Western digits in both. */
+  readonly angularLocale = computed(() => (this.lang() === 'ar' ? 'ar-EG' : 'en'));
   /** The other locale, for the toggle. */
   readonly other = computed<AppLocale>(() => (this.locale() === 'ar-EG' ? 'en-EG' : 'ar-EG'));
 

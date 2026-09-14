@@ -10,7 +10,7 @@
     }
   </nav>
   <span class="shell__spacer"></span>
-  <span class="shell__date">{{ today | date:'fullDate':'':locale.lang() }}</span>
+  <span class="shell__date">{{ today | date:'fullDate':'':locale.angularLocale() }}</span>
   <button type="button" class="shell__lang" (click)="toggleLanguage()">{{ 'app.language' | transloco }}</button>
   <span class="shell__user">{{ auth.user()?.fullName }}</span>
   <button type="button" class="shell__logout" (click)="auth.logout()">{{ 'app.logout' | transloco }}</button>

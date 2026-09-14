@@ -9,7 +9,7 @@
 - [x] 2.3 Direction toggle in the header: `dir` on `<html>`, NG-ZORRO direction, saves via `PATCH /me`
 - [x] 2.4 Angular locale data; today's date in the header as a check
 - [x] 2.5 Interceptor sends `Accept-Language`
-- [ ] 2.6 Login, header, dashboard, practice page checked in both directions; fix alignment and icon mirroring
+- [x] 2.6 Login, header, dashboard, practice page checked in both directions; fix alignment and icon mirroring
 
 ## 3. Verify
 - [x] 3.1 Toggle survives refresh

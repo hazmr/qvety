@@ -3,6 +3,7 @@ package com.qvety.auth;
 import com.qvety.users.UserDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/me")
+@RequestMapping(value = "/api/v1/me", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "me")
 public class MeController {
 

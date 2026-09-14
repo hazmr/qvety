@@ -31,6 +31,9 @@ ALTER TABLE users ADD COLUMN locale text NOT NULL DEFAULT 'ar-EG';
 - `SpaForwardController` replaced by `SpaConfig` (`PathResourceResolver`): real file → served, route → `index.html`, missing file with an extension → 404.
 - Angular unit tests (vitest) run inside `./mvnw verify`.
 - `messages.properties` is the English fallback; `spring.messages.fallback-to-system-locale=false`.
+- Every controller declares `produces = application/json`: springdoc otherwise emits `*/*`, and the generated Angular client then requests `text` and never parses the body.
+- `.ant-form-vertical .ant-form-item-label { text-align: start !important }`: NG-ZORRO's vertical label rule is left-only, and its RTL rule mirrors the horizontal layout instead.
+- 2.6 was checked headless (Playwright + Firefox from the scratchpad; screenshots not committed): login, home, users list, user form in `ar` and `en`, toggle persisted across reload, zero console errors.
 
 ## Decisions
 
