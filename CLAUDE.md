@@ -37,7 +37,7 @@ cd web && npm run api:generate                        # regenerate client from /
 deploy/release.sh                                     # production: pull, build, compose up (part 16)
 ```
 
-Shortcuts: `make dev` (compose + backend + web), `make test`, `make check` (tests, jar, health probe).
+Shortcuts: `make up` (compose + backend + web), `make down` (stop all), `make test` (tests only).
 
 ## Rules
 
