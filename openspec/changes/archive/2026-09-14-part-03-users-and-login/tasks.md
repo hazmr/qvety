@@ -27,7 +27,7 @@
 - [x] 4.2 Header with user name and logout; refresh keeps login
 - [x] 4.3 `/change-password` forced when `mustChangePassword`
 - [x] 4.4 `/settings/users` list and form (admin only)
-- [ ] 4.5 Checked in `ar` and `en`
+- [x] 4.5 Checked in `ar` and `en` (covered by part 06b tasks 3.2 and 4.1; `ar` did not exist before part 05)
 
 ## 5. Close
 - [x] 5.1 `erd.md` updated with `users`
