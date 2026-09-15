@@ -36,8 +36,8 @@ Phone branch: `WHERE phone_e164 = :e164 OR phone_secondary_e164 = :e164`.
 
 ## Angular
 
-Search input on the client list, 300 ms debounce. Duplicate warning as a non-blocking alert with links to the candidates.
+No new components. The client list already runs on the shared `list-page` (part 06b), whose search box debounces 300 ms and resets paging; the client form already shows the non-blocking duplicate alert with links to the candidates (part 06). Part 07 changes what the server returns for the same `q`, so the Angular work is a browser check: variant spellings and phone shapes find the client, and the duplicate alert lists normalized matches.
 
 ## Phone layout
 
-Reference: `docs/design/MOBILE.md` layout skeleton. Phone first (below 768 px): stacked rows, one scroller, bottom nav on top-level screens, action bar on detail screens; desktop layout above 768 px.
+Already covered by the part 06b shell and shared components (`list-page` stacked rows, `form-page` sizes, title bar, action bar). Nothing new to lay out; task 5.3 re-checks the two screens at 390 px and 360 px because their content changes.

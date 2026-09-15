@@ -8,7 +8,7 @@ Staff search by name or phone. Arabic spellings vary for the same name (أحمد
 - `clients` gains `full_name_normalized`, `phone_e164`, `phone_secondary_e164`; `pg_trgm` GIN index and btree indexes.
 - `GET /api/v1/clients?q=` searches by normalized name (ILIKE or trigram similarity) or by E.164 phone.
 - Duplicate warning uses the normalized columns.
-- Angular search box with 300 ms debounce; duplicate warning shown on the form.
+- No new Angular components: the `list-page` search box (300 ms debounce, part 06b) and the client form's duplicate alert (part 06) stay; only their results change.
 
 ## Capabilities
 

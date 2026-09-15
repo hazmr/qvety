@@ -16,8 +16,8 @@
 - [ ] 4.3 Cross-tenant: search never returns the other practice
 
 ## 5. Angular
-- [ ] 5.1 Search box with 300 ms debounce
-- [ ] 5.2 Duplicate warning on the form, non-blocking, with links
+- [ ] 5.1 Browser check: the existing `list-page` search box (300 ms debounce, part 06b) finds `أحمد` from `احمد` and one client from `01012345678`, `+201012345678`, `0100 123 4567`; no new component
+- [ ] 5.2 Browser check: the existing duplicate alert on the client form (part 06) lists normalized-name and E.164 matches; no UI change expected
 - [ ] 5.3 Checked at 390 px and 360 px: phone layout per MOBILE.md layout skeleton; no `nz-table` on phone, 16 px inputs, 44 px targets
 
 ## 6. Close
