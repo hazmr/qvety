@@ -43,7 +43,9 @@ Phone template branch: `teal-soft` full-bleed ground, `lockup-stacked-white.svg`
 - Brand strip shows the practice name (`AuthService.practiceName`, loaded once after login), app name only as a fallback.
 - Phone buttons are `inline-flex` centred so any min-height keeps the label vertically centred.
 
-- Bottom nav has a fourth "Me" cell (user icon, the user's first name) that opens the Me sheet; the strip's initials chip does the same. Owner feedback: the name must be visible and logout reachable without guessing. Cells follow canvas screen 09 (3 px active bar overlapping the rule, 10 px labels).
+- Bottom nav has a fourth "Me" cell (user icon, the user's first two names) that opens the Me sheet. The strip carries only the mark and the practice name: an initials chip was tried and dropped (an Arabic name gives Arabic initials in the English UI, and a 26 px target on a 32 px strip is below the 44 px minimum). Owner feedback: the name must be visible and logout reachable without guessing. Cells follow canvas screen 09 (3 px active bar overlapping the rule, 10 px labels).
+
+- CSP `style-src` allows `'unsafe-inline'` for now: Angular emulated encapsulation, CDK and NG-ZORRO inject `<style>` elements at runtime. `script-src` stays `'self'`. Replacing `'unsafe-inline'` with a per-request nonce is part 16 (task 1.3), where index.html caching rules live.
 
 ## Checks
 

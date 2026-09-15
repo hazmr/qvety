@@ -2,6 +2,10 @@
 - [ ] 1.1 `deploy/docker-compose.prod.yml`, `Caddyfile`, `release.sh`, `restore.sh`, `README.md`
 - [ ] 1.2 Fresh VPS to HTTPS login following only the README; time it (< 1 h)
 - [ ] 1.3 Header scan: part 03 headers present, no `unsafe-inline`
+  - [ ] 1.3a Per-request nonce: SPA fallback rewrites index.html with `<app-root ngCspNonce="…">`, `Cache-Control: no-store` on index.html only; hashed js/css/fonts untouched
+  - [ ] 1.3b `style-src 'self' 'nonce-…'` from a dynamic header writer, `'unsafe-inline'` removed; `AuthIT` header assertion covers it
+  - [ ] 1.3c Static `style="margin-bottom: 16px"` attributes (client-form, user-form, form-page) replaced by a class: CSP blocks `setAttribute('style')`
+  - [ ] 1.3d Walk every screen at 1280, 390, 360 in `ar` and `en`: zero CSP violations in the console
 - [ ] 1.4 Log rotation configured; JSON logs; no personal data in logs (test)
 - [ ] 1.5 Every screen checked on a real phone at 390 px and 360 px per `docs/design/MOBILE.md` before the pilot
 

@@ -3,7 +3,7 @@
 - [x] 1.2 Shell: phone column (strip, scroller, bottom nav) below 768 px; desktop header above; `100dvh`, only the scroller scrolls
 - [x] 1.3 `title-bar` component (title, back chevron that mirrors in RTL, one action)
 - [x] 1.4 `action-bar` component (48 px buttons, sticky bottom, safe-area inset; hides the bottom nav)
-- [x] 1.5 "Me" sheet from the initials: name, language toggle, logout (`nz-drawer` bottom, radius 0, no shadow)
+- [x] 1.5 "Me" sheet from the bottom-nav Me cell: name, language toggle, logout (`nz-drawer` bottom, radius 0, no shadow)
 - [x] 1.6 Desktop sidebar per frontend.md "Application chrome": 196 px, 2 px line edge, active item `primary-light` fill + 3 px primary leading bar, collapsible to the mark; header keeps clinic name, date, language, user, logout
 
 ## 2. Shared components

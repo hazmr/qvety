@@ -46,10 +46,13 @@ public class SecurityConfig {
             .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class)
             .addFilterAfter(gateFilter, JwtFilter.class)
             .headers(h -> h
-                // SPA served from the jar: same-origin scripts only, never framed. HSTS is added by Spring
-                // Security automatically on HTTPS requests (behind Caddy in part 16).
+                // SPA served from the jar: same-origin scripts only, never framed. Styles allow 'unsafe-inline'
+                // because Angular (emulated encapsulation) and NG-ZORRO/CDK inject <style> elements at runtime;
+                // scripts stay strict. A per-request nonce replaces unsafe-inline in part 16 (task 1.3). HSTS is added by
+                // Spring Security on HTTPS (behind Caddy in part 16).
                 .contentSecurityPolicy(csp -> csp.policyDirectives(
-                    "default-src 'self'; img-src 'self' data:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"))
+                    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; "
+                    + "font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"))
                 .frameOptions(f -> f.deny())
                 .contentTypeOptions(c -> { })
                 .referrerPolicy(r -> r.policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN))

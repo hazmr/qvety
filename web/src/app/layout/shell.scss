@@ -10,15 +10,11 @@
 .strip__date { opacity: 0.85; }
 .strip__lang, .strip__logout { background: none; border: 0; color: #fff; cursor: pointer; padding: 2px 6px; font: inherit; }
 .strip__lang { border: 1px solid rgba(255, 255, 255, 0.6); }
-.strip__lang:focus-visible, .strip__logout:focus-visible, .strip__me:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+.strip__lang:focus-visible, .strip__logout:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
 
 /* ---------- phone ---------- */
 .phone { display: flex; flex-direction: column; height: 100dvh; }
 .phone .strip { gap: 8px; }
-.strip__me {
-  width: 26px; height: 26px; border: 1px solid rgba(255, 255, 255, 0.7); background: none; color: #fff;
-  font: 600 11px/1 'IBM Plex Sans', sans-serif; cursor: pointer;
-}
 .scroller { flex: 1; min-height: 0; overflow: auto; background: var(--qv-canvas); }
 .page-body { padding: 0 14px 14px; }
 .bottom-nav {

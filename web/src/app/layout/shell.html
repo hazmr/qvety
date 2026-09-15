@@ -4,8 +4,6 @@
     <header class="strip">
       <img src="brand/mark-white.svg" alt="" class="strip__mark" />
       <span class="strip__name">{{ auth.practiceName() ?? ('app.name' | transloco) }}</span>
-      <span class="strip__spacer"></span>
-      <button type="button" class="strip__me" (click)="meOpen.set(true)" [attr.aria-label]="auth.user()?.fullName">{{ initials() }}</button>
     </header>
     <main class="scroller">
       <div class="page-body">

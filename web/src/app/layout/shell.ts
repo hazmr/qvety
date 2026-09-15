@@ -13,7 +13,7 @@ interface NavItem { link: string; labelKey: string; icon: string; adminOnly?: bo
 
 /**
  * The frame. Phone (< 768 px): 32 px brand strip, one scroller, 60 px bottom nav (hidden while a screen
- * shows an action bar), "Me" sheet from the initials. Desktop: 32 px header strip plus a 196 px sidebar
+ * shows an action bar), "Me" sheet from the Me nav cell. Desktop: 32 px header strip plus a 196 px sidebar
  * that collapses to the mark. docs/design/frontend.md "Application chrome" and docs/design/MOBILE.md.
  */
 @Component({
@@ -33,11 +33,10 @@ export class Shell {
   private readonly allItems: NavItem[] = [
     { link: '/', labelKey: 'app.home', icon: 'home', exact: true },
     { link: '/clients', labelKey: 'app.clients', icon: 'team' },
-    { link: '/settings/users', labelKey: 'app.users', icon: 'setting', adminOnly: true },
+    { link: '/settings/users', labelKey: 'app.settings', icon: 'setting', adminOnly: true },
   ];
   readonly items = computed(() => this.allItems.filter((i) => !i.adminOnly || this.auth.isAdmin()));
-  readonly initials = computed(() => initialsOf(this.auth.user()?.fullName ?? ''));
-  /** Nav label for the Me cell: the first word of the name, or the generic label while loading. */
+  /** Nav label for the Me cell: the first two words of the name, or the generic label while loading. */
   readonly firstName = computed(() => (this.auth.user()?.fullName ?? '').trim().split(/\s+/).filter(Boolean).slice(0, 2).join(' ') || this.t.translate('app.me'));
 
   toggleLanguage(): void {
@@ -47,7 +46,3 @@ export class Shell {
   }
 }
 
-/** First letter of the first two words; works for Arabic and Latin names. */
-function initialsOf(name: string): string {
-  return name.trim().split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('');
-}

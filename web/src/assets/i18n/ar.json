@@ -2,7 +2,7 @@
   "app": {
     "name": "كيوفيتي",
     "home": "الرئيسية",
-    "users": "المستخدمون",
+    "settings": "الإعدادات",
     "logout": "تسجيل الخروج",
     "language": "English",
     "loggedInAs": "مسجّل الدخول باسم {{name}} ({{role}})",

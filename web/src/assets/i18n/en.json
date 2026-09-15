@@ -2,7 +2,7 @@
   "app": {
     "name": "Qvety",
     "home": "Home",
-    "users": "Users",
+    "settings": "Settings",
     "logout": "Log out",
     "language": "العربية",
     "loggedInAs": "Logged in as {{name}} ({{role}})",
