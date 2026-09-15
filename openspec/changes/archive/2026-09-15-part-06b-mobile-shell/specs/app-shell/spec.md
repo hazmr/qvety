@@ -16,7 +16,7 @@ The application SHALL render a single phone layout when the viewport is narrower
 - **THEN** the desktop layout is shown: a 32 px header strip and a 196 px sidebar holding the navigation, collapsible to the mark
 
 ### Requirement: Phone skeleton
-On phone every screen SHALL be a column of: a 32 px brand strip (primary fill, white mark, clinic name); a 48 px title bar with the page name and at most one action; an optional filter or tab row with 44 px cells; exactly one scrolling region; and either a 60 px bottom navigation bar or a 48 px action bar, never both. The last bottom-navigation cell ("Me": user icon, first name) SHALL open a sheet with the user's name, the language switch, and logout. Brand strip and title bar SHALL NOT scroll. The bottom element SHALL respect `env(safe-area-inset-bottom)`.
+On phone every screen SHALL be a column of: a 32 px brand strip (primary fill, white mark, clinic name); a 48 px title bar with the page name and at most one action; an optional filter or tab row with 44 px cells; exactly one scrolling region; and either a 60 px bottom navigation bar or a 48 px action bar, never both. Brand strip and title bar SHALL NOT scroll. The bottom element SHALL respect `env(safe-area-inset-bottom)`.
 
 #### Scenario: Top-level screen
 - **WHEN** a top-level destination (home, clients, users) is open on phone
@@ -25,6 +25,13 @@ On phone every screen SHALL be a column of: a 32 px brand strip (primary fill, w
 #### Scenario: Detail screen
 - **WHEN** a detail screen (client record) is open on phone
 - **THEN** the title bar shows a back chevron and the screen's actions sit in a 48 px action bar at the bottom, with no bottom navigation
+
+### Requirement: Me sheet from the bottom navigation
+The last bottom-navigation cell ("Me": user icon, the user's first name) SHALL open a sheet holding the user's full name, the language switch, and logout. No other phone entry point to logout is required.
+
+#### Scenario: Logout on phone
+- **WHEN** a user taps the Me cell at 390 px
+- **THEN** a bottom sheet shows their name, a language switch, and a logout action
 
 ### Requirement: Lists are stacked rows on phone
 On phone, lists SHALL NOT use a data table. Each row SHALL stack its fields (title at 15 px / 600, secondary line at 13 px muted, optional trailing tag), have a minimum height of 44 px, and be separated by 1 px rules. Search and paging SHALL keep working.
