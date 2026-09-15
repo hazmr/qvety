@@ -20,6 +20,10 @@
             <span class="bottom-nav__label">{{ item.labelKey | transloco }}</span>
           </a>
         }
+        <button type="button" class="bottom-nav__cell" [class.is-active]="meOpen()" (click)="meOpen.set(true)">
+          <nz-icon nzType="user" class="bottom-nav__icon" />
+          <span class="bottom-nav__label">{{ firstName() }}</span>
+        </button>
       </nav>
     }
     <nz-drawer [nzVisible]="meOpen()" nzPlacement="bottom" [nzClosable]="false" [nzHeight]="'auto'" nzWrapClassName="me-sheet" (nzOnClose)="meOpen.set(false)">

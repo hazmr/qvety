@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -26,6 +26,7 @@ export class Shell {
   readonly auth = inject(AuthService);
   readonly locale = inject(LocaleService);
   readonly viewport = inject(ViewportService);
+  private readonly t = inject(TranslocoService);
   readonly today = new Date();
   readonly meOpen = signal(false);
 
@@ -36,6 +37,8 @@ export class Shell {
   ];
   readonly items = computed(() => this.allItems.filter((i) => !i.adminOnly || this.auth.isAdmin()));
   readonly initials = computed(() => initialsOf(this.auth.user()?.fullName ?? ''));
+  /** Nav label for the Me cell: the first word of the name, or the generic label while loading. */
+  readonly firstName = computed(() => (this.auth.user()?.fullName ?? '').trim().split(/\s+/).filter(Boolean).slice(0, 2).join(' ') || this.t.translate('app.me'));
 
   toggleLanguage(): void {
     const next = this.locale.other();

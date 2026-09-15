@@ -43,6 +43,8 @@ Phone template branch: `teal-soft` full-bleed ground, `lockup-stacked-white.svg`
 - Brand strip shows the practice name (`AuthService.practiceName`, loaded once after login), app name only as a fallback.
 - Phone buttons are `inline-flex` centred so any min-height keeps the label vertically centred.
 
+- Bottom nav has a fourth "Me" cell (user icon, the user's first name) that opens the Me sheet; the strip's initials chip does the same. Owner feedback: the name must be visible and logout reachable without guessing. Cells follow canvas screen 09 (3 px active bar overlapping the rule, 10 px labels).
+
 ## Checks
 
 Playwright walkthrough at 1280 × 800, 390 × 780, 360 × 780 in `ar` and `en`: no horizontal overflow (`document.documentElement.scrollWidth <= innerWidth`), inputs ≥ 52 px on phone, buttons ≥ 44 px, bottom nav present on top-level, action bar present on detail, never both.

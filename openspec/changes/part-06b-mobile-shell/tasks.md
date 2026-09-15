@@ -23,4 +23,4 @@
 ## 5. Close
 - [x] 5.1 `docs/design/frontend.md` "Application chrome" notes the phone variant (pointer to MOBILE.md)
 - [x] 5.2 `progress.md` entry
-- [ ] 5.3 Commit
+- [x] 5.3 Commit
