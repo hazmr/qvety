@@ -22,7 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestClient;
 
-/** Part 06: clients CRUD, paging, archive, duplicate warnings, error shape, and the tenant boundary. */
+/** Part 06: clients CRUD, paging, archive, duplicate warnings, error shape, and the tenant boundary. Part 07: folded search. */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(TestcontainersConfig.class)
 @ActiveProfiles("test")
@@ -151,6 +151,78 @@ class ClientIT {
             .contentType(MediaType.APPLICATION_JSON).body(Map.of("fullName", "T", "phone", "+201000000000"))
             .retrieve().toEntity(String.class);
         assertThat(write.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+    }
+
+    // ---- part 07: folded search, E.164 phones ----------------------------------------------------
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void searchFoldsArabicSpelling() {
+        var desk = login(api(), DESK, PASSWORD);
+        var created = api().post().uri("/api/v1/clients").header("Authorization", "Bearer " + desk)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("fullName", "أحمد محمد", "phone", "+201099990007"))
+            .retrieve().toEntity(Map.class);
+        assertThat(created.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        var id = (String) ((Map<String, Object>) created.getBody().get("client")).get("id");
+
+        // bare alef finds hamza; the row is shown as typed
+        var found = api().get().uri(b -> b.path("/api/v1/clients").queryParam("q", "{q}").build("احمد"))
+            .header("Authorization", "Bearer " + desk).retrieve().body(Map.class);
+        var rows = (List<Map<String, Object>>) found.get("content");
+        assertThat(rows).extracting(c -> c.get("id")).contains(id, SEEDED_AHMED);
+        assertThat(rows).filteredOn(c -> id.equals(c.get("id"))).extracting(c -> c.get("fullName")).containsExactly("أحمد محمد");
+
+        // diacritics and ta marbuta fold the same way; seeded Fatma is فاطمة السيد إبراهيم
+        var fatma = api().get().uri(b -> b.path("/api/v1/clients").queryParam("q", "{q}").build("فاطمه"))
+            .header("Authorization", "Bearer " + desk).retrieve().body(Map.class);
+        assertThat((List<Map<String, Object>>) fatma.get("content")).extracting(c -> c.get("id"))
+            .contains("00000000-0000-7000-8000-000000000302");
+
+        // variant spelling is a duplicate warning, not a block
+        var variant = api().post().uri("/api/v1/clients").header("Authorization", "Bearer " + desk)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("fullName", "احمد محمد", "email", "variant@clients.example.com"))
+            .retrieve().toEntity(Map.class);
+        assertThat(variant.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat((List<Map<String, Object>>) variant.getBody().get("warnings")).extracting(w -> w.get("id")).contains(id);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void phoneShapesMatchOneClient() {
+        var desk = login(api(), DESK, PASSWORD);
+        var created = api().post().uri("/api/v1/clients").header("Authorization", "Bearer " + desk)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("fullName", "Phone Shapes", "phone", "0100 999 0008"))
+            .retrieve().toEntity(Map.class);
+        assertThat(created.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        var saved = (Map<String, Object>) created.getBody().get("client");
+        var id = (String) saved.get("id");
+        assertThat(saved).containsEntry("phone", "0100 999 0008");   // shown as typed
+
+        for (var shape : List.of("01009990008", "+201009990008", "0100 999 0008", "00201009990008")) {
+            var r = api().get().uri(b -> b.path("/api/v1/clients").queryParam("q", "{q}").build(shape))
+                .header("Authorization", "Bearer " + desk).retrieve().body(Map.class);
+            assertThat((List<Map<String, Object>>) r.get("content")).as(shape).extracting(c -> c.get("id")).containsExactly(id);
+        }
+
+        // the secondary phone is searchable too, and a typed duplicate of it warns
+        var second = api().post().uri("/api/v1/clients").header("Authorization", "Bearer " + desk)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("fullName", "Second Line", "phone", "+201099990009", "phoneSecondary", "01009990008"))
+            .retrieve().toEntity(Map.class);
+        assertThat(second.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat((List<Map<String, Object>>) second.getBody().get("warnings")).extracting(w -> w.get("id")).contains(id);
+
+        // missing trunk zero is rejected on the phone field
+        var invalid = api().post().uri("/api/v1/clients").header("Authorization", "Bearer " + desk)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("fullName", "Bad Phone", "phone", "1012345678"))
+            .retrieve().toEntity(Map.class);
+        assertThat(invalid.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(invalid.getBody()).containsEntry("code", "phone.invalid");
+        assertThat((Map<String, String>) invalid.getBody().get("fields")).containsKey("phone");
     }
 
     @Test

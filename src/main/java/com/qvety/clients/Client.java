@@ -9,7 +9,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/** The pet owner. Archived, never deleted. Phones are stored as typed until part 07 adds the E.164 columns. */
+/**
+ * The pet owner. Archived, never deleted. full_name and the phones stay as typed; the folded and E.164
+ * columns beside them are set by the service on every save and never shown.
+ */
 @Entity
 @Table(name = "clients")
 @Getter
@@ -20,14 +23,23 @@ public class Client extends TenantEntity {
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
+    @Column(name = "full_name_normalized", nullable = false)
+    private String fullNameNormalized;
+
     @Column(name = "preferred_name")
     private String preferredName;
 
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "phone_e164")
+    private String phoneE164;
+
     @Column(name = "phone_secondary")
     private String phoneSecondary;
+
+    @Column(name = "phone_secondary_e164")
+    private String phoneSecondaryE164;
 
     @Column(name = "email")
     private String email;

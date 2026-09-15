@@ -45,7 +45,8 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(DomainException.class)
     ResponseEntity<ApiError> domain(DomainException e) {
-        return ResponseEntity.status(e.status()).body(new ApiError(e.code(), text(e.code()), null));
+        var fields = e.field() == null ? null : Map.of(e.field(), text(e.code()));
+        return ResponseEntity.status(e.status()).body(new ApiError(e.code(), text(e.code()), fields));
     }
 
     /** Two edits raced (two tabs, two people): the second one loses and reloads. */

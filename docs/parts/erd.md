@@ -255,7 +255,7 @@ erDiagram
         uuid id PK
         uuid practice_id FK
         varchar full_name "Egyptian name chain"
-        varchar full_name_normalized "NFC, alef fold, no tashkeel; trgm index"
+        varchar full_name_normalized "TextNormalizer fold, not null; trgm + btree index"
         varchar preferred_name
         varchar phone "as typed"
         varchar phone_e164 "+20..."
@@ -720,3 +720,4 @@ Applied migrations, in order. The tables above are the target; this list is what
 | `V3__rls.sql` | 04 | role `qvety_app`; `current_practice_id()`, `current_user_id()`; `audit_action` enum, `audit_log`; `audit_row()` trigger function; `tenant_table_setup(regclass)` (RLS + policy + grants + audit trigger, one call per tenant table); `login_lookup(text)` definer function (the only cross-tenant read); RLS on `users`, `audit_log`, `practices` with column-level `UPDATE` grant |
 | `V4__user_locale.sql` | 05 | `users.locale` (`ar-EG` default, check `ar-EG|en-EG`) |
 | `V5__clients.sql` | 06 | `clients` (reachable check, unique `(id, practice_id)`, name and phone indexes) via `tenant_table_setup()`; `users.version` for the shared base entity |
+| `V6__search.sql` | 07 | `pg_trgm`; `clients.full_name_normalized` (not null), `clients.phone_e164`, `clients.phone_secondary_e164` with a rough SQL backfill; trigram GIN on the folded name, btree on `(practice_id, folded name)` and on each E.164 column; part 06 raw-column indexes dropped |

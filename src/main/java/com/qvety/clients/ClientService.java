@@ -1,18 +1,24 @@
 package com.qvety.clients;
 
 import com.qvety.common.DomainException;
+import com.qvety.common.PhoneNormalizer;
+import com.qvety.common.TextNormalizer;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Everyone reads; front desk and admin write. Rules: reachable (phone or email), archived is final for
- * edits, duplicates warn but never block. Cross-tenant ids are invisible under RLS and answer 404.
+ * Everyone reads; front desk and admin write. Rules: reachable (phone or email), phones must parse as
+ * Egyptian numbers, archived is final for edits, duplicates warn but never block. Search, duplicates and
+ * name sorting run on the folded name and E.164 phones (docs/domain/search-and-normalization.md).
+ * Cross-tenant ids are invisible under RLS and answer 404.
  */
 @Service
 public class ClientService {
@@ -28,8 +34,26 @@ public class ClientService {
     @PreAuthorize("isAuthenticated()")
     @Transactional(readOnly = true)
     public Page<ClientDto> list(String q, Pageable pageable) {
-        var page = q == null || q.isBlank() ? clients.findByArchivedAtIsNull(pageable) : clients.search(q.trim(), pageable);
-        return page.map(mapper::toDto);
+        return search(q, pageable).map(mapper::toDto);
+    }
+
+    private Page<Client> search(String q, Pageable pageable) {
+        if (q == null || q.isBlank()) {
+            return clients.findByArchivedAtIsNull(foldedSort(pageable));
+        }
+        var phone = PhoneNormalizer.toE164(q);
+        if (phone.isPresent()) {
+            return clients.searchByPhone(phone.get(), foldedSort(pageable));
+        }
+        // the native query orders by similarity itself; a sort on the Pageable would be appended after it
+        return clients.searchByName(TextNormalizer.fold(q), PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+    }
+
+    /** Sorting by name means the folded name, so "أحمد" and "احمد" sit together; other properties pass through. */
+    private static Pageable foldedSort(Pageable pageable) {
+        var sort = Sort.by(pageable.getSort().stream()
+            .map(o -> o.getProperty().equals("fullName") ? o.withProperty("fullNameNormalized") : o).toList());
+        return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -45,6 +69,7 @@ public class ClientService {
         requireReachable(normalized);
         var client = new Client();
         mapper.apply(normalized, client);
+        fold(client);
         var saved = clients.saveAndFlush(client);
         return new ClientSavedDto(mapper.toDto(saved), warnings(saved));
     }
@@ -62,6 +87,7 @@ public class ClientService {
             throw DomainException.conflict("stale_update");
         }
         mapper.apply(normalized, client);
+        fold(client);
         var saved = clients.saveAndFlush(client);
         return new ClientSavedDto(mapper.toDto(saved), warnings(saved));
     }
@@ -94,8 +120,23 @@ public class ClientService {
         }
     }
 
+    /** The stored search columns: folded name, E.164 phones. Typed values stay on the row as typed. */
+    private static void fold(Client c) {
+        c.setFullNameNormalized(TextNormalizer.fold(c.getFullName()));
+        c.setPhoneE164(toE164(c.getPhone(), "phone"));
+        c.setPhoneSecondaryE164(toE164(c.getPhoneSecondary(), "phoneSecondary"));
+    }
+
+    private static String toE164(String typed, String field) {
+        if (typed == null) {
+            return null;
+        }
+        return PhoneNormalizer.toE164(typed).orElseThrow(() -> DomainException.badRequest("phone.invalid", field));
+    }
+
     private List<ClientDto> warnings(Client saved) {
-        return clients.findDuplicateCandidates(saved.getFullName(), saved.getPhone(), saved.getId())
+        return clients.findDuplicateCandidates(saved.getFullNameNormalized(), saved.getPhoneE164(),
+                saved.getPhoneSecondaryE164(), saved.getId())
             .stream().map(mapper::toDto).toList();
     }
 

@@ -213,6 +213,13 @@ class TenantIsolationIT {
             .header("If-Match", "0").contentType(MediaType.APPLICATION_JSON)
             .body(Map.of("fullName", "Hijacked", "phone", "+201000000000")).retrieve().toEntity(String.class);
         assertThat(editB.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+
+        // part 07: neither search branch (folded name, E.164 phone) crosses the boundary
+        for (var q : List.of("احمد", "+201011111101", "01011111101")) {
+            var searchB = client(port).get().uri(u -> u.path("/api/v1/clients").queryParam("q", "{q}").build(q))
+                .header("Authorization", "Bearer " + tokenB).retrieve().body(Map.class);
+            assertThat((List<?>) searchB.get("content")).as(q).isEmpty();
+        }
     }
 
     // ---- 4.5 practice row change is audited under its own id -------------------------------------

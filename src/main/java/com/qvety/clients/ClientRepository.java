@@ -14,25 +14,39 @@ public interface ClientRepository extends JpaRepository<Client, UUID> {
     Page<Client> findByArchivedAtIsNull(Pageable pageable);
 
     /**
-     * Part 06 search: case-insensitive substring on the name or exact phone/email. Part 07 replaces it
-     * with the normalized columns and trigram similarity.
+     * Name branch: substring or trigram match on the folded name, best match first. `%` is the pg_trgm
+     * similarity operator (threshold `pg_trgm.similarity_threshold`, default 0.3) and, unlike
+     * `similarity(...) > 0.3`, it uses the GIN index. Exact email kept from part 06. Native because
+     * JPQL has neither ILIKE nor the operator; the Pageable must carry no sort.
      */
+    @Query(value = """
+        SELECT * FROM clients
+        WHERE archived_at IS NULL
+          AND (full_name_normalized ILIKE '%' || :q || '%' OR full_name_normalized % :q OR email = :q)
+        ORDER BY similarity(full_name_normalized, :q) DESC, full_name_normalized
+        """, countQuery = """
+        SELECT count(*) FROM clients
+        WHERE archived_at IS NULL
+          AND (full_name_normalized ILIKE '%' || :q || '%' OR full_name_normalized % :q OR email = :q)
+        """, nativeQuery = true)
+    Page<Client> searchByName(@Param("q") String q, Pageable pageable);
+
+    /** Phone branch: the search term parsed as E.164, matched against either phone column. */
     @Query("""
         SELECT c FROM Client c
-        WHERE c.archivedAt IS NULL
-          AND (lower(c.fullName) LIKE lower(concat('%', :q, '%'))
-               OR c.phone = :q OR c.phoneSecondary = :q OR lower(c.email) = lower(:q))
+        WHERE c.archivedAt IS NULL AND (c.phoneE164 = :e164 OR c.phoneSecondaryE164 = :e164)
         """)
-    Page<Client> search(@Param("q") String q, Pageable pageable);
+    Page<Client> searchByPhone(@Param("e164") String e164, Pageable pageable);
 
-    /** Duplicate candidates: same phone in either column, or the same name after trim and case fold. */
+    /** Duplicate candidates: any of the saved E.164 phones in either column, or the same folded name. */
     @Query("""
         SELECT c FROM Client c
         WHERE c.archivedAt IS NULL
           AND (c.id <> :excludeId OR :excludeId IS NULL)
-          AND ((:phone IS NOT NULL AND (c.phone = :phone OR c.phoneSecondary = :phone))
-               OR lower(trim(c.fullName)) = lower(trim(:fullName)))
+          AND ((:phone IS NOT NULL AND (c.phoneE164 = :phone OR c.phoneSecondaryE164 = :phone))
+               OR (:phone2 IS NOT NULL AND (c.phoneE164 = :phone2 OR c.phoneSecondaryE164 = :phone2))
+               OR c.fullNameNormalized = :name)
         """)
-    List<Client> findDuplicateCandidates(@Param("fullName") String fullName, @Param("phone") String phone,
-                                         @Param("excludeId") UUID excludeId);
+    List<Client> findDuplicateCandidates(@Param("name") String fullNameNormalized, @Param("phone") String phoneE164,
+                                         @Param("phone2") String phoneSecondaryE164, @Param("excludeId") UUID excludeId);
 }
