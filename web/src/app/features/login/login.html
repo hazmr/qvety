@@ -27,7 +27,20 @@
         <input nz-input id="password" type="password" formControlName="password" autocomplete="current-password" dir="ltr" class="ltr-field" />
       </nz-form-control>
     </nz-form-item>
-    <button nz-button nzType="primary" nzBlock [nzLoading]="busy()" type="submit" class="login__submit">{{ 'login.submit' | transloco }}</button>
+    @if (practices(); as list) {
+      <p class="login__choose">{{ 'login.choosePractice' | transloco }}</p>
+      <ul class="rows login__practices">
+        @for (p of list; track p.id) {
+          <li class="row" role="button" tabindex="0" [attr.aria-disabled]="busy()" (click)="choose(p)" (keydown.enter)="choose(p)">
+            <span class="row__text"><span class="row__title">{{ p.name }}</span></span>
+            <nz-icon nzType="right" class="mirror-rtl" />
+          </li>
+        }
+      </ul>
+      <button type="button" class="login__lang login__back" (click)="cancelChoice()">{{ 'login.chooseOther' | transloco }}</button>
+    } @else {
+      <button nz-button nzType="primary" nzBlock [nzLoading]="busy()" type="submit" class="login__submit">{{ 'login.submit' | transloco }}</button>
+    }
     @if (viewport.isPhone()) {
       <div class="login__footer">
         <button type="button" class="login__lang" (click)="toggleLanguage()">{{ 'app.language' | transloco }}</button>

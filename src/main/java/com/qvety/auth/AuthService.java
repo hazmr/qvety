@@ -6,6 +6,9 @@ import com.qvety.users.UserMapper;
 import com.qvety.common.PhoneNormalizer;
 import com.qvety.tenant.SystemContext;
 import com.qvety.users.UserRepository;
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -39,6 +42,10 @@ public class AuthService {
      * No tenant before login: the lookup runs in SystemContext through the definer function.
      * The identifier is an email (contains '@') or a phone normalized to E.164; a phone that does
      * not parse is treated as unknown (401), never as a validation error, so nothing is revealed.
+     *
+     * The same identifier may exist at several practices (unique per practice, not globally). Every
+     * active row is tried, in practice-id order so the result never depends on row order. One match:
+     * token. Several: the practice list, and the client calls again with practiceId. None: 401.
      */
     public LoginResponse login(LoginRequest request, String ip) {
         var identifier = normalizeIdentifier(request.identifier());
@@ -46,17 +53,30 @@ public class AuthService {
         if (wait > 0) {
             throw new TooManyLoginAttemptsException(wait);
         }
-        var user = identifier.isEmpty() ? null : SystemContext.call(() -> users.findForLogin(identifier).stream()
+        var candidates = identifier.isEmpty() ? List.<User>of() : SystemContext.call(() -> users.findForLogin(identifier).stream()
             .filter(User::isActive)
-            .findFirst()
-            .orElse(null));
-        var hash = user == null ? DUMMY_HASH : user.getPasswordHash();
-        if (user == null || !passwords.matches(request.password(), hash)) {
+            .filter(u -> request.practiceId() == null || u.getPracticeId().equals(request.practiceId()))
+            .sorted(Comparator.comparing(User::getPracticeId))
+            .toList());
+        // every hash is checked, and an unknown identifier still costs one bcrypt, so timing does not tell rows apart
+        var matches = candidates.stream().filter(u -> passwords.matches(request.password(), u.getPasswordHash())).toList();
+        if (candidates.isEmpty()) {
+            passwords.matches(request.password(), DUMMY_HASH);
+        }
+        if (matches.isEmpty()) {
             limiter.recordFailure(identifier, ip);
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "invalid_credentials");
         }
         limiter.recordSuccess(identifier);
-        return new LoginResponse(jwt.issue(user), mapper.toDto(user));
+        if (matches.size() == 1) {
+            var user = matches.getFirst();
+            return LoginResponse.loggedIn(jwt.issue(user), mapper.toDto(user));
+        }
+        var ids = matches.stream().map(User::getPracticeId).toArray(UUID[]::new);
+        var choices = SystemContext.call(() -> users.findLoginPractices(ids)).stream()
+            .map(p -> new PracticeChoice(p.getId(), p.getName()))
+            .toList();
+        return LoginResponse.choose(choices);
     }
 
     @Transactional(readOnly = true)
@@ -81,10 +101,10 @@ public class AuthService {
         user.setPasswordHash(passwords.encode(request.newPassword()));
         user.setMustChangePassword(false);
         user.revokeSessions();
-        return new LoginResponse(jwt.issue(user), mapper.toDto(user));
+        return LoginResponse.loggedIn(jwt.issue(user), mapper.toDto(user));
     }
 
-    /** Email lowercased, phone as E.164, or "" when it is neither (rate limited under the raw value's bucket). */
+    /** Email lowercased, phone as E.164, or "" when it is neither (all unparseable identifiers share one bucket; the IP bucket still counts). */
     private static String normalizeIdentifier(String raw) {
         var trimmed = raw == null ? "" : raw.trim();
         if (PhoneNormalizer.looksLikeEmail(trimmed)) {

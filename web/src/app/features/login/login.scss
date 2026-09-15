@@ -6,6 +6,10 @@
 .login__title { margin: 0; flex: 1; font-size: 20px; font-weight: 600; }
 .login__lang { background: none; border: 1px solid var(--qv-line); padding: 2px 8px; cursor: pointer; font: inherit; color: var(--qv-ink-muted); min-height: 32px; }
 .login__alert { margin-bottom: 16px; }
+.login__choose { margin: 0 0 8px; font-weight: 600; }
+.login__practices { margin-inline: 0; }
+.login__back { margin-top: 12px; min-height: 44px; }
+.login--phone .login__practices { margin-inline: -18px; }
 
 .login--phone {
   display: flex; flex-direction: column; justify-content: flex-end; min-height: 100dvh; padding: 0;

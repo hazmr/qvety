@@ -30,9 +30,12 @@ export class AuthService {
   readonly canWriteClients = computed(() => this.user()?.role === 'admin' || this.user()?.role === 'front_desk');
   readonly mustChangePassword = computed(() => this.user()?.mustChangePassword === true);
 
-  /** identifier: phone (any Egyptian shape) or email. */
-  login(identifier: string, password: string): Observable<LoginResponseDto> {
-    return this.authApi.login({ identifier, password }).pipe(tap((r) => this.accept(r)));
+  /**
+   * identifier: phone (any Egyptian shape) or email. When the password matches at several practices
+   * the response carries `practices` and no token; call again with the chosen practiceId.
+   */
+  login(identifier: string, password: string, practiceId?: string): Observable<LoginResponseDto> {
+    return this.authApi.login({ identifier, password, practiceId }).pipe(tap((r) => this.accept(r)));
   }
 
   changePassword(request: ChangePasswordRequestDto): Observable<LoginResponseDto> {
@@ -68,7 +71,9 @@ export class AuthService {
     }
   }
 
+  /** Only a response with a token logs the user in; a practice list leaves the state untouched. */
   private accept(r: LoginResponseDto): void {
+    if (!r.token || !r.user) { return; }
     this.tokenSignal.set(r.token);
     this.setUser(r.user);
     try { sessionStorage.setItem(TOKEN_KEY, r.token); } catch { /* storage unavailable */ }

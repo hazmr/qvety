@@ -19,7 +19,9 @@
     "submit": "Log in",
     "errorCredentials": "Wrong phone, email, or password.",
     "errorTooMany": "Too many attempts. Try again later.",
-    "errorGeneric": "Login failed."
+    "errorGeneric": "Login failed.",
+    "choosePractice": "Which clinic are you logging in to?",
+    "chooseOther": "Use another account"
   },
   "changePassword": {
     "title": "Change password",

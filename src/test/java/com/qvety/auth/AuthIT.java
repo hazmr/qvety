@@ -4,6 +4,7 @@ import static com.qvety.ApiTestSupport.ADMIN;
 import static com.qvety.ApiTestSupport.DESK;
 import static com.qvety.ApiTestSupport.DESK_PHONE;
 import static com.qvety.ApiTestSupport.PASSWORD;
+import static com.qvety.ApiTestSupport.PRACTICE_ID;
 import static com.qvety.ApiTestSupport.TECH;
 import static com.qvety.ApiTestSupport.VET;
 import static com.qvety.ApiTestSupport.client;
@@ -11,27 +12,68 @@ import static com.qvety.ApiTestSupport.login;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.qvety.TestcontainersConfig;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import org.testcontainers.postgresql.PostgreSQLContainer;
 import org.springframework.web.client.RestClient;
 
-/** Part 03: login, roles, the veterinarian flag, revocation, forced password change, rate limiting. */
+/**
+ * Part 03: login, roles, the veterinarian flag, revocation, forced password change, rate limiting.
+ * Part 03b: the same phone at several practices. Practices C and D each get a front-desk user with the
+ * seed desk phone; C with its own password, D with the seed password, so both branches are covered.
+ * D starts inactive so the part 03 tests keep a single match; the 03b tests activate it and put it back.
+ */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(TestcontainersConfig.class)
 @ActiveProfiles("test")
 class AuthIT {
 
+    static final String PRACTICE_C = "00000000-0000-7000-8000-000000000003";
+    static final String PRACTICE_D = "00000000-0000-7000-8000-000000000004";
+    static final String USER_C = "00000000-0000-7000-8000-000000000301";
+    static final String USER_D = "00000000-0000-7000-8000-000000000401";
+    static final String PASSWORD_C = "otherclinic99";
+
     @LocalServerPort
     int port;
+    @Autowired PostgreSQLContainer postgres;
+    @Autowired LoginRateLimiter limiter;
 
     RestClient api() {
         return client(port);
+    }
+
+    @BeforeAll
+    static void seedSamePhoneAtTwoMorePractices(@Autowired PostgreSQLContainer postgres, @Autowired PasswordEncoder encoder) throws SQLException {
+        try (var owner = DriverManager.getConnection(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword());
+             var st = owner.createStatement()) {
+            st.execute("""
+                INSERT INTO practices (id, name, country, currency, locale, timezone) VALUES
+                  ('%s', 'Third Clinic', 'EG', 'EGP', 'ar-EG', 'Africa/Cairo'),
+                  ('%s', 'Fourth Clinic', 'EG', 'EGP', 'ar-EG', 'Africa/Cairo')
+                ON CONFLICT (id) DO NOTHING
+                """.formatted(PRACTICE_C, PRACTICE_D));
+            st.execute("""
+                INSERT INTO users (id, practice_id, phone, password_hash, full_name, role, is_veterinarian, active) VALUES
+                  ('%s', '%s', '%s', '%s', 'Desk At C', 'front_desk', false, true),
+                  ('%s', '%s', '%s', '%s', 'Desk At D', 'front_desk', false, false)
+                ON CONFLICT (id) DO NOTHING
+                """.formatted(USER_C, PRACTICE_C, DESK_PHONE, encoder.encode(PASSWORD_C),
+                               USER_D, PRACTICE_D, DESK_PHONE, encoder.encode(PASSWORD)));
+        }
     }
 
     @Test
@@ -191,6 +233,89 @@ class AuthIT {
         assertThat(r.getHeaders().getFirst("Content-Security-Policy")).contains("default-src 'self'").contains("frame-ancestors 'none'");
         assertThat(r.getHeaders().getFirst("X-Content-Type-Options")).isEqualTo("nosniff");
         assertThat(r.getHeaders().getFirst("Referrer-Policy")).isEqualTo("strict-origin-when-cross-origin");
+    }
+
+    // ---- part 03b: the same phone at several practices ----------------------------------------------
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void samePhoneAtTwoPractices() throws SQLException {
+        // different password: the match names the practice, no picker
+        var c = attempt(DESK_PHONE, PASSWORD_C, null);
+        assertThat(c.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(c.getBody()).containsKey("token").doesNotContainKey("practices");
+        assertThat(practiceName((String) c.getBody().get("token"))).isEqualTo("Third Clinic");
+
+        // D inactive: only A matches the shared password, so a token without a picker
+        var onlyA = attempt(DESK_PHONE, PASSWORD, null);
+        assertThat(onlyA.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(onlyA.getBody()).containsKey("token").doesNotContainKey("practices");
+
+        setActive(USER_D, true);
+        try {
+            // same password at A and D: the practice list, no token
+            var pick = attempt(DESK_PHONE, PASSWORD, null);
+            assertThat(pick.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(pick.getBody()).doesNotContainKey("token").doesNotContainKey("user");
+            var practices = (List<Map<String, Object>>) pick.getBody().get("practices");
+            assertThat(practices).extracting(p -> p.get("id")).containsExactlyInAnyOrder(PRACTICE_ID, PRACTICE_D);
+            assertThat(practices).extracting(p -> p.get("name")).contains("Fourth Clinic");
+
+            // chosen practice: a token for that practice only
+            var chosen = attempt(DESK_PHONE, PASSWORD, PRACTICE_D);
+            assertThat(chosen.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(practiceName((String) chosen.getBody().get("token"))).isEqualTo("Fourth Clinic");
+
+            // practiceId never widens: C's row does not match this password, B has no such user
+            assertThat(attempt(DESK_PHONE, PASSWORD, PRACTICE_C).getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+            assertThat(attempt(DESK_PHONE, PASSWORD, "00000000-0000-7000-8000-000000000002").getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+
+            // wrong password everywhere: 401 and no list
+            var wrong = attempt(DESK_PHONE, "wrong-everywhere", null);
+            assertThat(wrong.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
+            assertThat(wrong.getBody()).doesNotContainKey("practices");
+        } finally {
+            setActive(USER_D, false);
+        }
+    }
+
+    @Test
+    void practiceListResetsTheIdentifierBucket() throws SQLException {
+        var ip = "10.0.0.1";   // a fake address: the shared 127.0.0.1 bucket stays untouched
+        for (int i = 0; i < 9; i++) limiter.recordFailure(DESK_PHONE, ip);
+        assertThat(limiter.retryAfterSeconds(DESK_PHONE, ip)).isZero();
+
+        setActive(USER_D, true);
+        try {
+            var pick = attempt(DESK_PHONE, PASSWORD, null);
+            assertThat(pick.getBody()).containsKey("practices");   // correct password, choice pending
+        } finally {
+            setActive(USER_D, false);
+        }
+
+        for (int i = 0; i < 9; i++) limiter.recordFailure(DESK_PHONE, ip);
+        assertThat(limiter.retryAfterSeconds(DESK_PHONE, ip)).isZero();   // 18 failures would be locked without the reset
+        limiter.recordSuccess(DESK_PHONE);
+    }
+
+    @SuppressWarnings("unchecked")
+    private org.springframework.http.ResponseEntity<Map> attempt(String identifier, String password, String practiceId) {
+        Map<String, Object> body = new java.util.HashMap<>(Map.of("identifier", identifier, "password", password));
+        if (practiceId != null) body.put("practiceId", practiceId);
+        return api().post().uri("/api/v1/auth/login").contentType(MediaType.APPLICATION_JSON)
+            .body(body).retrieve().toEntity(Map.class);
+    }
+
+    private String practiceName(String token) {
+        var r = api().get().uri("/api/v1/practice").header("Authorization", "Bearer " + token).retrieve().toEntity(Map.class);
+        return (String) r.getBody().get("name");
+    }
+
+    private void setActive(String userId, boolean active) throws SQLException {
+        try (var owner = DriverManager.getConnection(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword());
+             var st = owner.createStatement()) {
+            st.execute("UPDATE users SET active = %s WHERE id = '%s'".formatted(active, userId));
+        }
     }
 
     private HttpStatus probe(String token) {

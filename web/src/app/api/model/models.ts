@@ -8,6 +8,7 @@ export * from './loginResponse';
 export * from './pageMetadata';
 export * from './pagedModelAuditEntry';
 export * from './pagedModelClient';
+export * from './practiceChoice';
 export * from './practice';
 export * from './practiceUpdateRequest';
 export * from './resetPasswordRequest';

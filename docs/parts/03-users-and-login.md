@@ -39,6 +39,8 @@ Table `users`: `id`, `practice_id` (fk practices), `email`, `password_hash`, `fu
 
 Endpoints: `POST /api/v1/auth/login` `{email, password}` → `{token, user}`. `GET /api/v1/me`. `POST /api/v1/me/password` `{current, new}` (bumps `session_version`, returns a fresh token). Admin only: `GET/POST /api/v1/users`, `PUT /api/v1/users/{id}`, `POST /api/v1/users/{id}/deactivate`, `POST /api/v1/users/{id}/reset-password` (sets a temporary password, sets `must_change_password`, bumps `session_version`). Delete the `X-Practice-Id` header hack from part 02; the practice now comes from the token.
 
+Part 03b, after part 07: the same phone or email may exist at two practices (unique per practice, not globally), so login tries the password against every active matching row. One match issues the token. Several matches (same person, same password at both clinics) return `{practices: [{id, name}]}` and no token; the client shows a picker and posts again with `practiceId`, which only narrows the verified match. Practice names come from `login_practices(uuid[])` (`V7`), a definer function called after the password matched, the second and last cross-tenant read. Zero matches stay 401, so nothing about where an identifier exists is revealed.
+
 Also admin only: `PUT /api/v1/practice` for the practice's own identity columns from part 02 (`name`, `address`, `phone`, `vat_number`, `tax_rate_percent`). Country, currency, and status are not in the request record; MapStruct ignores them.
 
 Decision recorded here: no `viewer` (read-only) role. Four roles cover an Egyptian clinic. Add a fifth only when a clinic names a person who needs it.

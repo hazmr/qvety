@@ -19,7 +19,9 @@
     "submit": "تسجيل الدخول",
     "errorCredentials": "رقم الهاتف أو البريد أو كلمة المرور غير صحيحة.",
     "errorTooMany": "محاولات كثيرة. حاول مرة أخرى لاحقًا.",
-    "errorGeneric": "تعذّر تسجيل الدخول."
+    "errorGeneric": "تعذّر تسجيل الدخول.",
+    "choosePractice": "إلى أي عيادة تريد الدخول؟",
+    "chooseOther": "استخدام حساب آخر"
   },
   "changePassword": {
     "title": "تغيير كلمة المرور",

@@ -704,7 +704,7 @@ erDiagram
 | One payment per attempt | Unique `(practice_id, idempotency_key)` |
 | Subscription and clinic money never mixed | Separate tables, separate zones, no FK between them |
 | Unknown country rejected | Check constraint on `practices.country` |
-| Login before a tenant is known | `login_lookup(email)` is `SECURITY DEFINER`; no other path reads across practices |
+| Login before a tenant is known | `login_lookup(identifier)` and `login_practices(uuid[])` are `SECURITY DEFINER`; the second returns practice id and name only and runs after the password matched; no other path reads across practices |
 | New tenant table cannot skip the lists | `tenant_table_setup()` does RLS, policy, grants, and trigger in one call; `TenantIsolationIT` derives the expected set from `information_schema` (every table with `practice_id`) |
 | Practice cannot change its own status | Column-level `UPDATE` grant on `practices` for `qvety_app`: identity columns only |
 | Invoice numbers gapless | `invoice_counters` row locked in the issue transaction; `number` set once, unique per practice |
@@ -721,3 +721,4 @@ Applied migrations, in order. The tables above are the target; this list is what
 | `V4__user_locale.sql` | 05 | `users.locale` (`ar-EG` default, check `ar-EG|en-EG`) |
 | `V5__clients.sql` | 06 | `clients` (reachable check, unique `(id, practice_id)`, name and phone indexes) via `tenant_table_setup()`; `users.version` for the shared base entity |
 | `V6__search.sql` | 07 | `pg_trgm`; `clients.full_name_normalized` (not null), `clients.phone_e164`, `clients.phone_secondary_e164` with a rough SQL backfill; trigram GIN on the folded name, btree on `(practice_id, folded name)` and on each E.164 column; part 06 raw-column indexes dropped |
+| `V7__login_practices.sql` | 03b | `login_practices(uuid[])` definer function: practice id and name for the login picker when the same phone or email exists at several practices |

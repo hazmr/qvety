@@ -20,6 +20,20 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query(value = "SELECT * FROM login_lookup(:identifier)", nativeQuery = true)
     List<User> findForLogin(@Param("identifier") String identifier);
 
+    /**
+     * Practice id and name for the login picker (part 03b). Goes through the definer function
+     * login_practices() because practices is under RLS and no tenant is set yet. Called only with the
+     * ids of rows whose password already matched.
+     */
+    @Query(value = "SELECT id, name FROM login_practices(:ids)", nativeQuery = true)
+    List<LoginPractice> findLoginPractices(@Param("ids") UUID[] ids);
+
+    /** Projection for {@link #findLoginPractices}. */
+    interface LoginPractice {
+        UUID getId();
+        String getName();
+    }
+
     List<User> findByPracticeIdOrderByFullName(UUID practiceId);
 
     Optional<User> findByIdAndPracticeId(UUID id, UUID practiceId);

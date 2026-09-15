@@ -70,6 +70,8 @@ Two sources: features the previous Qvety system had and this rewrite drops on pu
 | File replicas to a second object store | One MinIO plus nightly `pg_dump` and bucket sync | `file_object_replicas`, replica lease and verification |
 | Usage metering and plan limits enforced (`max_users`, `storage_gb`) | Limits are on `plan_versions` but not enforced; enforce when a clinic hits one | check on user create, check on upload |
 | Public REST API with API keys and signed webhooks for integrators | No integrator yet | `api_keys`, `webhooks`, scopes, rate limit per key |
+| One identity with many practice memberships (`identities` plus `practice_members`) | Part 03b tries the password against every practice's row and asks when several match; that covers a vet at two clinics. The split means one password everywhere and a picker on every login | new tables, login rewrite, RLS on memberships, `users` refactor, every auth test |
+| Remember the last chosen practice on the device | Only matters when the same password is used at two clinics; one extra tap today | `localStorage` key, skip the picker when the remembered practice is in the list |
 | Optional MFA (TOTP, recovery codes) | Small staff, short sessions; add when a clinic with many users asks | columns on `users`, enrol and verify flows |
 | Demo/sample data per new practice with "remove sample data" | Seed per country (part 09) is the starter; sample pets are marketing | flag on rows, delete path that respects append-only |
 | In-app guided tours | Later | frontend only |

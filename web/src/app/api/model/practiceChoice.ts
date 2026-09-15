@@ -7,13 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { UserDto } from './user';
-import { PracticeChoiceDto } from './practiceChoice';
 
 
-export interface LoginResponseDto { 
-    token?: string;
-    user?: UserDto;
-    practices?: Array<PracticeChoiceDto>;
+export interface PracticeChoiceDto { 
+    id: string;
+    name: string;
 }
 
