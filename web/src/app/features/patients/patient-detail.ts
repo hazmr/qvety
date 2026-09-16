@@ -77,7 +77,7 @@ export class PatientDetail {
     });
     this.search$.pipe(
       debounceTime(300), distinctUntilChanged(),
-      switchMap((q) => { this.searching.set(true); return this.clientsApi.listClients(q || undefined, 0, 10); }),
+      switchMap((q) => { this.searching.set(true); return this.clientsApi.listClients(q || undefined, false, 0, 10); }),
       takeUntilDestroyed(),
     ).subscribe({
       next: (page) => { this.candidates.set((page.content ?? []).filter((c) => c.id !== this.clientId())); this.searching.set(false); },

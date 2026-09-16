@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-/** Create and update share one shape. Phone-or-email is a service rule (client.unreachable), not a field rule. */
+/** Create and update share one shape. The required phone is a service rule (client.phone_required), not a field rule. */
 @Schema(name = "ClientRequest")
 public record ClientRequest(
     @NotBlank @Size(max = 200) String fullName,

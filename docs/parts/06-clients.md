@@ -25,6 +25,8 @@ Table `clients`: base columns + `full_name`, `preferred_name`, `phone`, `phone_s
 
 Endpoints: `GET /api/v1/clients?page&size&sort&q`, `GET /api/v1/clients/{id}`, `POST`, `PUT`, `POST /{id}/archive`. Create/update take `ClientRequest` record; responses are `ClientDto`. Roles: front desk and admin can write; everyone can read.
 
+Part 06c, after part 08: a phone is required (`client.phone_required` on the field); email stays optional. The clinic reaches owners by phone and WhatsApp, and part 15 recalls build the link from `phone_e164`, so an email-only client is a client that cannot be recalled. Archived clients are reachable again: `GET /api/v1/clients?includeArchived=true` includes them in the plain list and both search branches with `archivedAt` set, the list has a "show archived" switch, and `POST /api/v1/clients/{id}/unarchive` clears `archived_at` (the detail page shows Unarchive in place of Edit and Archive). The duplicate warning still ignores archived clients. No migration; the column stays nullable and the rule lives in the service beside the phone-parse rule.
+
 ## Steps
 
 1. Migration, RLS append, seed a few synthetic clients with Arabic and English names.

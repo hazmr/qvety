@@ -1,6 +1,7 @@
 @if (client(); as c) {
   <app-title-bar [title]="c.fullName" [subtitle]="c.preferredName" [back]="['/clients']"
-                 [actionKey]="canEdit() ? 'shared.edit' : undefined" [actionLink]="['/clients', c.id, 'edit']">
+                 [actionKey]="canEdit() ? 'shared.edit' : canRestore() ? 'clients.unarchive' : undefined"
+                 [actionLink]="canEdit() ? ['/clients', c.id, 'edit'] : undefined" (actionClick)="unarchive()">
     <ng-container title-extra>@if (archived()) { <nz-tag class="title-tag">{{ 'clients.archived' | transloco }}</nz-tag> }</ng-container>
     @if (canEdit() && !viewport.isPhone()) {
       <button nz-button nzDanger (click)="archive()">{{ 'clients.archive' | transloco }}</button>

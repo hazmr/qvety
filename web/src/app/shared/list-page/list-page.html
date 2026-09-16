@@ -3,6 +3,7 @@
     <input nz-input type="search" class="list-search" [placeholder]="'shared.search' | transloco"
            (input)="onSearch($any($event.target).value)" />
   }
+  @if (!viewport.isPhone()) { <ng-content select="[list-extra]" /> }
 </app-title-bar>
 
 @if (viewport.isPhone()) {
@@ -11,6 +12,7 @@
     <input nz-input type="search" class="list-search list-search--phone" [placeholder]="'shared.search' | transloco"
            (input)="onSearch($any($event.target).value)" />
   }
+  <div class="list-extra--phone"><ng-content select="[list-extra-phone]" /></div>
   <ul class="rows">
     @for (row of rows(); track row.id) {
       <li class="row" (click)="open(row)">

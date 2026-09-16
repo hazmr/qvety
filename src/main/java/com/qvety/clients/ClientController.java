@@ -34,8 +34,9 @@ public class ClientController {
 
     @GetMapping
     public Page<ClientDto> listClients(@RequestParam(required = false) String q,
+                                @RequestParam(defaultValue = "false") boolean includeArchived,
                                 @ParameterObject @PageableDefault(size = 20, sort = "fullName", direction = Sort.Direction.ASC) Pageable pageable) {
-        return service.list(q, pageable);
+        return service.list(q, includeArchived, pageable);
     }
 
     @GetMapping("/{id}")
@@ -59,5 +60,10 @@ public class ClientController {
     @PostMapping("/{id}/archive")
     public ClientDto archiveClient(@PathVariable UUID id) {
         return service.archive(id);
+    }
+
+    @PostMapping("/{id}/unarchive")
+    public ClientDto unarchiveClient(@PathVariable UUID id) {
+        return service.unarchive(id);
     }
 }

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Everyone reads; front desk and admin write. Rules: reachable (phone or email), phones must parse as
+ * Everyone reads; front desk and admin write. Rules: a phone is required, phones must parse as
  * Egyptian numbers, archived is final for edits, duplicates warn but never block. Search, duplicates and
  * name sorting run on the folded name and E.164 phones (docs/domain/search-and-normalization.md).
  * Cross-tenant ids are invisible under RLS and answer 404.
@@ -33,20 +33,21 @@ public class ClientService {
 
     @PreAuthorize("isAuthenticated()")
     @Transactional(readOnly = true)
-    public Page<ClientDto> list(String q, Pageable pageable) {
-        return search(q, pageable).map(mapper::toDto);
+    public Page<ClientDto> list(String q, boolean includeArchived, Pageable pageable) {
+        return search(q, includeArchived, pageable).map(mapper::toDto);
     }
 
-    private Page<Client> search(String q, Pageable pageable) {
+    private Page<Client> search(String q, boolean includeArchived, Pageable pageable) {
         if (q == null || q.isBlank()) {
-            return clients.findByArchivedAtIsNull(foldedSort(pageable));
+            return includeArchived ? clients.findAll(foldedSort(pageable)) : clients.findByArchivedAtIsNull(foldedSort(pageable));
         }
         var phone = PhoneNormalizer.toE164(q);
         if (phone.isPresent()) {
-            return clients.searchByPhone(phone.get(), foldedSort(pageable));
+            return clients.searchByPhone(phone.get(), includeArchived, foldedSort(pageable));
         }
         // the native query orders by similarity itself; a sort on the Pageable would be appended after it
-        return clients.searchByName(TextNormalizer.fold(q), PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        return clients.searchByName(TextNormalizer.fold(q), includeArchived,
+            PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
     }
 
     /** Sorting by name means the folded name, so "أحمد" and "احمد" sit together; other properties pass through. */
@@ -103,6 +104,15 @@ public class ClientService {
         return mapper.toDto(client);
     }
 
+    /** The mirror of archive. Pressing it on a living client is not a fault: the row comes back unchanged. */
+    @PreAuthorize("hasAnyRole('ADMIN', 'FRONT_DESK')")
+    @Transactional
+    public ClientDto unarchive(UUID id) {
+        var client = load(id);
+        client.setArchivedAt(null);
+        return mapper.toDto(client);
+    }
+
     private Client load(UUID id) {
         return clients.findById(id).orElseThrow(() -> DomainException.notFound("client.not_found"));
     }
@@ -114,9 +124,10 @@ public class ClientService {
             blankToNull(r.address()), blankToNull(r.notes()), blankToNull(r.preferredLocale()));
     }
 
+    /** The clinic reaches owners by phone and WhatsApp; a client without a phone cannot be recalled. */
     private static void requireReachable(ClientRequest r) {
-        if (r.phone() == null && r.email() == null) {
-            throw DomainException.badRequest("client.unreachable");
+        if (r.phone() == null) {
+            throw DomainException.badRequest("client.phone_required", "phone");
         }
     }
 

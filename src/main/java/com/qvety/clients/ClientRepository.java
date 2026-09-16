@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 /** RLS scopes every query to the caller's practice. */
 public interface ClientRepository extends JpaRepository<Client, UUID> {
 
+    /** Plain list; derived so an unknown sort property is a 400 (`bad_sort`), not a Hibernate error. */
     Page<Client> findByArchivedAtIsNull(Pageable pageable);
 
     /**
@@ -21,24 +22,28 @@ public interface ClientRepository extends JpaRepository<Client, UUID> {
      */
     @Query(value = """
         SELECT * FROM clients
-        WHERE archived_at IS NULL
+        WHERE (:includeArchived OR archived_at IS NULL)
           AND (full_name_normalized ILIKE '%' || :q || '%' OR full_name_normalized % :q OR email = :q)
         ORDER BY similarity(full_name_normalized, :q) DESC, full_name_normalized
         """, countQuery = """
         SELECT count(*) FROM clients
-        WHERE archived_at IS NULL
+        WHERE (:includeArchived OR archived_at IS NULL)
           AND (full_name_normalized ILIKE '%' || :q || '%' OR full_name_normalized % :q OR email = :q)
         """, nativeQuery = true)
-    Page<Client> searchByName(@Param("q") String q, Pageable pageable);
+    Page<Client> searchByName(@Param("q") String q, @Param("includeArchived") boolean includeArchived, Pageable pageable);
 
     /** Phone branch: the search term parsed as E.164, matched against either phone column. */
     @Query("""
         SELECT c FROM Client c
-        WHERE c.archivedAt IS NULL AND (c.phoneE164 = :e164 OR c.phoneSecondaryE164 = :e164)
+        WHERE (:includeArchived = true OR c.archivedAt IS NULL)
+          AND (c.phoneE164 = :e164 OR c.phoneSecondaryE164 = :e164)
         """)
-    Page<Client> searchByPhone(@Param("e164") String e164, Pageable pageable);
+    Page<Client> searchByPhone(@Param("e164") String e164, @Param("includeArchived") boolean includeArchived, Pageable pageable);
 
-    /** Duplicate candidates: any of the saved E.164 phones in either column, or the same folded name. */
+    /**
+     * Duplicate candidates: any of the saved E.164 phones in either column, or the same folded name. Archived
+     * clients stay out: the desk cannot act on them without unarchiving first, and then the row warns on its own.
+     */
     @Query("""
         SELECT c FROM Client c
         WHERE c.archivedAt IS NULL

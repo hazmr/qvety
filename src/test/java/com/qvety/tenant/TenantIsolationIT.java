@@ -220,6 +220,13 @@ class TenantIsolationIT {
                 .header("Authorization", "Bearer " + tokenB).retrieve().body(Map.class);
             assertThat((List<?>) searchB.get("content")).as(q).isEmpty();
         }
+
+        // part 06c: the archived view and unarchive stay inside the practice
+        var archivedListB = client(port).get().uri("/api/v1/clients?includeArchived=true").header("Authorization", "Bearer " + tokenB).retrieve().body(Map.class);
+        assertThat((List<Map<String, Object>>) archivedListB.get("content")).extracting(c -> c.get("id")).doesNotContain(seededA);
+        var unarchiveB = client(port).post().uri("/api/v1/clients/" + seededA + "/unarchive").header("Authorization", "Bearer " + tokenB)
+            .retrieve().toEntity(String.class);
+        assertThat(unarchiveB.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     // ---- part 08: patients, weights, allergies ---------------------------------------------------

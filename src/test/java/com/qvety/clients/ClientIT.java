@@ -98,6 +98,35 @@ class ClientIT {
             .retrieve().toEntity(Map.class);
         assertThat(editArchived.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
         assertThat(editArchived.getBody()).containsEntry("code", "client.archived");
+
+        // part 06c: absent from the plain list and both search branches, present in all three with the flag
+        for (var q : List.of("", "karim", "+201099990001")) {
+            var hidden = api().get().uri(u -> u.path("/api/v1/clients").queryParam("q", "{q}").build(q))
+                .header("Authorization", "Bearer " + desk).retrieve().body(Map.class);
+            assertThat((List<Map<String, Object>>) hidden.get("content")).as("hidden " + q).extracting(c -> c.get("id")).doesNotContain(id);
+            var shown = api().get().uri(u -> u.path("/api/v1/clients").queryParam("q", "{q}").queryParam("includeArchived", true).build(q))
+                .header("Authorization", "Bearer " + desk).retrieve().body(Map.class);
+            var row = ((List<Map<String, Object>>) shown.get("content")).stream().filter(c -> id.equals(c.get("id"))).findFirst();
+            assertThat(row).as("shown " + q).isPresent();
+            assertThat(row.get().get("archivedAt")).isNotNull();
+        }
+
+        // unarchive: back in the default list, edits accepted, a second press is harmless
+        var restored = api().post().uri("/api/v1/clients/" + id + "/unarchive").header("Authorization", "Bearer " + desk)
+            .retrieve().toEntity(Map.class);
+        assertThat(restored.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(restored.getBody().get("archivedAt")).isNull();
+        var listRestored = api().get().uri("/api/v1/clients?q=karim").header("Authorization", "Bearer " + desk).retrieve().body(Map.class);
+        assertThat((List<Map<String, Object>>) listRestored.get("content")).extracting(c -> c.get("id")).contains(id);
+        var current = api().get().uri("/api/v1/clients/" + id).header("Authorization", "Bearer " + desk).retrieve().body(Map.class);
+        var editRestored = api().put().uri("/api/v1/clients/" + id).header("Authorization", "Bearer " + desk)
+            .header("If-Match", String.valueOf(current.get("version"))).contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("fullName", "Karim Fathy", "phone", "+201099990001", "address", "Back"))
+            .retrieve().toEntity(Map.class);
+        assertThat(editRestored.getStatusCode()).isEqualTo(HttpStatus.OK);
+        var twice = api().post().uri("/api/v1/clients/" + id + "/unarchive").header("Authorization", "Bearer " + desk)
+            .retrieve().toEntity(Map.class);
+        assertThat(twice.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
@@ -114,7 +143,7 @@ class ClientIT {
 
         var sameName = api().post().uri("/api/v1/clients").header("Authorization", "Bearer " + desk)
             .contentType(MediaType.APPLICATION_JSON)
-            .body(Map.of("fullName", " أحمد محمد علي حسن ", "email", "another@clients.example.com"))
+            .body(Map.of("fullName", " أحمد محمد علي حسن ", "phone", "+201099990002"))
             .retrieve().toEntity(Map.class);
         assertThat(sameName.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat((List<Map<String, Object>>) sameName.getBody().get("warnings")).extracting(w -> w.get("id")).contains(SEEDED_AHMED);
@@ -124,12 +153,16 @@ class ClientIT {
     @SuppressWarnings("unchecked")
     void errorShapeAndRoles() {
         var desk = login(api(), DESK, PASSWORD);
-        var unreachable = api().post().uri("/api/v1/clients").header("Authorization", "Bearer " + desk)
-            .header("Accept-Language", "ar-EG").contentType(MediaType.APPLICATION_JSON)
-            .body(Map.of("fullName", "No Contact")).retrieve().toEntity(Map.class);
-        assertThat(unreachable.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-        assertThat(unreachable.getBody()).containsEntry("code", "client.unreachable")
-            .containsEntry("message", "أدخل رقم هاتف أو بريدًا إلكترونيًا.");
+        // part 06c: a phone is required; email alone cannot be recalled
+        for (var body : List.of(Map.of("fullName", "No Contact"), Map.of("fullName", "Email Only", "email", "only@clients.example.com"))) {
+            var noPhone = api().post().uri("/api/v1/clients").header("Authorization", "Bearer " + desk)
+                .header("Accept-Language", "ar-EG").contentType(MediaType.APPLICATION_JSON)
+                .body(body).retrieve().toEntity(Map.class);
+            assertThat(noPhone.getStatusCode()).as(body.toString()).isEqualTo(HttpStatus.BAD_REQUEST);
+            assertThat(noPhone.getBody()).containsEntry("code", "client.phone_required")
+                .containsEntry("message", "أدخل رقم هاتف.");
+            assertThat((Map<String, String>) noPhone.getBody().get("fields")).containsKey("phone");
+        }
 
         Map<String, Object> invalid = new HashMap<>();
         invalid.put("fullName", "");
@@ -182,7 +215,7 @@ class ClientIT {
         // variant spelling is a duplicate warning, not a block
         var variant = api().post().uri("/api/v1/clients").header("Authorization", "Bearer " + desk)
             .contentType(MediaType.APPLICATION_JSON)
-            .body(Map.of("fullName", "احمد محمد", "email", "variant@clients.example.com"))
+            .body(Map.of("fullName", "احمد محمد", "phone", "+201099990003"))
             .retrieve().toEntity(Map.class);
         assertThat(variant.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat((List<Map<String, Object>>) variant.getBody().get("warnings")).extracting(w -> w.get("id")).contains(id);

@@ -40,6 +40,9 @@ body { background: var(--qv-canvas); color: var(--qv-ink); }
 .row__tag { flex: none; font-size: 11px; font-weight: 500; padding: 3px 8px; background: var(--qv-primary-light); color: var(--qv-primary); }
 .row--empty { cursor: default; }
 .list-search--phone { width: 100%; margin-bottom: 12px; }
+.list-extra { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
+.list-extra--phone:not(:empty) { display: flex; margin-bottom: 4px; }
+.list-extra--phone .list-extra { display: flex; width: 100%; min-height: 44px; }
 .load-more { margin-top: 12px; min-height: 44px; }
 .title-tag { margin-inline-start: 8px; vertical-align: middle; }
 

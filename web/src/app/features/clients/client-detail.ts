@@ -36,6 +36,7 @@ export class ClientDetail {
   readonly client = signal<ClientDto | null>(null);
   readonly archived = computed(() => !!this.client()?.archivedAt);
   readonly canEdit = computed(() => this.auth.canWriteClients() && !this.archived());
+  readonly canRestore = computed(() => this.auth.canWriteClients() && this.archived());
 
   constructor() {
     this.route.paramMap.subscribe((p) => this.api.getClient(p.get('id')!).subscribe((c) => this.client.set(c)));
@@ -45,5 +46,11 @@ export class ClientDetail {
     const c = this.client();
     if (!c || !confirm(this.t.translate('clients.confirmArchive', { name: c.fullName }))) return;
     this.api.archiveClient(c.id).subscribe((updated) => this.client.set(updated));
+  }
+
+  unarchive(): void {
+    const c = this.client();
+    if (!c || !this.canRestore() || !confirm(this.t.translate('clients.confirmUnarchive', { name: c.fullName }))) return;
+    this.api.unarchiveClient(c.id).subscribe((updated) => this.client.set(updated));
   }
 }

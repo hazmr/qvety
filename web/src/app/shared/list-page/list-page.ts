@@ -41,7 +41,8 @@ export interface ListQuery {
 /**
  * Generic NG-ZORRO table with server-side paging, sort, and a debounced search box. The feature supplies
  * columns, a loader, and where a row click goes. Part 06 clients is the first user; reference data (part 09)
- * reuses it with only a config object.
+ * reuses it with only a config object. A feature may project one extra control (`list-extra` beside the
+ * desktop search box, `list-extra-phone` under the phone one) and call `reload()` when it changes.
  */
 @Component({
   selector: 'app-list-page',
@@ -85,6 +86,12 @@ export class ListPage<T extends { id: string }> {
     });
     // reload when the loader input changes; untracked so the signals load() reads do not re-trigger it
     effect(() => { this.loader(); untracked(() => this.load()); });
+  }
+
+  /** First page again with the current search and sort; for a projected filter control. */
+  reload(): void {
+    this.pageIndex.set(1);
+    this.load();
   }
 
   onSearch(value: string): void {

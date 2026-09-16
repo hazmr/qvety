@@ -29,7 +29,7 @@ export class ClientForm {
   readonly fields: FormField[] = [
     { name: 'fullName', labelKey: 'clients.fullName', required: true, maxLength: 200, hintKey: 'clients.fullNameHint' },
     { name: 'preferredName', labelKey: 'clients.preferredName', maxLength: 100 },
-    { name: 'phone', labelKey: 'clients.phone', type: 'tel', ltr: true, maxLength: 30, hintKey: 'clients.reachableHint' },
+    { name: 'phone', labelKey: 'clients.phone', type: 'tel', required: true, ltr: true, maxLength: 30, hintKey: 'clients.reachableHint' },
     { name: 'phoneSecondary', labelKey: 'clients.phoneSecondary', type: 'tel', ltr: true, maxLength: 30 },
     { name: 'email', labelKey: 'clients.email', type: 'email', ltr: true, maxLength: 200 },
     { name: 'address', labelKey: 'clients.address', maxLength: 500 },
