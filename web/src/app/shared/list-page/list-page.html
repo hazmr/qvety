@@ -47,7 +47,7 @@
     <thead>
       <tr>
         @for (col of columns(); track col.key) {
-          <th [nzColumnKey]="col.key" [nzShowSort]="col.sortable ?? false">{{ col.labelKey | transloco }}</th>
+          <th [nzColumnKey]="col.key" [nzShowSort]="col.sortable ?? false" [nzSortFn]="col.sortable ? true : null">{{ col.labelKey | transloco }}</th>
         }
       </tr>
     </thead>

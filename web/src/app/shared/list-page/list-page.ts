@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal, untracked } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslocoPipe } from '@jsverse/transloco';
@@ -83,14 +83,19 @@ export class ListPage<T extends { id: string }> {
       this.pageIndex.set(1);
       this.load();
     });
-    effect(() => { this.loader(); this.load(); });
+    // reload when the loader input changes; untracked so the signals load() reads do not re-trigger it
+    effect(() => { this.loader(); untracked(() => this.load()); });
   }
 
   onSearch(value: string): void {
     this.search$.next(value.trim());
   }
 
-  /** NG-ZORRO emits on page and sort changes; we own the page index so search can reset it. */
+  /**
+   * NG-ZORRO emits on page and sort changes; we own the page index so search can reset it. A column only
+   * appears in `params.sort` when it has `nzSortFn`; `true` there means "the server sorts" and keeps the
+   * table from sorting the page client-side.
+   */
   onQuery(params: NzTableQueryParams): void {
     const active = params.sort.find((s) => s.value);
     const sort = active ? `${active.key},${active.value === 'descend' ? 'desc' : 'asc'}` : undefined;
