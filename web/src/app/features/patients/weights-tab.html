@@ -1,0 +1,35 @@
+<form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="add()" class="inline-form">
+  @if (error(); as e) { <nz-alert nzType="error" [nzMessage]="e" nzShowIcon class="inline-form__error" /> }
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="measuredAt">{{ 'patients.measuredAt' | transloco }}</nz-form-label>
+    <nz-form-control [nzErrorTip]="errorTip('measuredAt')">
+      <input nz-input id="measuredAt" type="datetime-local" formControlName="measuredAt" dir="ltr" class="ltr-field" />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label nzRequired nzFor="weightKg">{{ 'patients.weightKg' | transloco }}</nz-form-label>
+    <nz-form-control [nzErrorTip]="errorTip('weightKg')">
+      <input nz-input id="weightKg" type="number" inputmode="decimal" step="0.01" min="0.01" formControlName="weightKg" dir="ltr" class="ltr-field" />
+    </nz-form-control>
+  </nz-form-item>
+  <button nz-button nzType="primary" type="submit" [nzLoading]="busy()">{{ 'patients.addWeight' | transloco }}</button>
+</form>
+
+<ul class="rows rows--flat">
+  @for (w of weights(); track w.id) {
+    <li class="row row--static" [class.muted]="w.voidedAt">
+      <div class="row__text">
+        <div class="row__title" [class.struck]="w.voidedAt"><span dir="ltr" class="ltr-field">{{ w.weightKg | number:'1.2-2' }}</span>&nbsp;<span class="muted">{{ 'patients.kg' | transloco }}</span></div>
+        <div class="row__secondary row__secondary--wrap">
+          {{ w.measuredAt | date:'medium':'':locale.angularLocale() }}
+          @if (w.voidedAt) { · {{ 'patients.voided' | transloco }}: {{ w.voidReason }} }
+        </div>
+      </div>
+      @if (!w.voidedAt) {
+        <button nz-button nzSize="small" nzDanger (click)="voidWeight(w)">{{ 'patients.void' | transloco }}</button>
+      }
+    </li>
+  } @empty {
+    @if (!loading()) { <li class="row row--empty muted">{{ 'patients.noWeight' | transloco }}</li> }
+  }
+</ul>

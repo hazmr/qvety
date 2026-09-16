@@ -45,7 +45,7 @@ body { background: var(--qv-canvas); color: var(--qv-ink); }
 
 /* ---------- phone sizes: 16 px inputs (no iOS zoom), 52 px boxes, 44 px buttons, 14 px padding ---------- */
 @media (max-width: 767.98px) {
-  .ant-input, .ant-input-affix-wrapper, .ant-select-selector, textarea.ant-input { font-size: 16px !important; }
+  .ant-input, .ant-input-affix-wrapper, .ant-select-selector, .ant-select-selection-search-input, textarea.ant-input { font-size: 16px !important; }
   input.ant-input, .ant-input-affix-wrapper, .ant-select-single:not(.ant-select-customize-input) .ant-select-selector { min-height: 52px !important; }
   .ant-select-single:not(.ant-select-customize-input) .ant-select-selector .ant-select-selection-search-input,
   .ant-select-single .ant-select-selector .ant-select-selection-item,
@@ -57,4 +57,24 @@ body { background: var(--qv-canvas); color: var(--qv-ink); }
   .summary dt { margin-top: 8px; }
   .page-title { margin-bottom: 12px; }
   .me-sheet .ant-drawer-content { border-radius: 0; box-shadow: none; }
+}
+
+/* ---------- patient record (part 08) ---------- */
+.allergy-banner { margin-bottom: 12px; }
+.identity { margin: 0 0 16px; padding: 0 0 12px; border-block-end: 1px solid var(--qv-line); }
+.identity__line { font-size: 14px; }
+.identity__owner { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+.identity__phone { margin-inline-start: auto; }
+.tab-action { margin-bottom: 12px; }
+.inline-form { max-width: 480px; margin-bottom: 16px; }
+.inline-form__error { margin-bottom: 12px; }
+.rows--flat { margin: 0; }
+.row--static { cursor: default; }
+.row__secondary--wrap { white-space: normal; }
+.row__tag--muted { background: var(--qv-canvas); color: var(--qv-ink-muted); }
+.struck { text-decoration: line-through; }
+.transfer { max-width: 480px; }
+.transfer__select { width: 100%; margin-bottom: 12px; }
+@media (max-width: 767.98px) {
+  .inline-form, .transfer { max-width: none; }
 }

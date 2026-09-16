@@ -293,11 +293,13 @@ erDiagram
     }
 
     patient_weights {
-        uuid id PK
+        uuid id PK "trigger: only voided_* may change"
         uuid practice_id FK
         uuid patient_id FK
         timestamptz measured_at
         numeric weight_kg
+        timestamptz voided_at
+        text void_reason
         uuid recorded_by FK
     }
 
@@ -722,3 +724,4 @@ Applied migrations, in order. The tables above are the target; this list is what
 | `V5__clients.sql` | 06 | `clients` (reachable check, unique `(id, practice_id)`, name and phone indexes) via `tenant_table_setup()`; `users.version` for the shared base entity |
 | `V6__search.sql` | 07 | `pg_trgm`; `clients.full_name_normalized` (not null), `clients.phone_e164`, `clients.phone_secondary_e164` with a rough SQL backfill; trigram GIN on the folded name, btree on `(practice_id, folded name)` and on each E.164 column; part 06 raw-column indexes dropped |
 | `V7__login_practices.sql` | 03b | `login_practices(uuid[])` definer function: practice id and name for the login picker when the same phone or email exists at several practices |
+| `V8__patients.sql` | 08 | `species`, `patient_sex`, `allergy_severity` enums; `patients` (composite same-practice FK to `clients`, `previous_client_id`, `deceased_at`, empty `photo_object_key`), `patient_weights` (`voided_at`, `void_reason`; `patient_weight_guard` trigger: void only, no delete), `patient_allergies` (`retracted_at`, `retracted_reason`; `patient_allergy_guard` trigger: retract only, no delete); both guard functions `SECURITY DEFINER`, `EXECUTE` revoked from `qvety_app`; three `tenant_table_setup()` calls |

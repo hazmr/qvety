@@ -28,6 +28,8 @@ export class AuthService {
   readonly isAdmin = computed(() => this.user()?.role === 'admin');
   /** Mirrors the server rule (front desk and admin write clients); the server still decides. */
   readonly canWriteClients = computed(() => this.user()?.role === 'admin' || this.user()?.role === 'front_desk');
+  /** Clinical data (allergies now, notes and vitals later): everyone but front desk; the server still decides. */
+  readonly canWriteClinical = computed(() => !!this.user() && this.user()!.role !== 'front_desk');
   readonly mustChangePassword = computed(() => this.user()?.mustChangePassword === true);
 
   /**

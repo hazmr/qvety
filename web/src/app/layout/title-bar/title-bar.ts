@@ -8,6 +8,7 @@ import { ViewportService } from '../../core/viewport.service';
 /**
  * Page title. Phone: the 48 px title bar (back chevron, name, one action). Desktop: the title row
  * (20 px / 600, context beside it, primary action at the trailing edge). One component, both sizes.
+ * Projected content lands before the action: a desktop-only secondary button sits beside the primary one.
  */
 @Component({
   selector: 'app-title-bar',

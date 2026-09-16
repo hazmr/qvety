@@ -9,7 +9,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { apiMessage, applyFieldErrors } from '../../core/api-error';
 import { ActionBar } from '../../layout/action-bar/action-bar';
 
-export type FieldType = 'text' | 'tel' | 'email' | 'textarea' | 'select';
+export type FieldType = 'text' | 'tel' | 'email' | 'date' | 'number' | 'textarea' | 'select';
 
 export interface FormField {
   name: string;

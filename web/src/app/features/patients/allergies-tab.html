@@ -1,0 +1,51 @@
+@if (auth.canWriteClinical()) {
+  <form nz-form nzLayout="vertical" [formGroup]="form" (ngSubmit)="add()" class="inline-form">
+    @if (error(); as e) { <nz-alert nzType="error" [nzMessage]="e" nzShowIcon class="inline-form__error" /> }
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="substance">{{ 'patients.substance' | transloco }}</nz-form-label>
+      <nz-form-control [nzErrorTip]="errorTip('substance')">
+        <input nz-input id="substance" formControlName="substance" autocomplete="off" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="severity">{{ 'patients.severity' | transloco }}</nz-form-label>
+      <nz-form-control [nzErrorTip]="errorTip('severity')">
+        <nz-select id="severity" formControlName="severity">
+          @for (s of severities; track s) { <nz-option [nzValue]="s" [nzLabel]="'severity.' + s | transloco" /> }
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzFor="reaction">{{ 'patients.reaction' | transloco }}</nz-form-label>
+      <nz-form-control [nzErrorTip]="errorTip('reaction')">
+        <input nz-input id="reaction" formControlName="reaction" autocomplete="off" />
+      </nz-form-control>
+    </nz-form-item>
+    <button nz-button nzType="primary" type="submit" [nzLoading]="busy()">{{ 'patients.addAllergy' | transloco }}</button>
+  </form>
+} @else if (error(); as e) {
+  <nz-alert nzType="error" [nzMessage]="e" nzShowIcon class="inline-form__error" />
+}
+
+<ul class="rows rows--flat">
+  @for (a of allergies(); track a.id) {
+    <li class="row row--static" [class.muted]="a.retractedAt">
+      <div class="row__text">
+        <div class="row__title" [class.struck]="a.retractedAt">
+          {{ a.substance }}
+          <nz-tag [nzColor]="a.retractedAt ? undefined : a.severity === 'severe' ? 'error' : a.severity === 'moderate' ? 'warning' : undefined" class="title-tag">{{ 'severity.' + a.severity | transloco }}</nz-tag>
+        </div>
+        <div class="row__secondary row__secondary--wrap">
+          @if (a.reaction) { {{ a.reaction }} · }
+          {{ a.createdAt | date:'mediumDate':'':locale.angularLocale() }}
+          @if (a.retractedAt) { · {{ 'patients.retracted' | transloco }}: {{ a.retractedReason }} }
+        </div>
+      </div>
+      @if (!a.retractedAt && auth.canWriteClinical()) {
+        <button nz-button nzSize="small" nzDanger (click)="retract(a)">{{ 'patients.retract' | transloco }}</button>
+      }
+    </li>
+  } @empty {
+    @if (!loading()) { <li class="row row--empty muted">{{ 'patients.noAllergy' | transloco }}</li> }
+  }
+</ul>

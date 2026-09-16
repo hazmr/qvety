@@ -73,17 +73,24 @@ CREATE TABLE patient_allergies (
 | GET / POST | `/api/v1/patients/{id}/weights` |
 | GET / POST | `/api/v1/patients/{id}/allergies` |
 | POST | `/api/v1/patients/{id}/allergies/{allergyId}/retract` `{reason}` |
+| POST | `/api/v1/patients/{id}/weights/{weightId}/void` `{reason}` |
 
 ## Backend
 
 - `@ManyToOne(fetch = LAZY)` everywhere; `hibernate.default_batch_fetch_size` set. EAGER would pull the client (and its practice) on every patient read.
 - Enums mapped as Postgres enums (`@JdbcType(PostgreSQLEnumJdbcType.class)`); decision recorded: matches the migration type, no string column drift.
 - `JpaSpecificationExecutor<Patient>` for the list filters.
-- `PatientService.transfer` written by hand: validate target client is same practice, record `previous_client_id`.
+- `PatientService.transfer` written by hand: validate target client is same practice, record `previous_client_id`. A deceased patient is refused with 409 `patient.transfer_deceased`: the animal stays with the owner who lost it.
+- `patient_weights` gains `voided_at`, `void_reason` (check: both null or both set) and a `patient_weight_guard` trigger with the same body as `patient_allergy_guard`, mutable columns `voided_at`, `void_reason`, `updated_at`. Word choice: an allergy is a belief, so it is *retracted*; a weight is a measurement, so it is *voided*, the word part 13 uses for vitals. `latestWeight` on the header skips voided rows; the list returns them with `voidedAt` and `voidReason`.
 
 ## Angular
 
-Patients tab on client detail; patient detail at `/clients/:id/patients/:pid` with tabs Summary, Weights, Allergies, Visits (empty until part 13). Allergy banner in the patient header. Species labels from i18n.
+Patients tab on client detail; patient detail at `/clients/:id/patients/:pid` with tabs Summary, Weights, Allergies, Visits (empty until part 13). Allergy banner in the patient header. Species labels from i18n. Arabic sex labels use معقّم / معقّمة for both sexes; مخصي reads harshly in Egyptian usage.
+
+Actions sit next to what they act on, so a button is never mistaken for a tab action:
+- Client detail: Edit is the title-bar action; Archive beside it on desktop, in the phone action bar.
+- Patient detail: Edit is the title-bar action; Mark deceased beside it on desktop, in the phone action bar; Transfer is a small button on the owner row, hidden once deceased, and its client picker opens under that row. Nothing actionable inside the Summary tab.
+- Weights tab: each non-voided row has a Void link that asks for a reason; voided rows are struck through with the reason on the secondary line.
 
 ## Phone layout
 

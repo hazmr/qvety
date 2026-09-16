@@ -26,7 +26,7 @@ The database SHALL refuse a patient whose client belongs to another practice, in
 - **THEN** the database rejects the insert with a foreign key violation
 
 ### Requirement: Deceased and transfer keep history
-A patient SHALL be markable deceased with a date. A patient SHALL be transferable to another client of the same practice; the previous client SHALL be recorded and all records stay with the patient. A patient with any clinical record SHALL never be deleted.
+A patient SHALL be markable deceased with a date. A living patient SHALL be transferable to another client of the same practice; the previous client SHALL be recorded and all records stay with the patient. A deceased patient SHALL NOT be transferred. A patient with any clinical record SHALL never be deleted.
 
 #### Scenario: Transfer
 - **WHEN** a patient is transferred from client A to client B
@@ -36,12 +36,28 @@ A patient SHALL be markable deceased with a date. A patient SHALL be transferabl
 - **WHEN** a patient is marked deceased
 - **THEN** it is excluded from recalls and shown with the deceased date
 
+#### Scenario: Transfer of a deceased patient
+- **WHEN** a transfer is requested for a patient marked deceased
+- **THEN** the request is rejected with 409 and the patient keeps its client
+
 ### Requirement: Weight history
-Weights SHALL be recorded as dated rows in kilograms with two decimals; the latest SHALL be shown on the patient header.
+Weights SHALL be recorded as dated rows in kilograms with two decimals; the latest non-voided weight SHALL be shown on the patient header. A weight is a measurement: it SHALL never be edited or deleted. A wrong weight SHALL be voided with a reason and stay listed as voided. The database SHALL allow updates only to `voided_at` and `void_reason`; any other update and any delete SHALL be refused. This is the shape part 13 reuses for vitals, which also write weights.
 
 #### Scenario: Two weights
 - **WHEN** two weights are recorded on different dates
 - **THEN** both are listed and the most recent is the header value
+
+#### Scenario: Void the latest weight
+- **WHEN** `POST /patients/{id}/weights/{weightId}/void` is called with a reason on the most recent weight
+- **THEN** the row stays listed as voided with its reason and the header shows the previous weight
+
+#### Scenario: Edit a weight
+- **WHEN** the application role runs `UPDATE patient_weights SET weight_kg = ...` or `DELETE FROM patient_weights`
+- **THEN** the database refuses
+
+#### Scenario: Void twice
+- **WHEN** a void is requested on a weight already voided
+- **THEN** the request is rejected with 409
 
 ### Requirement: Allergies are retracted, never edited or deleted
 An allergy SHALL record substance, reaction, severity (`mild`, `moderate`, `severe`), who noted it, and when. The database SHALL allow updates only to `retracted_at` and `retracted_reason`; any other update and any delete SHALL be refused. Retracted allergies SHALL stay visible as retracted.

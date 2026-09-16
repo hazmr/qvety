@@ -1,0 +1,90 @@
+@if (error(); as e) { <nz-alert nzType="error" [nzMessage]="e" nzShowIcon class="inline-form__error" /> }
+@if (patient(); as p) {
+  <app-title-bar [title]="p.name" [subtitle]="p.breed" [back]="['/clients', clientId()]"
+                 actionKey="shared.edit" [actionLink]="['/clients', clientId(), 'patients', p.id, 'edit']">
+    <ng-container title-extra>@if (deceased()) { <nz-tag class="title-tag">{{ 'patients.deceased' | transloco }}</nz-tag> }</ng-container>
+    @if (!viewport.isPhone() && !deceased()) {
+      <button nz-button nzDanger (click)="markDeceased()">{{ 'patients.markDeceased' | transloco }}</button>
+    }
+  </app-title-bar>
+
+  @if (activeAllergies().length) {
+    <nz-alert nzType="error" nzShowIcon class="allergy-banner" [nzMessage]="allergyText" />
+    <ng-template #allergyText>
+      <strong>{{ 'patients.allergyBanner' | transloco }}</strong>
+      @for (a of activeAllergies(); track a.id; let last = $last) {
+        {{ a.substance }} ({{ 'severity.' + a.severity | transloco }})@if (!last) {, }
+      }
+    </ng-template>
+  }
+
+  <div class="identity">
+    <div class="identity__line muted">
+      {{ identityLine() }}
+      @if (detail()?.latestWeight; as w) { · <span dir="ltr" class="ltr-field">{{ w.weightKg | number:'1.2-2' }}</span> {{ 'patients.kg' | transloco }} }
+    </div>
+    @if (deceased()) { <div class="identity__line muted">{{ 'patients.deceasedOn' | transloco }} {{ p.deceasedAt | date:'mediumDate':'':locale.angularLocale() }}</div> }
+    @if (owner(); as o) {
+      <div class="identity__owner">
+        <span class="muted">{{ 'patients.owner' | transloco }}</span>
+        <a [routerLink]="['/clients', o.id]">{{ o.fullName }}</a>
+        @if (o.phone) { <span dir="ltr" class="ltr-field mono identity__phone">{{ o.phone }}</span> }
+        @if (!deceased() && !transferOpen()) {
+          <button nz-button [nzSize]="viewport.isPhone() ? 'default' : 'small'" (click)="transferOpen.set(true); searchClients('')">{{ 'patients.transfer' | transloco }}</button>
+        }
+      </div>
+      @if (transferOpen()) {
+        <div class="transfer">
+          <p class="muted">{{ 'patients.transferHint' | transloco }}</p>
+          <nz-select class="transfer__select" nzShowSearch nzServerSearch [nzLoading]="searching()"
+                     [nzPlaceHolder]="'patients.transferSearch' | transloco" [(ngModel)]="targetClientId" (nzOnSearch)="searchClients($event)">
+            @for (c of candidates(); track c.id) { <nz-option [nzValue]="c.id" [nzLabel]="c.fullName + (c.phone ? ' · ' + c.phone : '')" /> }
+          </nz-select>
+          <div class="row-actions">
+            <button nz-button (click)="transferOpen.set(false)">{{ 'shared.cancel' | transloco }}</button>
+            <button nz-button nzType="primary" [disabled]="!targetClientId" (click)="transfer()">{{ 'patients.transfer' | transloco }}</button>
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+  <nz-tabs>
+    <nz-tab [nzTitle]="'patients.tabSummary' | transloco">
+      <dl class="summary">
+        <dt>{{ 'patients.species' | transloco }}</dt><dd>{{ 'species.' + p.species | transloco }}</dd>
+        <dt>{{ 'patients.breed' | transloco }}</dt><dd>{{ p.breed }}</dd>
+        <dt>{{ 'patients.sex' | transloco }}</dt><dd>{{ 'sex.' + p.sex | transloco }}</dd>
+        <dt>{{ 'patients.dateOfBirth' | transloco }}</dt><dd>{{ p.dateOfBirth ? (p.dateOfBirth | date:'mediumDate':'':locale.angularLocale()) : '' }}</dd>
+        <dt>{{ 'patients.ageApproximate' | transloco }}</dt><dd>{{ p.ageApproximate }}</dd>
+        <dt>{{ 'patients.color' | transloco }}</dt><dd>{{ p.color }}</dd>
+        <dt>{{ 'patients.microchip' | transloco }}</dt><dd dir="ltr" class="ltr-field mono">{{ p.microchip }}</dd>
+        <dt>{{ 'patients.notes' | transloco }}</dt><dd>{{ p.notes }}</dd>
+        @if (p.previousClientId) {
+          <dt>{{ 'patients.previousOwner' | transloco }}</dt><dd><a [routerLink]="['/clients', p.previousClientId]">{{ 'patients.openPreviousOwner' | transloco }}</a></dd>
+        }
+        <dt>{{ 'shared.createdAt' | transloco }}</dt><dd>{{ p.createdAt | date:'medium':'':locale.angularLocale() }}</dd>
+      </dl>
+    </nz-tab>
+    <nz-tab [nzTitle]="'patients.tabWeights' | transloco">
+      <ng-template nz-tab><app-weights-tab [patientId]="p.id" (added)="reload()" /></ng-template>
+    </nz-tab>
+    <nz-tab [nzTitle]="'patients.tabAllergies' | transloco">
+      <ng-template nz-tab><app-allergies-tab [patientId]="p.id" (changed)="reload()" /></ng-template>
+    </nz-tab>
+    <nz-tab [nzTitle]="'patients.tabVisits' | transloco">
+      <p class="muted">{{ 'patients.visitsSoon' | transloco }}</p>
+    </nz-tab>
+    @if (auth.isAdmin()) {
+      <nz-tab [nzTitle]="'shared.history' | transloco">
+        <ng-template nz-tab><app-history-tab table="patients" [rowId]="p.id" /></ng-template>
+      </nz-tab>
+    }
+  </nz-tabs>
+
+  @if (viewport.isPhone() && !deceased()) {
+    <app-action-bar>
+      <button nz-button nzDanger (click)="markDeceased()">{{ 'patients.markDeceased' | transloco }}</button>
+    </app-action-bar>
+  }
+}

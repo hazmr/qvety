@@ -1,6 +1,10 @@
 @if (client(); as c) {
-  <app-title-bar [title]="c.fullName" [subtitle]="c.preferredName" [back]="['/clients']">
+  <app-title-bar [title]="c.fullName" [subtitle]="c.preferredName" [back]="['/clients']"
+                 [actionKey]="canEdit() ? 'shared.edit' : undefined" [actionLink]="['/clients', c.id, 'edit']">
     <ng-container title-extra>@if (archived()) { <nz-tag class="title-tag">{{ 'clients.archived' | transloco }}</nz-tag> }</ng-container>
+    @if (canEdit() && !viewport.isPhone()) {
+      <button nz-button nzDanger (click)="archive()">{{ 'clients.archive' | transloco }}</button>
+    }
   </app-title-bar>
   <dl class="summary">
     <dt>{{ 'clients.phone' | transloco }}</dt><dd dir="ltr" class="ltr-field mono">{{ c.phone }}</dd>
@@ -13,7 +17,7 @@
   </dl>
   <nz-tabs>
     <nz-tab [nzTitle]="'clients.tabPatients' | transloco">
-      <p class="muted">{{ 'clients.patientsSoon' | transloco }}</p>
+      <app-patients-tab [clientId]="c.id" [canAdd]="!archived()" />
     </nz-tab>
     @if (auth.isAdmin()) {
       <nz-tab [nzTitle]="'shared.history' | transloco">
@@ -23,10 +27,9 @@
       </nz-tab>
     }
   </nz-tabs>
-  @if (auth.canWriteClients() && !archived()) {
+  @if (canEdit() && viewport.isPhone()) {
     <app-action-bar>
-      <button nz-button nzDanger class="action-bar__secondary" (click)="archive()">{{ 'clients.archive' | transloco }}</button>
-      <a nz-button nzType="primary" [routerLink]="['/clients', c.id, 'edit']">{{ 'shared.edit' | transloco }}</a>
+      <button nz-button nzDanger (click)="archive()">{{ 'clients.archive' | transloco }}</button>
     </app-action-bar>
   }
 }

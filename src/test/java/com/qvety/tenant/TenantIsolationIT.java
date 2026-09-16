@@ -222,6 +222,88 @@ class TenantIsolationIT {
         }
     }
 
+    // ---- part 08: patients, weights, allergies ---------------------------------------------------
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void patientsAreInvisibleAcrossPractices() {
+        var tokenA = login(client(port), ADMIN, PASSWORD);
+        var tokenB = login(client(port), ADMIN_B_EMAIL, PASSWORD);
+        var seededClientA = "00000000-0000-7000-8000-000000000301";
+        var rex = "00000000-0000-7000-8000-000000000402";   // seeded, with a weight and an allergy
+        var clientB = clientOfB(tokenB);
+
+        // 3.3 read, list, and the child lists answer 404 or empty from practice B
+        assertThat(client(port).get().uri("/api/v1/patients/" + rex).header("Authorization", "Bearer " + tokenA)
+            .retrieve().toEntity(Map.class).getStatusCode()).isEqualTo(HttpStatus.OK);
+        for (var path : List.of("/api/v1/patients/" + rex, "/api/v1/patients/" + rex + "/weights", "/api/v1/patients/" + rex + "/allergies")) {
+            var b = client(port).get().uri(path).header("Authorization", "Bearer " + tokenB).retrieve().toEntity(String.class);
+            assertThat(b.getStatusCode()).as(path).isEqualTo(HttpStatus.NOT_FOUND);
+        }
+        var listB = client(port).get().uri("/api/v1/patients?clientId=" + seededClientA).header("Authorization", "Bearer " + tokenB)
+            .retrieve().body(Map.class);
+        assertThat((List<?>) listB.get("content")).isEmpty();
+        var allB = client(port).get().uri("/api/v1/patients").header("Authorization", "Bearer " + tokenB).retrieve().body(Map.class);
+        assertThat((List<?>) allB.get("content")).isEmpty();
+
+        // writes from B against A's patient: not found, nothing changed
+        var transferB = client(port).post().uri("/api/v1/patients/" + rex + "/transfer").header("Authorization", "Bearer " + tokenB)
+            .contentType(MediaType.APPLICATION_JSON).body(Map.of("clientId", clientB)).retrieve().toEntity(String.class);
+        assertThat(transferB.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        var weightB = client(port).post().uri("/api/v1/patients/" + rex + "/weights").header("Authorization", "Bearer " + tokenB)
+            .contentType(MediaType.APPLICATION_JSON).body(Map.of("measuredAt", "2026-09-01T10:00:00+03:00", "weightKg", 1))
+            .retrieve().toEntity(String.class);
+        assertThat(weightB.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+
+        // 3.4 through the API: A cannot create a patient under B's client (RLS hides it: 404)
+        var createA = client(port).post().uri("/api/v1/patients").header("Authorization", "Bearer " + tokenA)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("clientId", clientB, "name", "Smuggled", "species", "dog"))
+            .retrieve().toEntity(Map.class);
+        assertThat(createA.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertThat(createA.getBody()).containsEntry("code", "client.not_found");
+        var transferA = client(port).post().uri("/api/v1/patients/" + rex + "/transfer").header("Authorization", "Bearer " + tokenA)
+            .contentType(MediaType.APPLICATION_JSON).body(Map.of("clientId", clientB)).retrieve().toEntity(Map.class);
+        assertThat(transferA.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        archive(tokenB, clientB);
+    }
+
+    /** 3.4 at the database: the composite FK refuses a cross-practice client even for the owner, who bypasses RLS. */
+    @Test
+    void crossPracticeClientLinkFailsAtTheDatabase() throws SQLException {
+        var tokenB = login(client(port), ADMIN_B_EMAIL, PASSWORD);
+        var clientB = clientOfB(tokenB);
+        var insert = "INSERT INTO patients (practice_id, client_id, name, species) VALUES ('" + PRACTICE_A + "', '" + clientB + "', 'Smuggled', 'dog')";
+        try (var owner = ownerConnection(postgres); var st = owner.createStatement()) {
+            assertThatThrownBy(() -> st.execute(insert))
+                .isInstanceOf(SQLException.class)
+                .hasMessageContaining("patients_client_same_practice");
+        }
+        try (var app = appDataSource.getConnection(); var st = app.createStatement()) {
+            app.setAutoCommit(false);
+            st.execute("SELECT set_config('app.practice_id', '" + PRACTICE_A + "', true)");
+            assertThatThrownBy(() -> st.execute(insert))
+                .isInstanceOf(SQLException.class)
+                .hasMessageContaining("patients_client_same_practice");
+            app.rollback();
+        }
+        archive(tokenB, clientB);
+    }
+
+    /** A client under practice B, created through the API. Callers archive it so B's default client list stays empty. */
+    @SuppressWarnings("unchecked")
+    private String clientOfB(String tokenB) {
+        var created = client(port).post().uri("/api/v1/clients").header("Authorization", "Bearer " + tokenB)
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("fullName", "Client B " + UUID.randomUUID(), "phone", "+201000000311"))
+            .retrieve().body(Map.class);
+        return (String) ((Map<String, Object>) created.get("client")).get("id");
+    }
+
+    private void archive(String token, String clientId) {
+        client(port).post().uri("/api/v1/clients/" + clientId + "/archive").header("Authorization", "Bearer " + token).retrieve().toBodilessEntity();
+    }
+
     // ---- 4.5 practice row change is audited under its own id -------------------------------------
 
     @Test

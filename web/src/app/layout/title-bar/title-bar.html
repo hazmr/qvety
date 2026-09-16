@@ -8,6 +8,7 @@
     <h2 class="title-bar__title">{{ title() ?? (titleKey() ? (titleKey()! | transloco) : '') }}<ng-content select="[title-extra]" /></h2>
     @if (subtitle(); as s) { <div class="title-bar__subtitle">{{ s }}</div> }
   </div>
+  <ng-content />
   @if (actionKey(); as k) {
     @if (actionLink(); as link) {
       <a nz-button nzType="primary" [nzSize]="viewport.isPhone() ? 'small' : 'default'" [routerLink]="link" class="title-bar__action">{{ k | transloco }}</a>
@@ -15,5 +16,4 @@
       <button nz-button nzType="primary" [nzSize]="viewport.isPhone() ? 'small' : 'default'" (click)="actionClick.emit()" class="title-bar__action">{{ k | transloco }}</button>
     }
   }
-  <ng-content />
 </div>

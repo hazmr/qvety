@@ -1,0 +1,43 @@
+@if (canAdd()) {
+  <a nz-button [routerLink]="['/clients', clientId(), 'patients', 'new']" class="tab-action">{{ 'patients.add' | transloco }}</a>
+}
+@if (viewport.isPhone()) {
+  <ul class="rows">
+    @for (p of patients(); track p.id) {
+      <li class="row" [routerLink]="link(p)">
+        <div class="row__text">
+          <div class="row__title">{{ p.name }}</div>
+          <div class="row__secondary">{{ identity(p) }}</div>
+        </div>
+        @if (p.deceasedAt) { <span class="row__tag row__tag--muted">{{ 'patients.deceased' | transloco }}</span> }
+      </li>
+    } @empty {
+      @if (!loading()) { <li class="row row--empty muted">{{ 'patients.none' | transloco }}</li> }
+    }
+  </ul>
+} @else {
+  <nz-table #t [nzData]="patients()" [nzLoading]="loading()" nzSize="small" [nzShowPagination]="false">
+    <thead>
+      <tr>
+        <th>{{ 'patients.name' | transloco }}</th>
+        <th>{{ 'patients.species' | transloco }}</th>
+        <th>{{ 'patients.breed' | transloco }}</th>
+        <th>{{ 'patients.sex' | transloco }}</th>
+        <th>{{ 'patients.age' | transloco }}</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of t.data; track p.id) {
+        <tr class="list-row" [class.muted]="p.deceasedAt" [routerLink]="link(p)">
+          <td>{{ p.name }}</td>
+          <td>{{ 'species.' + p.species | transloco }}</td>
+          <td>{{ p.breed }}</td>
+          <td>{{ 'sex.' + p.sex | transloco }}</td>
+          <td>{{ age(p) }}</td>
+          <td>@if (p.deceasedAt) { <span class="row__tag row__tag--muted">{{ 'patients.deceased' | transloco }}</span> }</td>
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+}
