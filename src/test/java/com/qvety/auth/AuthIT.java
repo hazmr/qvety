@@ -144,6 +144,10 @@ class AuthIT {
             .retrieve().toEntity(String.class);
         assertThat(gated.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
         assertThat(gated.getBody()).contains("password_change_required");
+        var gatedArabic = api().get().uri("/api/v1/practice").header("Authorization", "Bearer " + first)
+            .header("Accept-Language", "ar-EG").retrieve().toEntity(Map.class);
+        assertThat(gatedArabic.getBody()).containsEntry("code", "password_change_required")
+            .containsEntry("message", "يجب تغيير كلمة المرور قبل المتابعة.");   // the gate answers in the caller's language
 
         var changed = api().post().uri("/api/v1/me/password").header("Authorization", "Bearer " + first)
             .contentType(MediaType.APPLICATION_JSON)
