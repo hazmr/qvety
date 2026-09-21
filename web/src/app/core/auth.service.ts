@@ -1,6 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { Observable, finalize, tap } from 'rxjs';
 import { AuthApi, ChangePasswordRequestDto, LoginResponseDto, MeApi, PracticeApi, UserDto } from '../api';
 import { AppLocale, LocaleService } from './locale.service';
 
@@ -54,7 +54,16 @@ export class AuthService {
     return this.meApi.updateMe({ locale }).pipe(tap((u) => this.setUser(u)));
   }
 
+  /**
+   * Revokes the session on the server (every device, the accepted pilot behaviour), then drops the client
+   * state in finalize so a failed call still logs the user out here.
+   */
   logout(): void {
+    this.authApi.logout().pipe(finalize(() => this.dropSession())).subscribe({ error: () => { /* dropped anyway */ } });
+  }
+
+  /** Client-side only: the token is already dead (401) or has just been revoked. */
+  dropSession(): void {
     this.tokenSignal.set(null);
     this.user.set(null);
     this.practiceName.set(null);

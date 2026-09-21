@@ -6,7 +6,8 @@ import { LocaleService } from './locale.service';
 
 /**
  * Adds the bearer token and Accept-Language (the user's locale, so backend messages match the UI).
- * A 401 on any call means the token is dead (expired, revoked), so log out.
+ * A 401 on any call means the token is dead (expired, revoked), so drop the session client-side; calling
+ * the logout endpoint with a dead token would only 401 again.
  */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const auth = inject(AuthService);
@@ -19,7 +20,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req.clone({ setHeaders: headers })).pipe(
     catchError((err: unknown) => {
       if (err instanceof HttpErrorResponse && err.status === 401 && token) {
-        auth.logout();
+        auth.dropSession();
       }
       return throwError(() => err);
     }),

@@ -104,6 +104,15 @@ public class AuthService {
         return LoginResponse.loggedIn(jwt.issue(user), mapper.toDto(user));
     }
 
+    /**
+     * Bumping session_version logs the user out of every device, not only the one that asked; that is the
+     * accepted pilot behaviour (per-device sessions are in the backlog).
+     */
+    @Transactional
+    public void logout() {
+        load().revokeSessions();
+    }
+
     /** Email lowercased, phone as E.164, or "" when it is neither (all unparseable identifiers share one bucket; the IP bucket still counts). */
     private static String normalizeIdentifier(String raw) {
         var trimmed = raw == null ? "" : raw.trim();

@@ -197,6 +197,19 @@ class AuthIT {
     }
 
     @Test
+    void logoutRevokesTheTokenOnTheServer() {
+        var token = login(api(), TECH, PASSWORD);
+        assertThat(status("/api/v1/me", token)).isEqualTo(HttpStatus.OK);
+
+        var out = api().post().uri("/api/v1/auth/logout").header("Authorization", "Bearer " + token)
+            .retrieve().toEntity(String.class);
+        assertThat(out.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+
+        assertThat(status("/api/v1/me", token)).isEqualTo(HttpStatus.UNAUTHORIZED);
+        assertThat(status("/api/v1/me", login(api(), TECH, PASSWORD))).isEqualTo(HttpStatus.OK);   // a fresh login works
+    }
+
+    @Test
     void eleventhFailedLoginIs429WithRetryAfter() {
         var email = "ratelimit-case@clinic.example.com";   // unknown user: failures still count
         for (int i = 0; i < 10; i++) {
