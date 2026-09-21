@@ -25,5 +25,5 @@ Each practice configures small option lists: rooms, appointment types, services 
 
 ## Impact
 
-- `V8__reference_data.sql`, `com.qvety.reference`, `src/main/resources/catalog/eg.sql`, `R__dev_catalog.sql`.
+- `V9__reference_data.sql`, `com.qvety.reference`, `src/main/resources/catalog/eg.sql`, `R__dev_catalog.sql`.
 - `docs/domain/reference-data.md` is the allow-list that `CLAUDE.md` refers to; this spec replaces it.

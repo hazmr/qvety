@@ -1,4 +1,4 @@
-## Migration `V8__reference_data.sql`
+## Migration `V9__reference_data.sql`
 
 ```sql
 CREATE TABLE rooms (
@@ -25,12 +25,12 @@ Data, not code: the catalog is versioned SQL, applied once per practice, editabl
 ## Backend
 
 - `ReferenceEntity extends TenantEntity` adds `name`, `active`.
-- `ReferenceService<E extends ReferenceEntity, D>`: list (active by default, `includeInactive` flag), get, create, update, deactivate.
+- `ReferenceService<E extends ReferenceEntity, D>`: list (active by default, `includeInactive` flag), get, create, update, deactivate, activate. Deactivate and activate are idempotent; admin only.
 - `ReferenceController<D>` generic base; three thin subclasses so springdoc emits a typed schema per entity.
 
 ## API
 
-`/api/v1/reference/rooms`, `/api/v1/reference/appointment-types`, `/api/v1/reference/services`: `GET` (list), `GET /{id}`, `POST`, `PUT /{id}`, `POST /{id}/deactivate`. Admin writes; everyone reads.
+`/api/v1/reference/rooms`, `/api/v1/reference/appointment-types`, `/api/v1/reference/services`: `GET` (list), `GET /{id}`, `POST`, `PUT /{id}`, `POST /{id}/deactivate`, `POST /{id}/activate`. Admin writes; everyone reads.
 
 ## Angular
 

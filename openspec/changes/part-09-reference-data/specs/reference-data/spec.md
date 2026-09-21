@@ -19,11 +19,15 @@ A table whose rows change status over time (invoices, appointments, visits) SHAL
 - **THEN** the proposal is rejected; invoices have a status flow
 
 ### Requirement: Deactivate, never delete
-Reference rows SHALL be deactivated, not deleted, because appointments and invoice lines reference them. Inactive rows SHALL be hidden from pickers and kept in history.
+Reference rows SHALL be deactivated, not deleted, because appointments and invoice lines reference them. Inactive rows SHALL be hidden from pickers and kept in history. A deactivated row SHALL be reactivatable, and both deactivate and activate SHALL be idempotent.
 
 #### Scenario: Room in use
 - **WHEN** a room with past appointments is deactivated
 - **THEN** past appointments still show the room and new bookings cannot pick it
+
+#### Scenario: Service reactivated
+- **WHEN** an inactive service is activated
+- **THEN** it appears in pickers again and its past invoice lines are unchanged
 
 ### Requirement: Service price in practice currency
 A service price SHALL be `numeric(12,2)` with the practice currency. Invoice lines snapshot the price at the time (see `billing`); changing a service price SHALL NOT change past invoices.

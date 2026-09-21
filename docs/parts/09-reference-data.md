@@ -8,14 +8,14 @@ Write `docs/domain/reference-data.md`: the list of reference entities and the ru
 
 ## Stack you learn
 
-- A generic `ReferenceService<E extends ReferenceEntity, D>` and `ReferenceController<D>` with list/get/create/update/deactivate.
+- A generic `ReferenceService<E extends ReferenceEntity, D>` and `ReferenceController<D>` with list/get/create/update/deactivate/activate.
 - Soft deactivate (`active` flag) instead of delete, because appointments reference them.
 - Seeding per country at practice creation.
 - Angular: reuse `list-page` and `form-page` with only a config object per entity; one route module for all reference data.
 
 ## Design
 
-`V8__reference_data.sql`: `rooms` (base + `name`, `active`), `appointment_types` (base + `name`, `duration_minutes`, `color`, `active`), `services` (base + `name`, `price numeric(12,2)`, `currency char(3)`, `active`). All in RLS, audit, and export lists. Starter catalog: `src/main/resources/catalog/eg.sql` (plain SQL with a `:practice_id` parameter), applied by `StarterCatalogSeeder` inside the practice creation transaction in part 11. Until then the dev seed `db/seed/R__dev_catalog.sql` inserts the same rows for the dev practice. One file per country; an unmapped country fails creation (part 02 rule).
+`V9__reference_data.sql`: `rooms` (base + `name`, `active`), `appointment_types` (base + `name`, `duration_minutes`, `color`, `active`), `services` (base + `name`, `price numeric(12,2)`, `currency char(3)`, `active`). All in RLS, audit, and export lists. Starter catalog: `src/main/resources/catalog/eg.sql` (plain SQL with a `:practice_id` parameter), applied by `StarterCatalogSeeder` inside the practice creation transaction in part 11. Until then the dev seed `db/seed/R__dev_catalog.sql` inserts the same rows for the dev practice. One file per country; an unmapped country fails creation (part 02 rule).
 
 Endpoints: `/api/v1/reference/rooms`, `/appointment-types`, `/services`, same shape.
 
