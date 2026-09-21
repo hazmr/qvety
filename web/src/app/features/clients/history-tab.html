@@ -10,7 +10,7 @@
   <tbody>
     @for (e of t.data; track e.id) {
       <tr>
-        <td dir="ltr" class="ltr-field">{{ e.at | date:'medium':'':locale.angularLocale() }}</td>
+        <td>{{ e.at | date:'medium':'':locale.angularLocale() }}</td>
         <td>{{ 'history.' + e.action | transloco }}</td>
         <td dir="ltr" class="ltr-field mono">{{ e.userId ?? '' }}</td>
         <td>

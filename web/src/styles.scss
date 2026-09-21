@@ -7,6 +7,9 @@ body { background: var(--qv-canvas); color: var(--qv-ink); }
 
 /* Latin values inside an Arabic layout: phone, email, ids, numbers. Always LTR, always Plex Sans, Western digits. */
 .ltr-field { direction: ltr; unicode-bidi: isolate; text-align: start; font-family: 'IBM Plex Sans', system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+/* A block-level Latin value (dd, td) still sits at the layout's start edge, next to its label; only the characters run LTR. */
+[dir='rtl'] dd.ltr-field, [dir='rtl'] td.ltr-field { text-align: right; }
+/* Dates go through the date pipe in the user's locale and are never forced LTR: the Arabic pattern carries its own marks. */
 .mono { font-family: 'IBM Plex Mono', monospace; }
 /* Directional icons (back, next, send, collapse) mirror in RTL; the mark and object icons never do. */
 [dir='rtl'] .mirror-rtl { transform: scaleX(-1); }
@@ -18,6 +21,10 @@ body { background: var(--qv-canvas); color: var(--qv-ink); }
 .page-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .page-title h2 { margin: 0; font-size: 20px; font-weight: 600; }
 .form-card { max-width: 480px; padding: 24px; background: var(--qv-surface); border: 2px solid var(--qv-line); }
+/* Every edit screen: one 560 px column centered in the page, title bar and card the same width, so the form
+   reads the same at 1280 and 1900 and in both directions. Phone: the column is the page. */
+.form-layout { max-width: 560px; margin-inline: auto; }
+.form-layout .form-card { max-width: none; }
 .row-actions { display: flex; gap: 12px; }
 
 .page-title__actions { display: flex; gap: 8px; align-items: center; }
@@ -56,6 +63,7 @@ body { background: var(--qv-canvas); color: var(--qv-ink); }
   .ant-btn { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
   .ant-btn-sm { min-height: 36px; }
   .form-card, .summary { padding: 14px; max-width: none; }
+  .form-layout { max-width: none; margin: 0; }
   .summary { grid-template-columns: 1fr; gap: 2px; }
   .summary dt { margin-top: 8px; }
   .page-title { margin-bottom: 12px; }

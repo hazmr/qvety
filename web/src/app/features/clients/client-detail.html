@@ -14,7 +14,7 @@
     <dt>{{ 'clients.address' | transloco }}</dt><dd>{{ c.address }}</dd>
     <dt>{{ 'clients.preferredLocale' | transloco }}</dt><dd>{{ c.preferredLocale ? ('locales.' + c.preferredLocale | transloco) : '' }}</dd>
     <dt>{{ 'clients.notes' | transloco }}</dt><dd>{{ c.notes }}</dd>
-    <dt>{{ 'shared.createdAt' | transloco }}</dt><dd dir="ltr" class="ltr-field">{{ c.createdAt | date:'medium':'':locale.angularLocale() }}</dd>
+    <dt>{{ 'shared.createdAt' | transloco }}</dt><dd>{{ c.createdAt | date:'medium':'':locale.angularLocale() }}</dd>
   </dl>
   <nz-tabs>
     <nz-tab [nzTitle]="'clients.tabPatients' | transloco">

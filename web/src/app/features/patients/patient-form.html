@@ -1,3 +1,5 @@
-<app-title-bar [titleKey]="isNew ? 'patients.add' : 'patients.edit'"
-               [back]="id ? ['/clients', clientId, 'patients', id] : ['/clients', clientId]" />
-<app-form-page [fields]="fields" [value]="current()" [busy]="busy()" (submitted)="save($event)" />
+<div class="form-layout">
+  <app-title-bar [titleKey]="isNew ? 'patients.add' : 'patients.edit'"
+                 [back]="id ? ['/clients', clientId, 'patients', id] : ['/clients', clientId]" />
+  <app-form-page [fields]="fields" [value]="current()" [busy]="busy()" (submitted)="save($event)" />
+</div>

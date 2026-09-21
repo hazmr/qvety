@@ -40,10 +40,14 @@
 .me__btn { min-height: 48px; margin-top: 8px; }
 
 /* ---------- desktop ---------- */
+/* Strip and sidebar stay in view on long pages (sticky, one viewport tall), so the collapse toggle at the
+   sidebar's foot is always reachable; only the page scrolls. */
 .desktop { display: flex; flex-direction: column; min-height: 100vh; }
+.desktop .strip { position: sticky; top: 0; z-index: 10; }
 .desktop__body { display: flex; flex: 1; min-height: 0; }
 .sidebar {
   display: flex; flex-direction: column; flex: none; width: 196px;
+  position: sticky; top: 32px; height: calc(100vh - 32px);
   background: var(--qv-surface); border-inline-end: 2px solid var(--qv-line);
 }
 .sidebar__item {
