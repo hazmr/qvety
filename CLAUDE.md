@@ -33,6 +33,7 @@ docker compose -f docker/docker-compose.yml up -d     # postgres:18, minio
 ./mvnw verify                                         # all tests incl. Testcontainers
 cd web && npm start                                   # angular on :4200, proxies /api to :8080
 cd web && npm run api:generate                        # regenerate client from /v3/api-docs
+cd web && npm run e2e                                 # phone walkthrough (1280/390/360, ar/en) against make up
 ./mvnw package                                        # one jar with the angular build inside
 deploy/release.sh                                     # production: pull, build, compose up (part 16)
 ```
