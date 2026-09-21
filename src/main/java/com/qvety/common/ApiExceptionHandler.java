@@ -10,6 +10,7 @@ import jakarta.persistence.OptimisticLockException;
 import org.springframework.data.core.PropertyReferenceException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -59,6 +60,12 @@ public class ApiExceptionHandler {
     @ExceptionHandler(PropertyReferenceException.class)
     ResponseEntity<ApiError> badSort(PropertyReferenceException e) {
         return ResponseEntity.badRequest().body(new ApiError("bad_sort", text("bad_sort"), null));
+    }
+
+    /** A @PreAuthorize check failed: the same ApiError shape as every other refusal, not the framework's empty 403. */
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    ResponseEntity<ApiError> forbidden(AuthorizationDeniedException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ApiError("forbidden", text("forbidden"), null));
     }
 
     /** reason is used as the code; the message comes from the bundle when a key exists. */

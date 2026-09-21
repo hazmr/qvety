@@ -86,8 +86,13 @@ class AuthIT {
         assertThat(me.getBody()).containsEntry("email", DESK).containsEntry("role", "front_desk");
 
         var users = api().get().uri("/api/v1/users").header("Authorization", "Bearer " + token)
-            .retrieve().toEntity(String.class);
+            .retrieve().toEntity(Map.class);
         assertThat(users.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+        assertThat(users.getBody()).containsEntry("code", "forbidden").containsKey("message");   // an ApiError, not an empty body
+
+        var arabic = api().get().uri("/api/v1/users").header("Authorization", "Bearer " + token)
+            .header("Accept-Language", "ar-EG").retrieve().toEntity(Map.class);
+        assertThat(arabic.getBody()).containsEntry("message", "غير مسموح لك بهذا الإجراء.");
     }
 
     @Test
