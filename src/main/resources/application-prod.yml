@@ -9,6 +9,11 @@ spring:
     user: ${DB_OWNER_USER}
     password: ${DB_OWNER_PASSWORD}
 
+# Only the reverse proxy reaches Tomcat, so its X-Forwarded-* headers are trusted for the remote address
+# (login rate limiting) and the scheme. Not set locally: the socket address is already the client.
+server:
+  forward-headers-strategy: native
+
 # Neither the OpenAPI document nor a viewer is served in production.
 springdoc:
   api-docs:

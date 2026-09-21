@@ -29,9 +29,13 @@ public class AuthController {
         this.messages = messages;
     }
 
+    /**
+     * The remote address is the socket peer, never a header the caller wrote. Behind the proxy (part 16)
+     * Tomcat rewrites it from X-Forwarded-For itself: server.forward-headers-strategy=native in the prod profile.
+     */
     @PostMapping("/login")
     public LoginResponse login(@Valid @RequestBody LoginRequest request, HttpServletRequest http) {
-        return service.login(request, clientIp(http));
+        return service.login(request, http.getRemoteAddr());
     }
 
     /** Revokes the caller's session on the server; the token in hand stops working at once. */
@@ -47,14 +51,5 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
             .header("Retry-After", Long.toString(e.retryAfterSeconds()))
             .body(new ApiError("too_many_attempts", message, null));
-    }
-
-    /** Behind Caddy (part 16) the real address is in X-Forwarded-For; locally it is the socket address. */
-    private static String clientIp(HttpServletRequest http) {
-        var forwarded = http.getHeader("X-Forwarded-For");
-        if (forwarded != null && !forwarded.isBlank()) {
-            return forwarded.split(",")[0].trim();
-        }
-        return http.getRemoteAddr();
     }
 }
