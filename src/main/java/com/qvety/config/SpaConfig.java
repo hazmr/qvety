@@ -11,7 +11,7 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 /**
  * Serves the Angular build from the jar. A path that matches a real file (js, css, fonts, i18n json)
  * is served as-is; anything else (/clients/123, /login) gets index.html so deep links work.
- * /api, /actuator, /v3 and /swagger-ui are handled by their controllers before this resolver.
+ * /api, /actuator, /v3 and /scalar are handled by their controllers before this resolver.
  */
 @Configuration
 public class SpaConfig implements WebMvcConfigurer {
@@ -29,7 +29,7 @@ public class SpaConfig implements WebMvcConfigurer {
                         return requested;
                     }
                     if (resourcePath.startsWith("api/") || resourcePath.startsWith("actuator/")
-                            || resourcePath.startsWith("v3/") || resourcePath.startsWith("swagger-ui")) {
+                            || resourcePath.startsWith("v3/") || resourcePath.startsWith("scalar")) {
                         return null;
                     }
                     // a missing file with an extension is a real 404, not a route

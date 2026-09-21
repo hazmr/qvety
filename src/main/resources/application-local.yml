@@ -17,6 +17,13 @@ qvety:
   jwt:
     secret: local-dev-only-secret-not-for-production-0123456789
 
+# API reference at /scalar; off everywhere else. No CDN fonts and no telemetry so the page stays inside the CSP.
+scalar:
+  enabled: true
+  url: /v3/api-docs
+  with-default-fonts: false
+  telemetry: false
+
 logging:
   level:
     com.qvety: DEBUG

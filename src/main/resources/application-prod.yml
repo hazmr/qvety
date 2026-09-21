@@ -9,6 +9,11 @@ spring:
     user: ${DB_OWNER_USER}
     password: ${DB_OWNER_PASSWORD}
 
+# Neither the OpenAPI document nor a viewer is served in production.
+springdoc:
+  api-docs:
+    enabled: false
+
 logging:
   level:
     com.qvety: INFO

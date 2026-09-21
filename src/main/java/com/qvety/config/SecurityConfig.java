@@ -5,6 +5,7 @@ import com.qvety.auth.PasswordChangeGateFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,7 +26,27 @@ import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWrite
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    /**
+     * Scalar's page (local profile only) boots itself from one inline script and its bundle calls eval,
+     * both of which the main chain's script-src 'self' blocks. This chain relaxes the CSP for /scalar
+     * alone; the main chain stays strict.
+     */
     @Bean
+    @Order(1)
+    SecurityFilterChain scalarFilterChain(HttpSecurity http) throws Exception {
+        http
+            .securityMatcher("/scalar", "/scalar/**")
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+            .headers(h -> h.contentSecurityPolicy(csp -> csp.policyDirectives(
+                "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; "
+                + "img-src 'self' data:; font-src 'self' data:")));
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
     SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter,
                                             PasswordChangeGateFilter gateFilter) throws Exception {
         http
@@ -37,7 +58,7 @@ public class SecurityConfig {
             .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
-                .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                .requestMatchers("/v3/api-docs/**", "/scalar", "/scalar/**").permitAll()
                 .requestMatchers("/api/v1/auth/login").permitAll()
                 .requestMatchers("/api/**").authenticated()
                 // Angular static files and the SPA fallback

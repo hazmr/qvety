@@ -55,5 +55,4 @@ qvety:
 springdoc:
   api-docs:
     path: /v3/api-docs
-  swagger-ui:
-    path: /swagger-ui.html
+  paths-to-match: /api/**   # the document describes the API only, not the viewer's own routes
