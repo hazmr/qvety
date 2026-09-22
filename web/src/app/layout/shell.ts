@@ -33,7 +33,7 @@ export class Shell {
   private readonly allItems: NavItem[] = [
     { link: '/', labelKey: 'app.home', icon: 'home', exact: true },
     { link: '/clients', labelKey: 'app.clients', icon: 'team' },
-    { link: '/settings/users', labelKey: 'app.settings', icon: 'setting', adminOnly: true },
+    { link: '/settings', labelKey: 'app.settings', icon: 'setting', adminOnly: true },
   ];
   readonly items = computed(() => this.allItems.filter((i) => !i.adminOnly || this.auth.isAdmin()));
   /** Nav label for the Me cell: the first two words of the name, or the generic label while loading. */

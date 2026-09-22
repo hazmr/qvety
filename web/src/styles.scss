@@ -21,10 +21,12 @@ body { background: var(--qv-canvas); color: var(--qv-ink); }
 .page-title { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
 .page-title h2 { margin: 0; font-size: 20px; font-weight: 600; }
 .form-card { max-width: 480px; padding: 24px; background: var(--qv-surface); border: 2px solid var(--qv-line); }
-/* Every edit screen: one 560 px column centered in the page, title bar and card the same width, so the form
-   reads the same at 1280 and 1900 and in both directions. Phone: the column is the page. */
+/* Every edit screen, and any short menu of rows: one 560 px column centered in the page, title bar and
+   card the same width, so it reads the same at 1280 and 1900 and in both directions. Phone: the column
+   is the page, and rows keep their edge-to-edge bleed. */
 .form-layout { max-width: 560px; margin-inline: auto; }
 .form-layout .form-card { max-width: none; }
+@media (min-width: 768px) { .form-layout .rows { margin-inline: 0; } }
 .row-actions { display: flex; gap: 12px; }
 
 .page-title__actions { display: flex; gap: 8px; align-items: center; }
@@ -46,6 +48,9 @@ body { background: var(--qv-canvas); color: var(--qv-ink); }
 .row__secondary { font-size: 13px; color: var(--qv-ink-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .row__tag { flex: none; font-size: 11px; font-weight: 500; padding: 3px 8px; background: var(--qv-primary-light); color: var(--qv-primary); }
 .row--empty { cursor: default; }
+/* Menu rows (settings index): a leading icon, a trailing chevron, the text between them. */
+.row__icon { flex: none; font-size: 18px; color: var(--qv-ink-muted); }
+.row__chevron { flex: none; font-size: 14px; color: var(--qv-ink-muted); }
 .list-search--phone { width: 100%; margin-bottom: 12px; }
 .list-extra { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
 .list-extra--phone:not(:empty) { display: flex; margin-bottom: 4px; }

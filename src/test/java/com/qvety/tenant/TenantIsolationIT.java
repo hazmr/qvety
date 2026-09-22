@@ -378,6 +378,44 @@ class TenantIsolationIT {
         assertThat(rowsB).extracting(r -> r.get("rowId")).doesNotContain(DESK_A.toString(), ADMIN_A.toString());
     }
 
+    // ---- part 09: reference data ---------------------------------------------------------------------
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void referenceRowsAreInvisibleAcrossPractices() {
+        var tokenA = login(client(port), ADMIN, PASSWORD);
+        var tokenB = login(client(port), ADMIN_B_EMAIL, PASSWORD);
+        var seededRoomA = "00000000-0000-7000-8000-000000000601";
+
+        for (var path : List.of("/api/v1/reference/rooms", "/api/v1/reference/appointment-types", "/api/v1/reference/services")) {
+            // practice A has its starter catalog; practice B was created without one and sees nothing
+            assertThat((List<Object>) client(port).get().uri(path + "?includeInactive=true")
+                .header("Authorization", "Bearer " + tokenA).retrieve().body(List.class)).isNotEmpty();
+            assertThat((List<Object>) client(port).get().uri(path + "?includeInactive=true")
+                .header("Authorization", "Bearer " + tokenB).retrieve().body(List.class)).isEmpty();
+        }
+
+        var readB = client(port).get().uri("/api/v1/reference/rooms/" + seededRoomA)
+            .header("Authorization", "Bearer " + tokenB).retrieve().toEntity(String.class);
+        assertThat(readB.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+
+        var editB = client(port).put().uri("/api/v1/reference/rooms/" + seededRoomA)
+            .header("Authorization", "Bearer " + tokenB).header("If-Match", "0")
+            .contentType(MediaType.APPLICATION_JSON).body(Map.of("name", "Hijacked"))
+            .retrieve().toEntity(String.class);
+        assertThat(editB.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+
+        var deactivateB = client(port).post().uri("/api/v1/reference/rooms/" + seededRoomA + "/deactivate")
+            .header("Authorization", "Bearer " + tokenB).retrieve().toEntity(String.class);
+        assertThat(deactivateB.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+
+        // B may use a name A already uses: the unique index is per practice
+        var sameName = client(port).post().uri("/api/v1/reference/rooms")
+            .header("Authorization", "Bearer " + tokenB).contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("name", "غرفة الكشف 1")).retrieve().toEntity(String.class);
+        assertThat(sameName.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+    }
+
     private static Connection ownerConnection(PostgreSQLContainer postgres) throws SQLException {
         return DriverManager.getConnection(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword());
     }

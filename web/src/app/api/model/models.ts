@@ -1,4 +1,6 @@
 export * from './allergyRequest';
+export * from './appointmentType';
+export * from './appointmentTypeRequest';
 export * from './auditEntry';
 export * from './changePasswordRequest';
 export * from './client';
@@ -21,6 +23,10 @@ export * from './practice';
 export * from './practiceUpdateRequest';
 export * from './resetPasswordRequest';
 export * from './retractRequest';
+export * from './room';
+export * from './roomRequest';
+export * from './service';
+export * from './serviceRequest';
 export * from './transferRequest';
 export * from './updateMeRequest';
 export * from './userCreateRequest';

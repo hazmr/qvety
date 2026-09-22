@@ -8,6 +8,9 @@ import { Home } from './home/home';
 import { PatientDetail } from './features/patients/patient-detail';
 import { PatientForm } from './features/patients/patient-form';
 import { Login } from './features/login/login';
+import { ReferenceForm } from './features/settings/reference/reference-form';
+import { ReferenceList } from './features/settings/reference/reference-list';
+import { SettingsIndex } from './features/settings/settings-index';
 import { UserForm } from './features/settings/users/user-form';
 import { UsersList } from './features/settings/users/users-list';
 import { Shell } from './layout/shell';
@@ -28,10 +31,23 @@ export const routes: Routes = [
       { path: 'clients/:id/patients/new', component: PatientForm },
       { path: 'clients/:id/patients/:pid', component: PatientDetail },
       { path: 'clients/:id/patients/:pid/edit', component: PatientForm },
-      { path: 'settings/users', canActivate: [adminGuard], children: [
-        { path: '', component: UsersList },
-        { path: 'new', component: UserForm },
-        { path: ':id', component: UserForm },
+      { path: 'settings', canActivate: [adminGuard], children: [
+        { path: '', component: SettingsIndex },
+        { path: 'users', children: [
+          { path: '', component: UsersList },
+          { path: 'new', component: UserForm },
+          { path: ':id', component: UserForm },
+        ] },
+        // One list and one form for every reference entity; `reference` names the config object (part 09).
+        ...['rooms', 'appointment-types', 'services'].map((key) => ({
+          path: key,
+          data: { reference: key },
+          children: [
+            { path: '', component: ReferenceList, data: { reference: key } },
+            { path: 'new', component: ReferenceForm, data: { reference: key } },
+            { path: ':id', component: ReferenceForm, data: { reference: key } },
+          ],
+        })),
       ] },
     ],
   },

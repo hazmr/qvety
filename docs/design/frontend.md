@@ -57,7 +57,7 @@ High. Colors, type sizes, weights, spacing, and copy are final and should be mat
 
 ## Edit screens (any form)
 
-One column, 560 px, centered in the page area (`.form-layout`): the title bar with its back chevron, any alert, then the white card with 2 px `line` border and 24 px padding. Labels above inputs, hint text below in `ink-muted`, the required mark at the label's start. Latin values (`ltr-field`) stay LTR inside the card. The action row sits at the bottom of the card, secondary actions before the primary. On the phone the column is the page and the action row becomes the sticky action bar (`MOBILE.md`). Every form, generic (`form-page`) or hand-written, sits in this column.
+One column, 560 px, centered in the page area (`.form-layout`): the title bar with its back chevron, any alert, then the white card with 2 px `line` border and 24 px padding. Labels above inputs, hint text below in `ink-muted`, the required mark at the label's start. Latin values (`ltr-field`) stay LTR inside the card. The action row sits at the bottom of the card, secondary actions before the primary. On the phone the column is the page and the action row becomes the sticky action bar (`MOBILE.md`). Every form, generic (`form-page`) or hand-written, sits in this column, and so does a short menu of rows such as the settings index.
 
 ## The eight screens
 

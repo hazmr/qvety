@@ -336,30 +336,36 @@ erDiagram
     rooms {
         uuid id PK
         uuid practice_id FK
-        varchar name
-        bool active
+        text name "unique per practice, lower(name)"
+        bool active "deactivate/activate, never delete"
         int version
+        timestamptz created_at
+        timestamptz updated_at
     }
 
     appointment_types {
         uuid id PK
         uuid practice_id FK
-        varchar name
-        int duration_minutes
-        varchar color
+        text name "unique per practice, lower(name)"
+        int duration_minutes "check 5..480"
+        text color "check #rrggbb or null"
         uuid default_service_id FK "nullable; part 14 prefill"
         bool active
         int version
+        timestamptz created_at
+        timestamptz updated_at
     }
 
     services {
         uuid id PK
         uuid practice_id FK
-        varchar name
-        numeric price
-        char3 currency
+        text name "unique per practice, lower(name)"
+        numeric price "numeric(12,2), check >= 0"
+        char3 currency "copied from the practice on create"
         bool active
         int version
+        timestamptz created_at
+        timestamptz updated_at
     }
 
     practices ||--o{ users : ""
@@ -725,3 +731,4 @@ Applied migrations, in order. The tables above are the target; this list is what
 | `V6__search.sql` | 07 | `pg_trgm`; `clients.full_name_normalized` (not null), `clients.phone_e164`, `clients.phone_secondary_e164` with a rough SQL backfill; trigram GIN on the folded name, btree on `(practice_id, folded name)` and on each E.164 column; part 06 raw-column indexes dropped |
 | `V7__login_practices.sql` | 03b | `login_practices(uuid[])` definer function: practice id and name for the login picker when the same phone or email exists at several practices |
 | `V8__patients.sql` | 08 | `species`, `patient_sex`, `allergy_severity` enums; `patients` (composite same-practice FK to `clients`, `previous_client_id`, `deceased_at`, empty `photo_object_key`), `patient_weights` (`voided_at`, `void_reason`; `patient_weight_guard` trigger: void only, no delete), `patient_allergies` (`retracted_at`, `retracted_reason`; `patient_allergy_guard` trigger: retract only, no delete); both guard functions `SECURITY DEFINER`, `EXECUTE` revoked from `qvety_app`; three `tenant_table_setup()` calls |
+| `V9__reference_data.sql` | 09 | `rooms`, `appointment_types` (duration 5..480, `#rrggbb` colour check), `services` (`numeric(12,2)` price >= 0, `char(3)` currency); unique `(id, practice_id)` on rooms, appointment types and services for the part 10 and part 14 composite foreign keys; unique index on `(practice_id, lower(name))` per table, active rows and inactive alike, because a deactivated row is reactivated and never duplicated; three `tenant_table_setup()` calls |

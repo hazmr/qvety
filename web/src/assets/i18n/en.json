@@ -221,5 +221,43 @@
     "mild": "Mild",
     "moderate": "Moderate",
     "severe": "Severe"
+  },
+  "settings": {
+    "title": "Settings",
+    "users": "Staff",
+    "usersHint": "Who can log in, and what they may do",
+    "rooms": "Rooms",
+    "roomsHint": "Consultation rooms, theatre, kennels",
+    "appointmentTypes": "Appointment types",
+    "appointmentTypesHint": "Kinds of visit, with default length",
+    "services": "Services",
+    "servicesHint": "The price list"
+  },
+  "reference": {
+    "name": "Name",
+    "status": "Status",
+    "inactive": "Inactive",
+    "showInactive": "Show inactive",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "confirmDeactivate": "Hide {{name}} from the pickers? Past records keep it, and you can bring it back.",
+    "duration": "Minutes",
+    "durationHint": "Default length of the visit, 5 to 480 minutes.",
+    "color": "Colour",
+    "colorHint": "Day-view colour, like #1F6F5C. Leave empty to let the day view choose.",
+    "price": "Price",
+    "priceHint": "In the practice currency. An invoice keeps the price it was issued with.",
+    "rooms": {
+      "title": "Rooms",
+      "add": "Add room"
+    },
+    "appointmentTypes": {
+      "title": "Appointment types",
+      "add": "Add type"
+    },
+    "services": {
+      "title": "Services",
+      "add": "Add service"
+    }
   }
 }

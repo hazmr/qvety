@@ -17,6 +17,8 @@ const ADMIN = { identifier: 'admin@clinic.example.com', password: 'password123' 
 const CLIENT = '00000000-0000-7000-8000-000000000301';   // seeded client with patients
 const PATIENT = '00000000-0000-7000-8000-000000000401';
 const DESK_USER = '00000000-0000-7000-8000-000000000104';
+const ROOM = '00000000-0000-7000-8000-000000000601';        // seeded by R__050_dev_catalog.sql
+const SERVICE = '00000000-0000-7000-8000-000000000621';
 
 type Locale = 'ar' | 'en';
 
@@ -27,8 +29,14 @@ const SCREENS: { name: string; path: string; ready: string }[] = [
   { name: 'client-form', path: '/clients/new', ready: '#fullName' },
   { name: 'patient-detail', path: `/clients/${CLIENT}/patients/${PATIENT}`, ready: '.summary' },
   { name: 'patient-form', path: `/clients/${CLIENT}/patients/new`, ready: '#name' },
+  { name: 'settings', path: '/settings', ready: '.rows' },
   { name: 'users', path: '/settings/users', ready: '.title-bar' },
   { name: 'user-form', path: `/settings/users/${DESK_USER}`, ready: 'input[formcontrolname=fullName]' },
+  { name: 'rooms', path: '/settings/rooms', ready: '.title-bar' },
+  { name: 'room-form', path: `/settings/rooms/${ROOM}`, ready: '#name' },
+  { name: 'appointment-types', path: '/settings/appointment-types', ready: '.title-bar' },
+  { name: 'services', path: '/settings/services', ready: '.title-bar' },
+  { name: 'service-form', path: `/settings/services/${SERVICE}`, ready: '#name' },
 ];
 
 for (const locale of ['ar', 'en'] as Locale[]) {
