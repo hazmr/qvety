@@ -22,4 +22,4 @@
 ## 5. Close
 - [x] 5.1 `erd.md` updated
 - [x] 5.2 `progress.md` entry
-- [ ] 5.3 Commit
+- [x] 5.3 Commit
