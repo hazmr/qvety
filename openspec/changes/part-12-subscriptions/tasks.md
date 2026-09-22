@@ -1,5 +1,5 @@
 ## 1. Migration
-- [ ] 1.1 `V11__subscriptions.sql`: five tables, enums, `grace_days`, `Clinic` plan with two versions
+- [ ] 1.1 `V12__subscriptions.sql`: five tables, enums, `grace_days`, `Clinic` plan with two versions
 - [ ] 1.2 Dev seed assigns the dev practice a subscription
 
 ## 2. Backend

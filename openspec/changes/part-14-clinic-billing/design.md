@@ -1,4 +1,4 @@
-## Migration `V13__billing.sql`
+## Migration `V14__billing.sql`
 
 ```sql
 CREATE TYPE invoice_status AS ENUM ('draft','issued','paid','partially_paid','void');

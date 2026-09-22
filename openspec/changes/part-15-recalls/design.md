@@ -1,4 +1,4 @@
-## Migration `V14__recalls.sql`
+## Migration `V15__recalls.sql`
 
 ```sql
 CREATE TYPE reminder_status AS ENUM ('open','done','dismissed');

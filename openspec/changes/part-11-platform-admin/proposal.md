@@ -29,5 +29,5 @@ Qvety sells to practices. The super admin creates a practice, watches its status
 
 ## Impact
 
-- `V10__platform.sql`, `com.qvety.platform` (only package allowed to use system context), status filter, `ExportService`, backup service in `docker/docker-compose.yml`.
+- `V11__platform.sql`, `com.qvety.platform` (only package allowed to use system context), status filter, `ExportService`, backup service in `docker/docker-compose.yml`.
 - `TenantIsolationIT` gains platform cases and the export-list assertion.

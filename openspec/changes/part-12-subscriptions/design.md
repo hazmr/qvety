@@ -1,4 +1,4 @@
-## Migration `V11__subscriptions.sql`
+## Migration `V12__subscriptions.sql`
 
 ```sql
 CREATE TYPE billing_period AS ENUM ('monthly','yearly');

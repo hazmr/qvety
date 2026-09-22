@@ -1,5 +1,5 @@
 ## 1. Migration
-- [ ] 1.1 `V14__recalls.sql`: three tables, enums, checks, append-only trigger on `recall_contacts`
+- [ ] 1.1 `V15__recalls.sql`: three tables, enums, checks, append-only trigger on `recall_contacts`
 - [ ] 1.2 Append to RLS, audit, export lists; settings row in dev seed and in practice creation
 
 ## 2. Backend

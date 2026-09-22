@@ -19,7 +19,7 @@ A vaccination has a `next_due` date. A clinic that calls the owner the week befo
 
 ## Design
 
-`V14__recalls.sql`: `care_reminders` (base + `patient_id`, `title`, `note`, `due_date`, `status` enum `open|done|dismissed`, `created_by`, `resolved_by`, `resolved_at`, `dismissed_reason`); `recall_contacts` (base + `patient_id`, `vaccination_id` nullable, `care_reminder_id` nullable, check exactly one set, `contacted_by`, `channel` enum, `outcome` enum, `note`, `contacted_at`), append-only; `practice_settings` (one row per practice, `practice_id` unique; also `reminder_message_ar`, `reminder_message_en` for care reminders). All in RLS, audit, export lists.
+`V15__recalls.sql`: `care_reminders` (base + `patient_id`, `title`, `note`, `due_date`, `status` enum `open|done|dismissed`, `created_by`, `resolved_by`, `resolved_at`, `dismissed_reason`); `recall_contacts` (base + `patient_id`, `vaccination_id` nullable, `care_reminder_id` nullable, check exactly one set, `contacted_by`, `channel` enum, `outcome` enum, `note`, `contacted_at`), append-only; `practice_settings` (one row per practice, `practice_id` unique; also `reminder_message_ar`, `reminder_message_en` for care reminders). All in RLS, audit, export lists.
 
 Endpoints: `GET /api/v1/recalls?from&to&outcomeFilter&type&page` (union of vaccination recalls and open care reminders, one DTO shape with `type`), `POST /api/v1/recalls/{vaccinationId}/contacts`, `POST /api/v1/care-reminders`, `POST /care-reminders/{id}/contacts`, `POST /care-reminders/{id}/done`, `POST /care-reminders/{id}/dismiss`, `GET /patients/{id}/care-reminders`, `GET/PUT /api/v1/practice/settings`.
 

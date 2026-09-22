@@ -30,6 +30,6 @@ The medical record is why the clinic exists legally. Notes, vitals, vaccinations
 
 ## Impact
 
-- `V12__clinical.sql`; `com.qvety.clinical`; `@Immutable` entities; MinIO tenant pattern with `practice_id` key prefix.
+- `V13__clinical.sql`; `com.qvety.clinical`; `@Immutable` entities; MinIO tenant pattern with `practice_id` key prefix.
 - `TenantIsolationIT` and the export list gain nine tables.
 - Angular visit page, print views, controlled-substance page, open-visits list.

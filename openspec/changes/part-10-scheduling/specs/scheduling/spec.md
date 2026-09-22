@@ -40,6 +40,13 @@ Status SHALL be one of `scheduled`, `checked_in`, `in_progress`, `completed`, `c
 - **WHEN** a `completed` appointment is moved to `scheduled`
 - **THEN** the response is 409
 
+### Requirement: Check-in time is recorded
+When an appointment becomes `checked_in`, the system SHALL record the moment it happened, so the board can show how long a patient has waited.
+
+#### Scenario: Minutes waited
+- **WHEN** a patient checked in twenty minutes ago is shown on the board
+- **THEN** the row reports twenty minutes waited
+
 ### Requirement: Walk-ins
 A walk-in SHALL be created directly as `checked_in` with `origin = walk_in`. The origin SHALL never change after creation; the daily report counts booked versus walk-in.
 

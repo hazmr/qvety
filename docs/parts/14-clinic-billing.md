@@ -24,7 +24,7 @@ The clinic charges the client for a visit. Write `docs/domain/billing.md`:
 
 ## Design
 
-`V13__billing.sql`: `invoice_counters` (`practice_id`, `year`, `next_number`, unique on the pair; row locked with `SELECT ... FOR UPDATE` inside the issue transaction), `invoices` (with `number` nullable until issued, unique per practice, `discount`, `tax`, `due_date` nullable), `invoice_lines`, `payments` (unique `(practice_id, idempotency_key)`), all in RLS, audit, and export lists; composite FKs to client/visit. `appointment_types.default_service_id` (nullable) so an exam type prefills its consultation fee. Trigger: reject line changes and `discount` changes when invoice status is not `draft`.
+`V14__billing.sql`: `invoice_counters` (`practice_id`, `year`, `next_number`, unique on the pair; row locked with `SELECT ... FOR UPDATE` inside the issue transaction), `invoices` (with `number` nullable until issued, unique per practice, `discount`, `tax`, `due_date` nullable), `invoice_lines`, `payments` (unique `(practice_id, idempotency_key)`), all in RLS, audit, and export lists; composite FKs to client/visit. `appointment_types.default_service_id` (nullable) so an exam type prefills its consultation fee. Trigger: reject line changes and `discount` changes when invoice status is not `draft`.
 
 Endpoints: `/api/v1/invoices` CRUD while draft, `POST /invoices/from-visit/{visitId}` (prefilled draft), `/issue`, `/void`, `/invoices/{id}/payments` (POST with `Idempotency-Key` header), `GET /invoices/{id}/print` (data for the print view), `GET /visits/unbilled`, `/reports/daily-cash?date`.
 

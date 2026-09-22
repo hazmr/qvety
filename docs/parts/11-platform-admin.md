@@ -20,7 +20,7 @@ Qvety sells to practices. You (super admin) create a practice, watch its status,
 
 ## Design
 
-`V10__platform.sql`: `platform_users` (`id`, `email` unique, `password_hash`, `full_name`, `active`, `session_version`, timestamps), `platform_settings` (`key`, `value`), `platform_audit_log` (append-only: `platform_user_id`, `action`, `target_type`, `target_id`, `details jsonb`, `at`), `practices.closed_at`. None in the RLS list; grants to `qvety_app` on these tables are `SELECT/INSERT/UPDATE` only where needed, `SELECT/INSERT` on the audit log.
+`V11__platform.sql`: `platform_users` (`id`, `email` unique, `password_hash`, `full_name`, `active`, `session_version`, timestamps), `platform_settings` (`key`, `value`), `platform_audit_log` (append-only: `platform_user_id`, `action`, `target_type`, `target_id`, `details jsonb`, `at`), `practices.closed_at`. None in the RLS list; grants to `qvety_app` on these tables are `SELECT/INSERT/UPDATE` only where needed, `SELECT/INSERT` on the audit log.
 
 Decision recorded here: platform users are a separate table, not a flag on `users`. `users` is a tenant table under RLS and a platform user has no `practice_id`; mixing them would need a nullable `practice_id` and a policy exception on the one table that must never have one.
 

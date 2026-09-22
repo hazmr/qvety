@@ -25,5 +25,5 @@ A vaccination has a next-due date. The clinic that calls the owner the week befo
 
 ## Impact
 
-- `V14__recalls.sql`; `com.qvety.recalls`; three tables in RLS, audit, export lists.
+- `V15__recalls.sql`; `com.qvety.recalls`; three tables in RLS, audit, export lists.
 - Angular `/recalls`, "Add reminder" on patient and visit pages, recall settings page.

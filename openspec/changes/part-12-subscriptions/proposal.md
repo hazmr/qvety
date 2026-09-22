@@ -26,5 +26,5 @@ Qvety gets paid by practices through InstaPay, Vodafone Cash, or bank transfer, 
 
 ## Impact
 
-- `V11__subscriptions.sql`, `com.qvety.platform.subscriptions`, MinIO client and pre-signed upload pattern reused by part 13.
+- `V12__subscriptions.sql`, `com.qvety.platform.subscriptions`, MinIO client and pre-signed upload pattern reused by part 13.
 - `docker/docker-compose.yml` MinIO bucket for proofs.

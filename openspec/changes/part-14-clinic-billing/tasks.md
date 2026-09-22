@@ -1,5 +1,5 @@
 ## 1. Migration
-- [ ] 1.1 `V13__billing.sql`: counters, invoices, lines, payments, `default_service_id`, trigger
+- [ ] 1.1 `V14__billing.sql`: counters, invoices, lines, payments, `default_service_id`, trigger
 - [ ] 1.2 Append four tables to RLS, audit, export lists
 
 ## 2. Backend

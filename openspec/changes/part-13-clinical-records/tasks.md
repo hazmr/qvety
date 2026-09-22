@@ -1,5 +1,5 @@
 ## 1. Migration
-- [ ] 1.1 `V12__clinical.sql`: nine tables, enums, composite FKs, checks, `logo_object_key`
+- [ ] 1.1 `V13__clinical.sql`: nine tables, enums, composite FKs, checks, `logo_object_key`
 - [ ] 1.2 Trigger functions with `SECURITY DEFINER` and revoked `EXECUTE`; attach triggers
 - [ ] 1.3 Append nine tables to RLS, audit, export lists
 - [ ] 1.4 Test every trigger in `psql` as `qvety_app` before Java

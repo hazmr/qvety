@@ -1,4 +1,4 @@
-## Migration `V10__platform.sql`
+## Migration `V11__platform.sql`
 
 ```sql
 CREATE TABLE platform_users (

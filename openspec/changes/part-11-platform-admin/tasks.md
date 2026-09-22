@@ -1,5 +1,5 @@
 ## 1. Migration and seed
-- [ ] 1.1 `V10__platform.sql`: three platform tables, `closed_at`, settings rows, grants, export list backfill
+- [ ] 1.1 `V11__platform.sql`: three platform tables, `closed_at`, settings rows, grants, export list backfill
 - [ ] 1.2 `R__dev_platform_user.sql`
 
 ## 2. Backend

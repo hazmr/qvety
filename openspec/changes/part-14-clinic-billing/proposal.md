@@ -28,6 +28,6 @@ The clinic charges the client for a visit. Invoices must be gapless once issued,
 
 ## Impact
 
-- `V13__billing.sql`; `com.qvety.billing`; `BigDecimal` scale 2, `RoundingMode.HALF_UP` recorded.
+- `V14__billing.sql`; `com.qvety.billing`; `BigDecimal` scale 2, `RoundingMode.HALF_UP` recorded.
 - `VisitService.close` gains the invoice check.
 - Angular invoice builder, payment dialog, print view, unbilled list, daily report.

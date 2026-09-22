@@ -26,5 +26,5 @@ The front desk books appointments and the whole clinic needs to see who is in th
 
 ## Impact
 
-- `V9__scheduling.sql` with `btree_gist`; `com.qvety.scheduling`; two new tables in RLS, audit, export lists.
+- `V10__scheduling.sql` with `btree_gist`; `com.qvety.scheduling`; two new tables in RLS, audit, export lists.
 - Angular `/schedule`, `/board`.

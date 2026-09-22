@@ -22,7 +22,7 @@ The front desk books appointments: patient, veterinarian, room, type, start time
 
 ## Design
 
-`V9__scheduling.sql`: `appointments` (base + `patient_id`, `client_id`, `veterinarian_id`, `room_id`, `appointment_type_id`, `period tstzrange`, `status` enum, `origin` enum (`scheduled|walk_in`), `reason`, `notes`), composite FKs for same-practice, `btree_gist` extension, two exclusion constraints (`veterinarian_id WITH =, period WITH &&` and the same for `room_id`, both excluding cancelled/no_show via a partial constraint). `practice_hours` (base + `weekday`, `opens`, `closes`). All in RLS, audit, and export lists.
+`V10__scheduling.sql`: `appointments` (base + `patient_id`, `client_id`, `veterinarian_id`, `room_id`, `appointment_type_id`, `starts_at`/`ends_at` with a generated `period tstzrange`, `status` enum, `origin` enum (`scheduled|walk_in`), `reason`, `notes`, `checked_in_at`), composite FKs for same-practice, `btree_gist` extension, two exclusion constraints (`veterinarian_id WITH =, period WITH &&` and the same for `room_id`, both excluding cancelled/no_show via a partial constraint). `practice_hours` (base + `weekday`, `opens`, `closes`). All in RLS, audit, and export lists.
 
 Endpoints: `GET /api/v1/appointments?date&veterinarianId`, `POST`, `PUT`, `POST /{id}/status`, `GET /api/v1/schedule/day?date` (grid shape), `GET /api/v1/schedule/board` (today's non-cancelled appointments grouped by status, with patient name, client name, vet, room, minutes since check-in).
 

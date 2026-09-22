@@ -1,4 +1,4 @@
-## Migration `V12__clinical.sql`
+## Migration `V13__clinical.sql`
 
 Tables (all with base columns, `practice_id`, `UNIQUE (id, practice_id)`, composite same-practice FKs):
 

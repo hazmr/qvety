@@ -19,7 +19,7 @@ You assign a plan to a practice, record payments that arrive by InstaPay or Voda
 
 ## Design
 
-`V11__subscriptions.sql`: `plans`, `plan_versions`, `subscriptions` (unique `practice_id`), `subscription_invoices`, `subscription_payments` (unique `idempotency_key`, `proof_object_key`), `platform_settings` rows `grace_days` and `trial_days`. None in the RLS list.
+`V12__subscriptions.sql`: `plans`, `plan_versions`, `subscriptions` (unique `practice_id`), `subscription_invoices`, `subscription_payments` (unique `idempotency_key`, `proof_object_key`), `platform_settings` rows `grace_days` and `trial_days`. None in the RLS list.
 
 Endpoints under `/api/platform/...`: plans CRUD, `POST /practices/{id}/subscription`, `GET /subscriptions?status`, `POST /subscription-invoices/{id}/payments` (multipart: payment fields + proof file, header `Idempotency-Key`). Practice-side: `GET /api/v1/subscription`.
 
