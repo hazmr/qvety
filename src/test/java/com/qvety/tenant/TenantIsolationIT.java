@@ -416,6 +416,44 @@ class TenantIsolationIT {
         assertThat(sameName.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 
+    // ---- part 10: scheduling ---------------------------------------------------------------------------
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void appointmentsAndHoursAreInvisibleAcrossPractices() {
+        var tokenA = login(client(port), ADMIN, PASSWORD);
+        var tokenB = login(client(port), ADMIN_B_EMAIL, PASSWORD);
+        var seededAppointmentA = "00000000-0000-7000-8000-000000000801";
+
+        // practice A has a seeded clinic day; practice B has none
+        assertThat((List<Object>) client(port).get().uri("/api/v1/appointments")
+            .header("Authorization", "Bearer " + tokenA).retrieve().body(List.class)).isNotEmpty();
+        assertThat((List<Object>) client(port).get().uri("/api/v1/appointments")
+            .header("Authorization", "Bearer " + tokenB).retrieve().body(List.class)).isEmpty();
+
+        var readB = client(port).get().uri("/api/v1/appointments/" + seededAppointmentA)
+            .header("Authorization", "Bearer " + tokenB).retrieve().toEntity(String.class);
+        assertThat(readB.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+
+        var moveB = client(port).post().uri("/api/v1/appointments/" + seededAppointmentA + "/status")
+            .header("Authorization", "Bearer " + tokenB).contentType(MediaType.APPLICATION_JSON)
+            .body(Map.of("status", "cancelled")).retrieve().toEntity(String.class);
+        assertThat(moveB.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+
+        // the board and the day grid are views over the same table, so they are scoped the same way
+        var boardB = client(port).get().uri("/api/v1/schedule/board")
+            .header("Authorization", "Bearer " + tokenB).retrieve().body(Map.class);
+        assertThat((List<Object>) boardB.get("waiting")).isEmpty();
+        assertThat((List<Object>) boardB.get("inExam")).isEmpty();
+        assertThat((List<Object>) boardB.get("done")).isEmpty();
+
+        var dayB = client(port).get().uri("/api/v1/schedule/day")
+            .header("Authorization", "Bearer " + tokenB).retrieve().body(Map.class);
+        assertThat((List<Object>) dayB.get("columns")).isEmpty();
+        // B has no opening hours of its own and does not inherit A's
+        assertThat(dayB.get("opens")).isNull();
+    }
+
     private static Connection ownerConnection(PostgreSQLContainer postgres) throws SQLException {
         return DriverManager.getConnection(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword());
     }

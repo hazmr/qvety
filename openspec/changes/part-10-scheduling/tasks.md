@@ -4,17 +4,17 @@
 - [x] 1.3 Append both tables to RLS, audit, export lists; seed hours and a few appointments
 
 ## 2. Backend
-- [ ] 2.1 Entities, DTOs, mappers; `period` is a generated column and is not mapped in Java
-- [ ] 2.2 `AppointmentService`: create (vet flag check, hours warning), update, transition table, walk-in
-- [ ] 2.3 Overlap violation → 409 localized
-- [ ] 2.4 Day grid and board native queries; controllers
+- [x] 2.1 Entities, DTOs, mappers; `period` is a generated column and is not mapped in Java
+- [x] 2.2 `AppointmentService`: create (vet flag check, hours warning), update, transition table, walk-in
+- [x] 2.3 Overlap violation → 409 localized
+- [x] 2.4 Day grid and board native queries; controllers
 
 ## 3. Tests
-- [ ] 3.1 Overlap rejected; cancelled slot reusable
-- [ ] 3.2 Allowed and disallowed transitions
-- [ ] 3.3 Walk-in created `checked_in` with `origin = walk_in`
-- [ ] 3.4 Board groups by status; cross-tenant
-- [ ] 3.5 `TenantIsolationIT` covers both tables
+- [x] 3.1 Overlap rejected; cancelled slot reusable
+- [x] 3.2 Allowed and disallowed transitions
+- [x] 3.3 Walk-in created `checked_in` with `origin = walk_in`
+- [x] 3.4 Board groups by status; cross-tenant
+- [x] 3.5 `TenantIsolationIT` covers both tables
 
 ## 4. Angular
 - [ ] 4.1 `/schedule` day view and booking dialog

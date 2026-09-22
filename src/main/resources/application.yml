@@ -7,7 +7,9 @@ spring:
       ddl-auto: validate
     properties:
       hibernate:
-        jdbc.time_zone: UTC
+        # No jdbc.time_zone. Every timestamp column is timestamptz, an absolute instant the setting cannot
+        # change, but it also applies to `time` columns: a wall-clock time has no date, so the driver
+        # converts it against 1970 and practice_hours 10:00 came back as 12:00 in Cairo.
         default_batch_fetch_size: 16   # LAZY @ManyToOne loads in batches, not one select per row
   flyway:
     enabled: true
