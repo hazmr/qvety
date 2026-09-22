@@ -1,7 +1,7 @@
 ## 1. Migration
-- [ ] 1.1 `V10__scheduling.sql`: extension, enums, `appointments` (`starts_at`/`ends_at` with a generated `period`, `checked_in_at`) with composite FKs and two partial exclusion constraints, `practice_hours` (with `version`)
-- [ ] 1.2 Test the exclusion constraint in `psql` before Java
-- [ ] 1.3 Append both tables to RLS, audit, export lists; seed hours and a few appointments
+- [x] 1.1 `V10__scheduling.sql`: extension, enums, `appointments` (`starts_at`/`ends_at` with a generated `period`, `checked_in_at`) with composite FKs and two partial exclusion constraints, `practice_hours` (with `version`)
+- [x] 1.2 Test the exclusion constraint in `psql` before Java
+- [x] 1.3 Append both tables to RLS, audit, export lists; seed hours and a few appointments
 
 ## 2. Backend
 - [ ] 2.1 Entities, DTOs, mappers; `period` is a generated column and is not mapped in Java
