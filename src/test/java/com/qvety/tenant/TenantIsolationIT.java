@@ -61,6 +61,7 @@ class TenantIsolationIT {
     @Autowired UserRepository users;
     @Autowired EntityManager entityManager;
     @Autowired PlatformTransactionManager txManager;
+    @Autowired com.qvety.platform.ExportService exportService;
 
     @BeforeAll
     static void seedPracticeB(@Autowired PostgreSQLContainer postgres) throws SQLException {
@@ -188,7 +189,8 @@ class TenantIsolationIT {
             expectedAudited.remove("audit_log");
             expectedAudited.add("practices");
             assertThat(audited).containsExactlyInAnyOrderElementsOf(expectedAudited);
-            // export list joins this assertion in part 11
+            // export list (part 11): derived from the same catalog, so the three sets cannot drift apart
+            assertThat(exportService.tables()).containsExactlyInAnyOrderElementsOf(withPracticeId);
         }
     }
 
@@ -452,6 +454,50 @@ class TenantIsolationIT {
         assertThat((List<Object>) dayB.get("columns")).isEmpty();
         // B has no opening hours of its own and does not inherit A's
         assertThat(dayB.get("opens")).isNull();
+    }
+
+    // ---- part 11: the platform side ------------------------------------------------------------------
+
+    /**
+     * Part 04 kept `practices.status` away from the application role so that a bug in a feature service
+     * could never suspend a clinic, and part 11 must not have quietly undone that to give the super admin
+     * what it needs. The rights went to three definer functions instead; this proves the table itself is
+     * still shut.
+     */
+    @Test
+    void theApplicationRoleStillCannotChangeAPracticeDirectly() throws SQLException {
+        try (var app = DriverManager.getConnection(postgres.getJdbcUrl(), "qvety_app", "qvety_app");
+             var st = app.createStatement()) {
+
+            assertThatThrownBy(() -> st.executeUpdate("""
+                INSERT INTO practices (name, country, currency, locale, timezone)
+                VALUES ('Sneaky Clinic', 'EG', 'EGP', 'ar-EG', 'Africa/Cairo')"""))
+                .hasMessageContaining("permission denied for table practices");
+
+            assertThatThrownBy(() -> st.executeUpdate("UPDATE practices SET status = 'suspended'"))
+                .hasMessageContaining("permission denied for table practices");
+
+            assertThatThrownBy(() -> st.executeUpdate("UPDATE practices SET closed_at = now()"))
+                .hasMessageContaining("permission denied for table practices");
+        }
+    }
+
+    /** The trail that says who suspended a clinic is worthless if the application can rewrite it. */
+    @Test
+    void thePlatformAuditTrailCannotBeRewritten() throws SQLException {
+        try (var app = DriverManager.getConnection(postgres.getJdbcUrl(), "qvety_app", "qvety_app");
+             var st = app.createStatement()) {
+            st.executeUpdate("INSERT INTO platform_audit_log (action, target_type) VALUES ('probe', 'practice')");
+            assertThatThrownBy(() -> st.executeUpdate("UPDATE platform_audit_log SET action = 'tampered'"))
+                .hasMessageContaining("permission denied");
+            assertThatThrownBy(() -> st.executeUpdate("DELETE FROM platform_audit_log"))
+                .hasMessageContaining("permission denied");
+        }
+        // and not even the owner, because the guard trigger runs for everyone
+        try (var owner = ownerConnection(postgres); var st = owner.createStatement()) {
+            assertThatThrownBy(() -> st.executeUpdate("DELETE FROM platform_audit_log"))
+                .hasMessageContaining("append-only");
+        }
     }
 
     private static Connection ownerConnection(PostgreSQLContainer postgres) throws SQLException {

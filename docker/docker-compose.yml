@@ -30,6 +30,28 @@ services:
     volumes:
       - minio-data:/data
 
+  # Part 11. Nightly pg_dump to MinIO at 03:00 Cairo, kept 30 days. The same image and script run in
+  # production (part 16); here it exists so the restore drill can be rehearsed against real dumps.
+  backup:
+    build: ./backup
+    container_name: qvety-backup
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    environment:
+      TZ: Africa/Cairo
+      PGHOST: postgres
+      PGUSER: qvety_owner
+      PGPASSWORD: qvety_owner
+      PGDATABASE: qvety
+      MINIO_URL: http://minio:9000
+      MINIO_ACCESS_KEY: qvety
+      MINIO_SECRET_KEY: qvety-minio
+      BACKUP_BUCKET: qvety-backups
+      RETENTION_DAYS: "30"
+
 volumes:
   postgres-data:
   minio-data:

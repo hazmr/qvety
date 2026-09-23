@@ -4,23 +4,23 @@
 
 ## 2. Backend
 - [x] 2.1 ArchUnit rule confining `SystemContext` to `platform` and `AuthService`
-- [ ] 2.2 Platform login, `PLATFORM` authority, `@PreAuthorize("hasAuthority('PLATFORM')")`
-- [ ] 2.3 Status enforcement filter with cache (60 s)
-- [ ] 2.4 Practice creation transaction with catalog, admin user, audit row
-- [ ] 2.5 Manual status change with reason and audit row
-- [ ] 2.6 `ExportService` streamed under tenant context; platform and practice endpoints
+- [x] 2.2 Platform login, `PLATFORM` authority, `@PreAuthorize("hasAuthority('PLATFORM')")`
+- [x] 2.3 Status enforcement filter with cache (60 s)
+- [x] 2.4 Practice creation transaction with catalog, admin user, audit row
+- [x] 2.5 Manual status change with reason and audit row
+- [x] 2.6 `ExportService` streamed under tenant context; platform and practice endpoints
 
 ## 3. Tests
-- [ ] 3.1 `TenantIsolationIT`: super admin lists practices; super admin on tenant endpoint 403; tenant code cannot use `SystemContext`
-- [ ] 3.2 Suspended → write 423, read 200; closed → 403 except export
-- [ ] 3.3 Export of A contains no B row; export table set equals the RLS set, both derived from the catalog
-- [ ] 3.4 Practice creation: trial, catalog rows, admin with `must_change_password`, audit row; unmapped country writes nothing
-- [ ] 3.5 The application role cannot insert a practice or update a status outside the definer functions
+- [x] 3.1 `TenantIsolationIT`: super admin lists practices; super admin on tenant endpoint 403; tenant code cannot use `SystemContext`
+- [x] 3.2 Suspended → write 423, read 200; closed → 403 except export
+- [x] 3.3 Export of A contains no B row; export table set equals the RLS set, both derived from the catalog
+- [x] 3.4 Practice creation: trial, catalog rows, admin with `must_change_password`, audit row; unmapped country writes nothing
+- [x] 3.5 The application role cannot insert a practice or update a status outside the definer functions
 
 ## 4. Backup
-- [ ] 4.1 `backup` sidecar in compose
-- [ ] 4.2 Run once by hand, restore into `qvety_drill`, start the app, log in
-- [ ] 4.3 Log the drill with date and person
+- [x] 4.1 `backup` sidecar in compose
+- [x] 4.2 Run once by hand, restore into `qvety_drill`, start the app, log in
+- [x] 4.3 Log the drill with date and person
 
 ## 5. Angular
 - [ ] 5.1 `/admin` layout and routes guarded by the platform claim

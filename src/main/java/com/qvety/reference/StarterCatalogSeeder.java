@@ -29,6 +29,11 @@ public class StarterCatalogSeeder {
         this.jdbc = jdbc;
     }
 
+    /** Whether a country has a starter catalog at all; callers check before writing anything. */
+    public boolean supports(String country) {
+        return new ClassPathResource("catalog/" + country.toLowerCase(Locale.ROOT) + ".sql").exists();
+    }
+
     /** @param country ISO 3166-1 alpha-2, as stored on the practice row. */
     @Transactional(propagation = Propagation.MANDATORY)
     public void seed(UUID practiceId, String country) {

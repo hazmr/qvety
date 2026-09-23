@@ -12,7 +12,12 @@ import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Service;
 
-/** Claims: sub (user id), practiceId, role, vet, sv (session version), exp (+ttl). HS256. */
+/**
+ * Two token shapes, one secret and one filter. A practice token carries practiceId, role and vet; a
+ * platform token carries {@code platform: true} and no practiceId at all, because Qvety staff belong to
+ * no practice. Both carry sv, so bumping a session version still kills every token of that account.
+ * The platform token is issued by {@code platform.PlatformTokenService}: auth must not import platform.
+ */
 @Service
 public class JwtService {
 

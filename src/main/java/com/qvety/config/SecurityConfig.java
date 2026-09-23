@@ -1,7 +1,9 @@
 package com.qvety.config;
 
+import com.qvety.auth.AuthenticatedUser;
 import com.qvety.auth.JwtFilter;
 import com.qvety.auth.PasswordChangeGateFilter;
+import com.qvety.platform.PracticeStatusFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
@@ -48,7 +51,8 @@ public class SecurityConfig {
     @Bean
     @Order(2)
     SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter,
-                                            PasswordChangeGateFilter gateFilter) throws Exception {
+                                            PasswordChangeGateFilter gateFilter,
+                                            PracticeStatusFilter statusFilter) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -59,13 +63,20 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/scalar", "/scalar/**").permitAll()
-                .requestMatchers("/api/v1/auth/login").permitAll()
+                .requestMatchers("/api/v1/auth/login", "/api/platform/auth/login").permitAll()
+                // A platform token authenticates, but it names no practice, so a clinic endpoint refuses
+                // it here rather than failing later when the transaction finds no tenant.
+                .requestMatchers("/api/v1/**").access((authentication, context) ->
+                    new AuthorizationDecision(authentication.get() != null
+                        && authentication.get().getPrincipal() instanceof AuthenticatedUser))
                 .requestMatchers("/api/**").authenticated()
                 // Angular static files and the SPA fallback
                 .anyRequest().permitAll()
             )
             .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class)
             .addFilterAfter(gateFilter, JwtFilter.class)
+            // After the principal exists: a suspended practice may read but not write, a closed one may only export.
+            .addFilterAfter(statusFilter, PasswordChangeGateFilter.class)
             .headers(h -> h
                 // SPA served from the jar: same-origin scripts only, never framed. Styles allow 'unsafe-inline'
                 // because Angular (emulated encapsulation) and NG-ZORRO/CDK inject <style> elements at runtime;
@@ -91,6 +102,13 @@ public class SecurityConfig {
 
     @Bean
     FilterRegistrationBean<PasswordChangeGateFilter> gateFilterRegistration(PasswordChangeGateFilter filter) {
+        var reg = new FilterRegistrationBean<>(filter);
+        reg.setEnabled(false);
+        return reg;
+    }
+
+    @Bean
+    FilterRegistrationBean<PracticeStatusFilter> statusFilterRegistration(PracticeStatusFilter filter) {
         var reg = new FilterRegistrationBean<>(filter);
         reg.setEnabled(false);
         return reg;

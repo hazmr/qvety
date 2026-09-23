@@ -76,6 +76,10 @@ public class Practice {
     @Column(name = "trial_ends_at", updatable = false)
     private OffsetDateTime trialEndsAt;
 
+    /** Set by the platform when a practice is closed; retention is counted from here (part 11). */
+    @Column(name = "closed_at", updatable = false)
+    private OffsetDateTime closedAt;
+
     @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
     private OffsetDateTime createdAt;
 

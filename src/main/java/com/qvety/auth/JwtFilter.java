@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,7 +20,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * Verifies the bearer token, then loads the user row and rejects the token when the user is inactive or
- * the token's session version no longer matches. That lookup is what makes deactivation and password
+ * the token's session version no longer matches. Two token shapes pass through here: a practice token
+ * carrying practiceId, and a platform token carrying {@code platform: true} and no practice at all. That lookup is what makes deactivation and password
  * reset immediate without a session store. No @Transactional here: a proxied filter breaks Tomcat init;
  * the repository call is transactional on its own.
  */
@@ -28,10 +30,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserRepository users;
+    /** Absent only if the platform package is ever removed; the filter then simply rejects platform tokens. */
+    private final Optional<PlatformAuthentication> platform;
 
-    public JwtFilter(JwtService jwtService, UserRepository users) {
+    public JwtFilter(JwtService jwtService, UserRepository users, Optional<PlatformAuthentication> platform) {
         this.jwtService = jwtService;
         this.users = users;
+        this.platform = platform;
     }
 
     @Override
@@ -45,13 +50,25 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             var jwt = jwtService.verify(header.substring(7));
             var userId = UUID.fromString(jwt.getSubject());
+            int version = jwt.getClaim("sv") instanceof Number n ? n.intValue() : -1;
+            // A platform token carries no practiceId and never enters a tenant. It is still authenticated
+            // here rather than ignored, so a super admin on a clinic endpoint is refused by authorization
+            // (403) instead of looking like an anonymous caller (401).
+            if (Boolean.TRUE.equals(jwt.getClaim("platform"))) {
+                platform.flatMap(p -> p.verify(userId, version)).ifPresent(principal -> {
+                    var authorities = List.of(new SimpleGrantedAuthority(PlatformPrincipal.AUTHORITY));
+                    SecurityContextHolder.getContext().setAuthentication(
+                        new UsernamePasswordAuthenticationToken(principal, null, authorities));
+                });
+                chain.doFilter(request, response);
+                return;
+            }
             var practiceId = UUID.fromString(jwt.getClaimAsString("practiceId"));
             // The row read goes through RLS under the tenant the signed token names.
             var user = TenantContext.runAs(new TenantScope(practiceId, userId),
                 () -> users.findById(userId).orElse(null));
-            int tokenVersion = jwt.getClaim("sv") instanceof Number n ? n.intValue() : -1;
             if (user == null || !user.isActive() || !user.getPracticeId().equals(practiceId)
-                    || user.getSessionVersion() != tokenVersion) {
+                    || user.getSessionVersion() != version) {
                 chain.doFilter(request, response);   // no principal set: the chain answers 401
                 return;
             }
