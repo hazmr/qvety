@@ -28,6 +28,7 @@
     <bucket4j.version>8.14.0</bucket4j.version>
     <skipTests>false</skipTests>
     <libphonenumber.version>9.0.19</libphonenumber.version>
+    <archunit.version>1.4.1</archunit.version>
     <node.version>v26.8.1</node.version>
     <npm.version>11.19.0</npm.version>
   </properties>
@@ -143,6 +144,13 @@
     <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>testcontainers-postgresql</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <!-- Keeps the tenant boundary honest: only platform code and login may opt out of it (part 11). -->
+      <groupId>com.tngtech.archunit</groupId>
+      <artifactId>archunit-junit5</artifactId>
+      <version>${archunit.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

@@ -1,9 +1,9 @@
 ## 1. Migration and seed
-- [ ] 1.1 `V11__platform.sql`: three platform tables, `closed_at`, settings rows, grants, export list backfill
-- [ ] 1.2 `R__dev_platform_user.sql`
+- [x] 1.1 `V11__platform.sql`: three platform tables (audit log append-only), `closed_at`, settings rows, grants, three definer functions for `practices`
+- [x] 1.2 `R__dev_platform_user.sql`
 
 ## 2. Backend
-- [ ] 2.1 `SystemContext` package-private to `platform`; hook change
+- [x] 2.1 ArchUnit rule confining `SystemContext` to `platform` and `AuthService`
 - [ ] 2.2 Platform login, `PLATFORM` authority, `@PreAuthorize("hasAuthority('PLATFORM')")`
 - [ ] 2.3 Status enforcement filter with cache (60 s)
 - [ ] 2.4 Practice creation transaction with catalog, admin user, audit row
@@ -13,8 +13,9 @@
 ## 3. Tests
 - [ ] 3.1 `TenantIsolationIT`: super admin lists practices; super admin on tenant endpoint 403; tenant code cannot use `SystemContext`
 - [ ] 3.2 Suspended → write 423, read 200; closed → 403 except export
-- [ ] 3.3 Export of A contains no B row; export table set equals RLS set
+- [ ] 3.3 Export of A contains no B row; export table set equals the RLS set, both derived from the catalog
 - [ ] 3.4 Practice creation: trial, catalog rows, admin with `must_change_password`, audit row; unmapped country writes nothing
+- [ ] 3.5 The application role cannot insert a practice or update a status outside the definer functions
 
 ## 4. Backup
 - [ ] 4.1 `backup` sidecar in compose

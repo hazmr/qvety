@@ -15,6 +15,15 @@ Platform users SHALL live in their own table with no `practice_id`. They SHALL l
 - **WHEN** a practice admin calls `GET /api/platform/practices`
 - **THEN** the response is 403
 
+### Requirement: The application role cannot change a practice directly
+Creating a practice, listing every practice, and changing a status SHALL go through definer functions the
+database owner holds. The role the application connects as SHALL NOT hold `INSERT` on `practices` or
+`UPDATE` on its `status`, so no code path outside those functions can change a practice's lifecycle.
+
+#### Scenario: Feature code tries to suspend a practice
+- **WHEN** code running as the application role updates `practices.status` directly
+- **THEN** the database refuses it with a permission error
+
 ### Requirement: Practice status lifecycle
 Status SHALL move: `trial → active` (first payment), `trial → past_due` (trial ended, no payment), `active → past_due` (due date passed), `past_due → suspended` (grace elapsed), `suspended → active` (payment), any → `closed` (manual only). Manual changes SHALL require a reason and write a platform audit row.
 
