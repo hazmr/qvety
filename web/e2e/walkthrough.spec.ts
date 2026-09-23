@@ -24,6 +24,9 @@ type Locale = 'ar' | 'en';
 
 const SCREENS: { name: string; path: string; ready: string }[] = [
   { name: 'home', path: '/', ready: '.home__practice' },
+  { name: 'schedule', path: '/schedule', ready: '.title-bar' },
+  { name: 'appointment-form', path: '/schedule/new', ready: '#patientId' },
+  { name: 'board', path: '/board', ready: '.board' },
   { name: 'clients', path: '/clients', ready: '.title-bar' },
   { name: 'client-detail', path: `/clients/${CLIENT}`, ready: '.summary' },
   { name: 'client-form', path: '/clients/new', ready: '#fullName' },

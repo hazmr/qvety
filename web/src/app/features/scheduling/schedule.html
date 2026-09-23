@@ -1,0 +1,75 @@
+<app-title-bar titleKey="schedule.title" [subtitle]="(date() | date:'fullDate':'':locale.angularLocale()) ?? undefined"
+               [actionKey]="canBook() ? 'schedule.add' : undefined" (actionClick)="book()" />
+
+@if (!viewport.isPhone()) {
+  <div class="day-toolbar">
+    <nz-date-picker [ngModel]="date()" (ngModelChange)="onDate($event)" [nzAllowClear]="false" />
+    <button nz-button (click)="goToday()">{{ 'schedule.today' | transloco }}</button>
+    @if (day()?.opens === null || day()?.opens === undefined) {
+      <span class="muted">{{ 'schedule.closed' | transloco }}</span>
+    }
+  </div>
+}
+
+@if (viewport.isPhone()) {
+  <!-- phone: filter row over stacked rows with a fixed time column (MOBILE.md screen 09) -->
+  <div class="filters">
+    @for (f of ['all', 'waiting', 'inExam']; track f) {
+      <button type="button" class="filters__cell" [class.is-active]="filter() === f" (click)="filter.set($any(f))">
+        <span class="filters__label">{{ 'schedule.filter' + (f === 'all' ? 'All' : f === 'waiting' ? 'Waiting' : 'InExam') | transloco }}</span>
+        <span class="filters__count">{{ $any(counts())[f] }}</span>
+      </button>
+    }
+  </div>
+  <ul class="rows">
+    @for (a of visibleRows(); track a.id) {
+      <li class="row" [class.row--active]="a.status === 'in_progress'" (click)="open(a)">
+        <span class="row__time">{{ timeOf(a.startsAt) }}</span>
+        <div class="row__text">
+          <div class="row__title">{{ a.patientName }}</div>
+          <div class="row__secondary">{{ a.clientName }}@if (a.reason) { <span> · {{ a.reason }}</span> }</div>
+        </div>
+        <span class="row__tag" [class.row__tag--done]="a.status === 'completed'"
+              [class.row__tag--muted]="a.status === 'cancelled' || a.status === 'no_show'">{{ statusKey(a) | transloco }}</span>
+      </li>
+    } @empty {
+      @if (!loading()) { <li class="row row--empty muted">{{ 'schedule.noAppointments' | transloco }}</li> }
+    }
+  </ul>
+} @else {
+  <!-- desktop: one column per veterinarian, 15 minute rows -->
+  @if (day(); as d) {
+    <div class="grid" [style.height.px]="gridHeight() + 32">
+      <div class="grid__times">
+        <div class="grid__head"></div>
+        @for (slot of slots(); track slot) {
+          <div class="grid__hour" [style.top.px]="slotOffset(slot) + 32">{{ labelOfSlot(slot) }}</div>
+        }
+      </div>
+      @for (column of gridColumns(); track column.veterinarianId) {
+        <div class="grid__column">
+          <div class="grid__head">{{ column.veterinarianName }}</div>
+          @for (slot of slots(); track slot) {
+            <div class="grid__rule" [style.top.px]="slotOffset(slot) + 32"></div>
+          }
+          @for (a of column.appointments; track a.id) {
+            <button type="button" class="card" [class.card--done]="a.status === 'completed'"
+                    [class.card--active]="a.status === 'in_progress'"
+                    [style.top.px]="offset(a) + 32" [style.height.px]="height(a)"
+                    [style.border-inline-start-color]="a.color ?? 'var(--qv-primary)'"
+                    (click)="open(a)">
+              <!-- Time and patient share the first line so a 20 minute card still names its patient. -->
+              <span class="card__top">
+                <span class="card__time">{{ timeOf(a.startsAt) }}</span>
+                <span class="card__patient">{{ a.patientName }}</span>
+              </span>
+              <span class="card__room">{{ a.roomName }}</span>
+            </button>
+          }
+        </div>
+      } @empty {
+        <div class="grid__empty muted">{{ 'schedule.noAppointments' | transloco }}</div>
+      }
+    </div>
+  }
+}

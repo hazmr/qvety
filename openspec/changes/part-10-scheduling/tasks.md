@@ -17,13 +17,13 @@
 - [x] 3.5 `TenantIsolationIT` covers both tables
 
 ## 4. Angular
-- [ ] 4.1 `/schedule` day view and booking dialog
-- [ ] 4.2 Status buttons
-- [ ] 4.3 `/board` whiteboard with 30 s refresh; RTL column order checked
-- [ ] 4.4 Two overlapping bookings fail with 409 in the browser
-- [ ] 4.5 Checked at 390 px and 360 px: phone layout per MOBILE.md screen 09 (today: filter row All/Waiting/In exam, stacked rows with a fixed 46 px time column, bottom nav); no `nz-table` on phone, 16 px inputs, 44 px targets
+- [x] 4.1 `/schedule` day view and booking dialog
+- [x] 4.2 Status buttons
+- [x] 4.3 `/board` whiteboard with 30 s refresh; RTL column order checked
+- [x] 4.4 Two overlapping bookings fail with 409 in the browser
+- [x] 4.5 Checked at 390 px and 360 px: phone layout per MOBILE.md screen 09 (today: filter row All/Waiting/In exam, stacked rows with a fixed 46 px time column, bottom nav); no `nz-table` on phone, 16 px inputs, 44 px targets
 
 ## 5. Close
-- [ ] 5.1 `erd.md` updated
-- [ ] 5.2 `progress.md` entry
-- [ ] 5.3 Commit
+- [x] 5.1 `erd.md` updated
+- [x] 5.2 `progress.md` entry
+- [x] 5.3 Commit

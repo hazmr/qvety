@@ -335,6 +335,21 @@ class AppointmentIT {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
+    void everyoneCanReadTheVeterinariansToBookThem() {
+        // the full user record stays admin-only; the front desk still has to pick a vet
+        var desk = login(api(), DESK, PASSWORD);
+        assertThat(api().get().uri("/api/v1/users").header("Authorization", "Bearer " + desk)
+            .retrieve().toEntity(String.class).getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+
+        List<Map<String, Object>> vets = api().get().uri("/api/v1/users/veterinarians")
+            .header("Authorization", "Bearer " + desk).retrieve().body(List.class);
+        assertThat(vets).isNotEmpty()
+            .allSatisfy(v -> assertThat(v).containsOnlyKeys("id", "fullName"));   // no email, no licence, no status
+        assertThat(vets).extracting(v -> v.get("id")).contains(VET, ADMIN_VET).doesNotContain(TECH_USER);
+    }
+
+    @Test
     void adminCanBookToo() {
         var admin = login(api(), ADMIN, PASSWORD);
         var saved = postRaw(admin, booking(PATIENT, VET, ROOM, slotAt(7, 19, 0), 30));

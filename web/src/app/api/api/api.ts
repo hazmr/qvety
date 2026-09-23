@@ -1,3 +1,5 @@
+export * from './appointments.service';
+import { AppointmentsApi } from './appointments.service';
 export * from './audit.service';
 import { AuditApi } from './audit.service';
 export * from './auth.service';
@@ -12,6 +14,8 @@ export * from './practice.service';
 import { PracticeApi } from './practice.service';
 export * from './reference.service';
 import { ReferenceApi } from './reference.service';
+export * from './schedule.service';
+import { ScheduleApi } from './schedule.service';
 export * from './users.service';
 import { UsersApi } from './users.service';
-export const APIS = [AuditApi, AuthApi, ClientsApi, MeApi, PatientsApi, PracticeApi, ReferenceApi, UsersApi];
+export const APIS = [AppointmentsApi, AuditApi, AuthApi, ClientsApi, MeApi, PatientsApi, PracticeApi, ReferenceApi, ScheduleApi, UsersApi];

@@ -8,7 +8,9 @@
     "loggedInAs": "Logged in as {{name}} ({{role}})",
     "clients": "Clients",
     "collapse": "Collapse menu",
-    "me": "Me"
+    "me": "Me",
+    "schedule": "Today",
+    "board": "Board"
   },
   "login": {
     "title": "Qvety",
@@ -259,5 +261,46 @@
       "title": "Services",
       "add": "Add service"
     }
+  },
+  "schedule": {
+    "title": "Today",
+    "titleDay": "Schedule",
+    "board": "Board",
+    "add": "Book",
+    "walkIn": "Walk-in",
+    "today": "Today",
+    "noAppointments": "Nothing booked.",
+    "filterAll": "All",
+    "filterWaiting": "Waiting",
+    "filterInExam": "In exam",
+    "columnWaiting": "Waiting",
+    "columnInExam": "In exam",
+    "columnDone": "Done",
+    "minutesWaiting": "{{minutes}} min",
+    "closed": "Closed today",
+    "patient": "Patient",
+    "veterinarian": "Veterinarian",
+    "room": "Room",
+    "type": "Type",
+    "start": "Start",
+    "duration": "Minutes",
+    "reason": "Reason",
+    "notes": "Notes",
+    "checkIn": "Check in",
+    "startExam": "Start",
+    "complete": "Complete",
+    "cancel": "Cancel booking",
+    "noShow": "No show",
+    "confirmCancel": "Cancel this appointment? The row stays and the slot is freed.",
+    "outsideHours": "Booked outside the clinic opening hours.",
+    "bookedFor": "Booked for {{time}}"
+  },
+  "appointmentStatus": {
+    "scheduled": "Booked",
+    "checked_in": "Waiting",
+    "in_progress": "In exam",
+    "completed": "Done",
+    "cancelled": "Cancelled",
+    "no_show": "No show"
   }
 }

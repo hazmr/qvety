@@ -31,6 +31,12 @@ public class UserController {
         return service.list();
     }
 
+    /** Readable by everyone: the booking form (part 10) needs the names, not the staff records. */
+    @GetMapping("/veterinarians")
+    public List<VeterinarianDto> listVeterinarians() {
+        return service.listVeterinarians();
+    }
+
     @GetMapping("/{id}")
     public UserDto getUser(@PathVariable UUID id) {
         return service.get(id);

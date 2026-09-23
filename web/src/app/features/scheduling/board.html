@@ -1,0 +1,30 @@
+<app-title-bar titleKey="schedule.board" />
+
+<!-- Three columns in source order; the flex row reverses itself in RTL, so waiting is always first. -->
+<div class="board">
+  @for (column of columns(); track column.key) {
+    <section class="board__column">
+      <h3 class="board__head">
+        {{ column.labelKey | transloco }}
+        <span class="board__count">{{ column.rows.length }}</span>
+      </h3>
+      @for (entry of column.rows; track entry.id) {
+        <article class="board-card" [class.board-card--active]="column.key === 'in_progress'">
+          <div class="board-card__top">
+            <span class="board-card__patient">{{ entry.patientName }}</span>
+            @if (waited(entry); as w) { <span class="board-card__waited">{{ w }}</span> }
+          </div>
+          <div class="board-card__line muted">{{ entry.clientName }}</div>
+          <div class="board-card__line muted">{{ entry.veterinarianName }} · {{ entry.roomName }}</div>
+          @if (entry.origin === 'walk_in') { <span class="row__tag">{{ 'schedule.walkIn' | transloco }}</span> }
+          @if (canWrite() && nextMove(column.key); as m) {
+            <button nz-button nzSize="small" nzType="primary" class="board-card__action"
+                    (click)="move(entry, m.status)">{{ m.labelKey | transloco }}</button>
+          }
+        </article>
+      } @empty {
+        <p class="muted board__empty">{{ 'schedule.noAppointments' | transloco }}</p>
+      }
+    </section>
+  }
+</div>

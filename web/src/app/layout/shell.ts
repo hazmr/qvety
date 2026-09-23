@@ -9,7 +9,7 @@ import { AuthService } from '../core/auth.service';
 import { LocaleService } from '../core/locale.service';
 import { ViewportService } from '../core/viewport.service';
 
-interface NavItem { link: string; labelKey: string; icon: string; adminOnly?: boolean; exact?: boolean; }
+interface NavItem { link: string; labelKey: string; icon: string; adminOnly?: boolean; exact?: boolean; desktopOnly?: boolean; }
 
 /**
  * The frame. Phone (< 768 px): 32 px brand strip, one scroller, 60 px bottom nav (hidden while a screen
@@ -30,12 +30,20 @@ export class Shell {
   readonly today = new Date();
   readonly meOpen = signal(false);
 
+  /**
+   * Today is the primary destination from part 10 (MOBILE.md screen 09). Home leaves the phone nav to
+   * keep it at five cells including Me; the brand mark still goes there.
+   */
   private readonly allItems: NavItem[] = [
-    { link: '/', labelKey: 'app.home', icon: 'home', exact: true },
+    { link: '/', labelKey: 'app.home', icon: 'home', exact: true, desktopOnly: true },
+    { link: '/schedule', labelKey: 'app.schedule', icon: 'calendar' },
     { link: '/clients', labelKey: 'app.clients', icon: 'team' },
+    { link: '/board', labelKey: 'app.board', icon: 'profile' },
     { link: '/settings', labelKey: 'app.settings', icon: 'setting', adminOnly: true },
   ];
-  readonly items = computed(() => this.allItems.filter((i) => !i.adminOnly || this.auth.isAdmin()));
+  readonly items = computed(() => this.allItems
+    .filter((i) => !i.adminOnly || this.auth.isAdmin())
+    .filter((i) => !i.desktopOnly || !this.viewport.isPhone()));
   /** Nav label for the Me cell: the first two words of the name, or the generic label while loading. */
   readonly firstName = computed(() => (this.auth.user()?.fullName ?? '').trim().split(/\s+/).filter(Boolean).slice(0, 2).join(' ') || this.t.translate('app.me'));
 

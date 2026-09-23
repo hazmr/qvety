@@ -36,5 +36,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     List<User> findByPracticeIdOrderByFullName(UUID practiceId);
 
+    /** Who may be booked for a visit: the flag decides, never the role (part 10). */
+    List<User> findByPracticeIdAndVeterinarianTrueAndActiveTrueOrderByFullName(UUID practiceId);
+
     Optional<User> findByIdAndPracticeId(UUID id, UUID practiceId);
 }

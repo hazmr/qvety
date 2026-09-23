@@ -233,9 +233,12 @@ erDiagram
     practice_hours {
         uuid id PK
         uuid practice_id FK
-        smallint weekday "0-6"
+        smallint weekday "0-6, Postgres DOW: 0 = Sunday"
         time opens
-        time closes
+        time closes "check closes > opens"
+        int version
+        timestamptz created_at
+        timestamptz updated_at
     }
 
     practice_settings {
@@ -397,12 +400,15 @@ erDiagram
         uuid practice_id FK
         uuid patient_id FK
         uuid client_id FK
-        uuid veterinarian_id FK "users"
-        uuid room_id FK "nullable"
+        uuid veterinarian_id FK "users; is_veterinarian required"
+        uuid room_id FK
         uuid appointment_type_id FK
-        tstzrange period "EXCLUDE gist per vet and per room, excluding cancelled/no_show"
+        timestamptz starts_at
+        timestamptz ends_at "check ends_at > starts_at"
+        tstzrange period "GENERATED from starts_at/ends_at; EXCLUDE gist per vet and per room, excluding cancelled/no_show"
         enum status "scheduled|checked_in|in_progress|completed|cancelled|no_show"
-        enum origin "scheduled|walk_in"
+        enum origin "scheduled|walk_in, never updated"
+        timestamptz checked_in_at "set on check-in; the board counts minutes waited from it"
         text reason
         text notes
         int version
@@ -732,3 +738,4 @@ Applied migrations, in order. The tables above are the target; this list is what
 | `V7__login_practices.sql` | 03b | `login_practices(uuid[])` definer function: practice id and name for the login picker when the same phone or email exists at several practices |
 | `V8__patients.sql` | 08 | `species`, `patient_sex`, `allergy_severity` enums; `patients` (composite same-practice FK to `clients`, `previous_client_id`, `deceased_at`, empty `photo_object_key`), `patient_weights` (`voided_at`, `void_reason`; `patient_weight_guard` trigger: void only, no delete), `patient_allergies` (`retracted_at`, `retracted_reason`; `patient_allergy_guard` trigger: retract only, no delete); both guard functions `SECURITY DEFINER`, `EXECUTE` revoked from `qvety_app`; three `tenant_table_setup()` calls |
 | `V9__reference_data.sql` | 09 | `rooms`, `appointment_types` (duration 5..480, `#rrggbb` colour check), `services` (`numeric(12,2)` price >= 0, `char(3)` currency); unique `(id, practice_id)` on rooms, appointment types and services for the part 10 and part 14 composite foreign keys; unique index on `(practice_id, lower(name))` per table, active rows and inactive alike, because a deactivated row is reactivated and never duplicated; three `tenant_table_setup()` calls |
+| `V10__scheduling.sql` | 10 | `btree_gist`; `appointment_status`, `appointment_origin` enums; `appointments` (composite same-practice FKs to patients, clients, users, rooms and appointment types; `starts_at`/`ends_at` with `period` a stored generated `tstzrange`; `checked_in_at`; two partial `EXCLUDE USING gist` constraints keyed on `(practice_id, veterinarian_id, period)` and `(practice_id, room_id, period)` that ignore cancelled and no-show, so those rows keep their row and free their slot); `practice_hours` (one range per weekday, unique per practice); two `tenant_table_setup()` calls |

@@ -7,7 +7,8 @@ import { provideRouter } from '@angular/router';
 import { provideTransloco } from '@jsverse/transloco';
 import { provideNzI18n, ar_EG } from 'ng-zorro-antd/i18n';
 import { provideNzIcons } from 'ng-zorro-antd/icon';
-import { ClockCircleOutline, HomeOutline, LeftOutline, MenuFoldOutline, MenuUnfoldOutline, RightOutline, SettingOutline, TagOutline, TeamOutline, UserOutline } from '@ant-design/icons-angular/icons';
+import { provideNzNativeDateAdapter } from 'ng-zorro-antd/core/time';
+import { CalendarOutline, ClockCircleOutline, HomeOutline, ProfileOutline, LeftOutline, MenuFoldOutline, MenuUnfoldOutline, RightOutline, SettingOutline, TagOutline, TeamOutline, UserOutline } from '@ant-design/icons-angular/icons';
 import { provideApi } from './api';
 import { authInterceptor } from './core/auth.interceptor';
 import { TranslocoHttpLoader } from './core/transloco-loader';
@@ -25,8 +26,11 @@ export const appConfig: ApplicationConfig = {
     provideApi(''),
     // Arabic first; LocaleService switches language, direction, and NG-ZORRO i18n at runtime.
     provideNzI18n(ar_EG),
+    // The date picker (part 10) needs a date adapter; the native one keeps the bundle free of date-fns.
+    provideNzNativeDateAdapter(),
     provideNzIcons([HomeOutline, TeamOutline, SettingOutline, LeftOutline, RightOutline, MenuFoldOutline, MenuUnfoldOutline, UserOutline,
-      ClockCircleOutline, TagOutline]),   // settings menu (part 09)
+      ClockCircleOutline, TagOutline,        // settings menu (part 09)
+      CalendarOutline, ProfileOutline]),     // today and board (part 10)
     provideTransloco({
       config: {
         availableLangs: ['ar', 'en'],

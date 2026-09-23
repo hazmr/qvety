@@ -33,6 +33,17 @@ public class UserService {
         return users.findByPracticeIdOrderByFullName(currentUser.practiceId()).stream().map(mapper::toDto).toList();
     }
 
+    /**
+     * The one opening in an otherwise admin-only service: anyone may read who the veterinarians are,
+     * because the front desk books visits for them. Name and id only, never the rest of the user row.
+     */
+    @PreAuthorize("isAuthenticated()")
+    @Transactional(readOnly = true)
+    public List<VeterinarianDto> listVeterinarians() {
+        return users.findByPracticeIdAndVeterinarianTrueAndActiveTrueOrderByFullName(currentUser.practiceId())
+            .stream().map(u -> new VeterinarianDto(u.getId(), u.getFullName())).toList();
+    }
+
     @Transactional(readOnly = true)
     public UserDto get(UUID id) {
         return mapper.toDto(load(id));

@@ -4,6 +4,10 @@ import { ChangePassword } from './features/change-password/change-password';
 import { ClientDetail } from './features/clients/client-detail';
 import { ClientForm } from './features/clients/client-form';
 import { ClientsList } from './features/clients/clients-list';
+import { Board } from './features/scheduling/board';
+import { AppointmentDetail } from './features/scheduling/appointment-detail';
+import { AppointmentForm } from './features/scheduling/appointment-form';
+import { Schedule } from './features/scheduling/schedule';
 import { Home } from './home/home';
 import { PatientDetail } from './features/patients/patient-detail';
 import { PatientForm } from './features/patients/patient-form';
@@ -24,6 +28,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: '', component: Home },
+      { path: 'schedule', component: Schedule },
+      { path: 'schedule/new', component: AppointmentForm },
+      { path: 'schedule/:id', component: AppointmentDetail },
+      { path: 'schedule/:id/edit', component: AppointmentForm },
+      { path: 'board', component: Board },
       { path: 'clients', component: ClientsList },
       { path: 'clients/new', component: ClientForm },
       { path: 'clients/:id', component: ClientDetail },

@@ -1,0 +1,46 @@
+/* Day view. Every horizontal offset is logical (inset-inline-start), so the grid mirrors in Arabic. */
+.day-toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+
+.grid { display: flex; position: relative; background: var(--qv-surface); border: 2px solid var(--qv-line); overflow-x: auto; }
+.grid__times { position: relative; flex: none; width: 56px; border-inline-end: 1px solid var(--qv-line); }
+.grid__column { position: relative; flex: 1 0 180px; border-inline-end: 1px solid var(--qv-line); }
+.grid__column:last-child { border-inline-end: 0; }
+.grid__head {
+  position: sticky; top: 0; z-index: 2; height: 32px; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; background: var(--qv-surface); border-block-end: 2px solid var(--qv-line);
+}
+.grid__hour { position: absolute; inset-inline-start: 0; width: 100%; padding-inline-end: 6px; text-align: end; font-size: 11px; color: var(--qv-ink-muted); }
+.grid__rule { position: absolute; inset-inline-start: 0; width: 100%; border-block-start: 1px solid var(--qv-line); }
+.grid__empty { padding: 24px; }
+
+.card {
+  position: absolute; inset-inline-start: 4px; inset-inline-end: 4px; width: auto;
+  display: flex; flex-direction: column; gap: 1px; overflow: hidden; cursor: pointer;
+  padding: 3px 6px; text-align: start; font: inherit;
+  background: var(--qv-primary-light); border: 1px solid var(--qv-line); border-inline-start: 3px solid var(--qv-primary);
+}
+.card--active { background: var(--qv-primary); color: #fff; }
+.card--done { background: var(--qv-canvas); }
+.card__top { display: flex; align-items: baseline; gap: 6px; min-width: 0; }
+.card__time { flex: none; font-size: 11px; font-weight: 600; font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+.card__patient { flex: 1; min-width: 0; font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card__room { font-size: 11px; opacity: 0.8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Phone filter row: cells at least 44 px, the active one underlined over the row's own rule. */
+.filters { display: flex; margin: 0 -14px 0; background: var(--qv-surface); border-block-end: 2px solid var(--qv-line); }
+.filters__cell {
+  flex: 1; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 6px;
+  border: 0; background: none; font: inherit; color: var(--qv-ink-muted); cursor: pointer;
+  border-block-end: 2px solid transparent; margin-block-end: -2px;
+}
+.filters__cell.is-active { color: var(--qv-primary); font-weight: 600; border-block-end-color: var(--qv-primary); }
+.filters__count { font-size: 12px; font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+
+/* Phone row: fixed 46 px time column so the times line up down the list. */
+.row__time {
+  flex: none; width: 46px; font-size: 15px; font-weight: 600;
+  font-family: 'IBM Plex Sans', system-ui, sans-serif; font-variant-numeric: tabular-nums;
+}
+.row--active { background: var(--qv-primary-light); }
+.row__tag--done { background: var(--qv-canvas); color: var(--qv-ink-muted); }
+.row__tag--muted { background: var(--qv-canvas); color: var(--qv-ink-muted); text-decoration: line-through; }

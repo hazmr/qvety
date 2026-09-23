@@ -1,0 +1,83 @@
+<div class="form-layout">
+  <app-title-bar [titleKey]="isNew ? 'schedule.add' : 'shared.edit'" [back]="['/schedule']" />
+
+  @if (warnings().length) {
+    <nz-alert nzType="warning" nzShowIcon style="margin-bottom: 16px"
+              [nzMessage]="'schedule.outsideHours' | transloco" />
+  }
+
+  <form nz-form nzLayout="vertical" [formGroup]="form" class="form-card" (ngSubmit)="save(false)">
+    @if (error(); as e) {
+      <nz-alert nzType="error" [nzMessage]="e" nzShowIcon style="margin-bottom: 16px" />
+    }
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="patientId">{{ 'schedule.patient' | transloco }}</nz-form-label>
+      <nz-form-control [nzErrorTip]="'shared.required' | transloco">
+        <nz-select id="patientId" formControlName="patientId" nzShowSearch>
+          @for (p of patients(); track p.id) { <nz-option [nzValue]="p.id" [nzLabel]="patientLabel(p)" /> }
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="veterinarianId">{{ 'schedule.veterinarian' | transloco }}</nz-form-label>
+      <nz-form-control [nzErrorTip]="'shared.required' | transloco">
+        <nz-select id="veterinarianId" formControlName="veterinarianId">
+          @for (v of vets(); track v.id) { <nz-option [nzValue]="v.id" [nzLabel]="v.fullName" /> }
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="appointmentTypeId">{{ 'schedule.type' | transloco }}</nz-form-label>
+      <nz-form-control [nzErrorTip]="'shared.required' | transloco">
+        <nz-select id="appointmentTypeId" formControlName="appointmentTypeId">
+          @for (t of types(); track t.id) { <nz-option [nzValue]="t.id" [nzLabel]="t.name" /> }
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="roomId">{{ 'schedule.room' | transloco }}</nz-form-label>
+      <nz-form-control [nzErrorTip]="'shared.required' | transloco">
+        <nz-select id="roomId" formControlName="roomId">
+          @for (r of rooms(); track r.id) { <nz-option [nzValue]="r.id" [nzLabel]="r.name" /> }
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="start">{{ 'schedule.start' | transloco }}</nz-form-label>
+      <nz-form-control [nzErrorTip]="'shared.required' | transloco">
+        <nz-date-picker id="start" formControlName="start" nzShowTime nzFormat="yyyy-MM-dd HH:mm" [nzAllowClear]="false" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzRequired nzFor="durationMinutes">{{ 'schedule.duration' | transloco }}</nz-form-label>
+      <nz-form-control [nzErrorTip]="'shared.invalid' | transloco">
+        <input nz-input id="durationMinutes" type="number" formControlName="durationMinutes" dir="ltr" class="ltr-field" />
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="reason">{{ 'schedule.reason' | transloco }}</nz-form-label>
+      <nz-form-control><input nz-input id="reason" formControlName="reason" /></nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzFor="notes">{{ 'schedule.notes' | transloco }}</nz-form-label>
+      <nz-form-control><textarea nz-input id="notes" formControlName="notes" rows="2"></textarea></nz-form-control>
+    </nz-form-item>
+
+    <app-action-bar>
+      @if (isNew) {
+        <button nz-button type="button" class="action-bar__secondary" [nzLoading]="busy()" (click)="save(true)">
+          {{ 'schedule.walkIn' | transloco }}
+        </button>
+      }
+      <button nz-button nzType="primary" type="submit" [nzLoading]="busy()">{{ 'shared.save' | transloco }}</button>
+    </app-action-bar>
+  </form>
+</div>

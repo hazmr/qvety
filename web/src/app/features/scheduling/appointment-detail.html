@@ -1,0 +1,35 @@
+@if (appointment(); as a) {
+  <div class="form-layout">
+    <app-title-bar [title]="a.patientName" [subtitle]="a.clientName" [back]="['/schedule']">
+      <span title-extra class="title-tag">{{ 'appointmentStatus.' + a.status | transloco }}</span>
+    </app-title-bar>
+
+    @if (error(); as e) { <div class="home__error" style="margin-bottom: 12px">{{ e }}</div> }
+
+    <dl class="summary">
+      <dt>{{ 'schedule.start' | transloco }}</dt>
+      <dd>{{ a.startsAt | date:'medium':'':locale.angularLocale() }}</dd>
+      <dt>{{ 'schedule.duration' | transloco }}</dt>
+      <dd dir="ltr" class="ltr-field">{{ a.startsAt | date:'HH:mm':'':locale.angularLocale() }}–{{ a.endsAt | date:'HH:mm':'':locale.angularLocale() }}</dd>
+      <dt>{{ 'schedule.veterinarian' | transloco }}</dt><dd>{{ a.veterinarianName }}</dd>
+      <dt>{{ 'schedule.room' | transloco }}</dt><dd>{{ a.roomName }}</dd>
+      <dt>{{ 'schedule.type' | transloco }}</dt><dd>{{ a.appointmentTypeName }}</dd>
+      @if (a.origin === 'walk_in') { <dt>{{ 'schedule.walkIn' | transloco }}</dt><dd>✓</dd> }
+      @if (a.reason) { <dt>{{ 'schedule.reason' | transloco }}</dt><dd>{{ a.reason }}</dd> }
+      @if (a.notes) { <dt>{{ 'schedule.notes' | transloco }}</dt><dd>{{ a.notes }}</dd> }
+    </dl>
+
+    @if (canWrite()) {
+      <app-action-bar>
+        @if (canCancel()) {
+          <button nz-button nzDanger type="button" class="action-bar__secondary" (click)="cancel()">{{ 'schedule.cancel' | transloco }}</button>
+        }
+        @for (m of moves(); track m.status) {
+          <button nz-button [nzType]="m.danger ? 'default' : 'primary'" [nzDanger]="m.danger === true"
+                  type="button" (click)="move(m.status)">{{ m.labelKey | transloco }}</button>
+        }
+        <a nz-button [routerLink]="['/schedule', a.id, 'edit']">{{ 'shared.edit' | transloco }}</a>
+      </app-action-bar>
+    }
+  </div>
+}

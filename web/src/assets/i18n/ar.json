@@ -8,7 +8,9 @@
     "loggedInAs": "مسجّل الدخول باسم {{name}} ({{role}})",
     "clients": "العملاء",
     "collapse": "طيّ القائمة",
-    "me": "حسابي"
+    "me": "حسابي",
+    "schedule": "اليوم",
+    "board": "اللوحة"
   },
   "login": {
     "title": "كيوفيتي",
@@ -259,5 +261,46 @@
       "title": "الخدمات",
       "add": "إضافة خدمة"
     }
+  },
+  "schedule": {
+    "title": "اليوم",
+    "titleDay": "المواعيد",
+    "board": "اللوحة",
+    "add": "حجز",
+    "walkIn": "بدون موعد",
+    "today": "اليوم",
+    "noAppointments": "لا توجد مواعيد.",
+    "filterAll": "الكل",
+    "filterWaiting": "في الانتظار",
+    "filterInExam": "في الكشف",
+    "columnWaiting": "في الانتظار",
+    "columnInExam": "في الكشف",
+    "columnDone": "انتهى",
+    "minutesWaiting": "{{minutes}} د",
+    "closed": "مغلق اليوم",
+    "patient": "الحيوان",
+    "veterinarian": "الطبيب",
+    "room": "الغرفة",
+    "type": "نوع الموعد",
+    "start": "البداية",
+    "duration": "الدقائق",
+    "reason": "السبب",
+    "notes": "ملاحظات",
+    "checkIn": "تسجيل الحضور",
+    "startExam": "بدء الكشف",
+    "complete": "إنهاء",
+    "cancel": "إلغاء الموعد",
+    "noShow": "لم يحضر",
+    "confirmCancel": "إلغاء هذا الموعد؟ السجل يبقى ويتحرر الوقت.",
+    "outsideHours": "الحجز خارج مواعيد عمل العيادة.",
+    "bookedFor": "موعد {{time}}"
+  },
+  "appointmentStatus": {
+    "scheduled": "محجوز",
+    "checked_in": "في الانتظار",
+    "in_progress": "في الكشف",
+    "completed": "انتهى",
+    "cancelled": "ملغى",
+    "no_show": "لم يحضر"
   }
 }
