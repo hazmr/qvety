@@ -20,6 +20,7 @@ The medical record is why the clinic exists legally. Notes, vitals, vaccinations
 ### Modified Capabilities
 - `patients`: photo becomes writable through object storage.
 - `practice`: logo upload for printed documents.
+- `scheduling`: clinical work drives the appointment status. Opening a visit moves its appointment to `in_progress`, closing it moves it to `completed`. The manual transitions stay as the escape hatch.
 
 ## Non-goals
 

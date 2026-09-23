@@ -36,7 +36,8 @@ Same pre-signed pattern as part 12, keys prefixed `practices/<practice_id>/...`.
 
 - `ClinicalNoteService`: draft/update/finalize/void/addendum; finalize copies `CurrentUser.fullName` into `finalized_by_name`; `@PreAuthorize("@access.isVeterinarian()")` on finalize.
 - `PrescriptionService.dispense`: event row and, if the drug is controlled under `EG`, a log row, in one transaction with the balance lock.
-- `VisitService.close`: note state; after part 14, invoice-or-no-charge.
+- `VisitService.close`: note state; after part 14, invoice-or-no-charge. Then moves the linked appointment to `completed`.
+- `VisitService.create`: moves the linked appointment to `in_progress` (through `checked_in` when it was still `scheduled`, so `checked_in_at` is set and the board can count minutes waited). Both calls reuse the part 10 transition table and the existing status endpoint's service method, so no new endpoint and no new column: `appointments.status` stays the stored column the exclusion constraints read. A visit with no appointment (walk-in already handled in part 10) changes nothing.
 - `VitalsService.record`: also inserts `patient_weights` when weight is present.
 - `ControlledDrugCatalog`: per-framework list (`EG`), data file.
 
