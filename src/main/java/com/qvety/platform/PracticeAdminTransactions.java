@@ -82,9 +82,13 @@ class PracticeAdminTransactions {
         return practiceId;
     }
 
+    /**
+     * The row is not read first. A native query that returns entity rows hands back whatever instance the
+     * persistence context already holds for that id, so pre-loading would answer with the status from
+     * before the update. The function returns no row for an unknown id, which is the 404 anyway.
+     */
     @Transactional
     Practice setStatus(UUID id, String status, String reason, UUID staffId) {
-        findOne(id);   // 404 before anything is written
         var updated = practices.setStatus(id, status).stream().findFirst()
             .orElseThrow(() -> DomainException.notFound("practice_not_found"));
         write(id, "practice.status_changed", Map.of("status", status, "reason", reason.trim()), staffId);

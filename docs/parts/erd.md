@@ -180,16 +180,15 @@ erDiagram
     }
 
     platform_settings {
-        varchar key PK "grace_days, trial_days, closed_retention_days"
-        varchar value
-        timestamptz updated_at
+        text key PK "trial_days and closed_retention_days from part 11; grace_days in part 12"
+        text value
     }
 
     platform_audit_log {
-        uuid id PK "append-only"
-        uuid platform_user_id FK
-        varchar action
-        varchar target_type
+        uuid id PK "append-only; trigger refuses UPDATE and DELETE, even to the owner"
+        uuid platform_user_id FK "null only for a job rather than a person"
+        text action
+        text target_type
         uuid target_id
         jsonb details
         timestamptz at
@@ -739,3 +738,4 @@ Applied migrations, in order. The tables above are the target; this list is what
 | `V8__patients.sql` | 08 | `species`, `patient_sex`, `allergy_severity` enums; `patients` (composite same-practice FK to `clients`, `previous_client_id`, `deceased_at`, empty `photo_object_key`), `patient_weights` (`voided_at`, `void_reason`; `patient_weight_guard` trigger: void only, no delete), `patient_allergies` (`retracted_at`, `retracted_reason`; `patient_allergy_guard` trigger: retract only, no delete); both guard functions `SECURITY DEFINER`, `EXECUTE` revoked from `qvety_app`; three `tenant_table_setup()` calls |
 | `V9__reference_data.sql` | 09 | `rooms`, `appointment_types` (duration 5..480, `#rrggbb` colour check), `services` (`numeric(12,2)` price >= 0, `char(3)` currency); unique `(id, practice_id)` on rooms, appointment types and services for the part 10 and part 14 composite foreign keys; unique index on `(practice_id, lower(name))` per table, active rows and inactive alike, because a deactivated row is reactivated and never duplicated; three `tenant_table_setup()` calls |
 | `V10__scheduling.sql` | 10 | `btree_gist`; `appointment_status`, `appointment_origin` enums; `appointments` (composite same-practice FKs to patients, clients, users, rooms and appointment types; `starts_at`/`ends_at` with `period` a stored generated `tstzrange`; `checked_in_at`; two partial `EXCLUDE USING gist` constraints keyed on `(practice_id, veterinarian_id, period)` and `(practice_id, room_id, period)` that ignore cancelled and no-show, so those rows keep their row and free their slot); `practice_hours` (one range per weekday, unique per practice); two `tenant_table_setup()` calls |
+| `V11__platform.sql` | 11 | `platform_users`, `platform_settings` (`trial_days` 30, `closed_retention_days` 90), `platform_audit_log` (append-only: `platform_audit_guard` trigger refuses UPDATE and DELETE, `SECURITY DEFINER`, `EXECUTE` revoked from `qvety_app`); `practices.closed_at`; grants for the three platform tables and none on `practices`, which the application role still cannot insert into or move between statuses. Three `SECURITY DEFINER` functions owned by `qvety_owner` carry what the super admin needs: `platform_practices()`, `platform_practice_create(...)` (sets `trial_ends_at` from `trial_days`), `platform_practice_set_status(...)` (sets and clears `closed_at` with the status). No RLS on any platform table: they are about practices, not inside one |

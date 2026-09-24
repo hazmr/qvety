@@ -72,11 +72,15 @@ class PlatformIT {
         return response.getBody();
     }
 
+    @SuppressWarnings("unchecked")
     private void setStatus(String token, String practiceId, String status, String reason) {
         var response = api().post().uri(PRACTICES + "/" + practiceId + "/status")
             .header("Authorization", "Bearer " + token).contentType(MediaType.APPLICATION_JSON)
-            .body(Map.of("status", status, "reason", reason)).retrieve().toEntity(String.class);
+            .body(Map.of("status", status, "reason", reason)).retrieve().toEntity(Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        // the answer must carry the new status, not the one the row had a moment ago: the screen
+        // renders straight from this body and would otherwise show the move as having done nothing
+        assertThat(response.getBody()).containsEntry("status", status);
     }
 
     // ---- who may go where --------------------------------------------------------------------------

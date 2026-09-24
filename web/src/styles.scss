@@ -88,6 +88,12 @@ body { background: var(--qv-canvas); color: var(--qv-ink); }
 .row--static { cursor: default; }
 .row__secondary--wrap { white-space: normal; }
 .row__tag--muted { background: var(--qv-canvas); color: var(--qv-ink-muted); }
+/* Platform admin (part 11): a practice that needs attention, and the status form. */
+.row__tag--warn { background: var(--qv-accent-light, #F6E7C8); color: var(--qv-accent, #8A6A1F); }
+.admin-section { margin: 0 0 12px; font-size: 15px; font-weight: 600; }
+.admin-status { width: 100%; margin-bottom: 10px; }
+.admin-reason { margin-bottom: 6px; }
+.admin-hint { font-size: 12px; margin: 0 0 12px; }
 .struck { text-decoration: line-through; }
 .transfer { max-width: 480px; }
 .transfer__select { width: 100%; margin-bottom: 12px; }

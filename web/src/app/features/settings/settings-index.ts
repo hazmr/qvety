@@ -38,5 +38,6 @@ export class SettingsIndex {
     { link: '/settings/rooms', labelKey: 'settings.rooms', hintKey: 'settings.roomsHint', icon: 'home' },
     { link: '/settings/appointment-types', labelKey: 'settings.appointmentTypes', hintKey: 'settings.appointmentTypesHint', icon: 'clock-circle' },
     { link: '/settings/services', labelKey: 'settings.services', hintKey: 'settings.servicesHint', icon: 'tag' },
+    { link: '/settings/export', labelKey: 'settings.export', hintKey: 'settings.exportHint', icon: 'download' },
   ];
 }

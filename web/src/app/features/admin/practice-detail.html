@@ -1,0 +1,43 @@
+@if (practice(); as p) {
+  <div class="form-layout">
+    <app-title-bar [title]="p.name" [back]="['/admin/practices']">
+      <span title-extra class="title-tag">{{ 'practiceStatus.' + p.status | transloco }}</span>
+    </app-title-bar>
+
+    @if (error(); as e) { <div class="home__error" style="margin-bottom: 12px">{{ e }}</div> }
+
+    <dl class="summary">
+      <dt>{{ 'admin.country' | transloco }}</dt><dd dir="ltr" class="ltr-field">{{ p.country }}</dd>
+      <dt>{{ 'admin.currency' | transloco }}</dt><dd dir="ltr" class="ltr-field">{{ p.currency }}</dd>
+      <dt>{{ 'admin.created' | transloco }}</dt><dd>{{ p.createdAt | date:'mediumDate':'':locale.angularLocale() }}</dd>
+      @if (p.trialEndsAt) {
+        <dt>{{ 'admin.trialEnds' | transloco }}</dt><dd>{{ p.trialEndsAt | date:'mediumDate':'':locale.angularLocale() }}</dd>
+      }
+      @if (p.closedAt) {
+        <dt>{{ 'admin.closedAt' | transloco }}</dt><dd>{{ p.closedAt | date:'mediumDate':'':locale.angularLocale() }}</dd>
+      }
+    </dl>
+
+    <div class="form-card" style="margin-bottom: 16px">
+      <h3 class="admin-section">{{ 'admin.changeStatus' | transloco }}</h3>
+      <nz-select class="admin-status" [ngModel]="status()" (ngModelChange)="status.set($event)">
+        @for (s of options(); track s) {
+          <nz-option [nzValue]="s" [nzLabel]="'practiceStatusAction.' + s | transloco" />
+        }
+      </nz-select>
+      <input nz-input class="admin-reason" [ngModel]="reason()" (ngModelChange)="reason.set($event)"
+             [placeholder]="'admin.reason' | transloco" />
+      <p class="muted admin-hint">{{ 'admin.reasonHint' | transloco }}</p>
+      <button nz-button nzType="primary" [nzLoading]="busy()" [disabled]="!reason().trim()"
+              (click)="changeStatus()">{{ 'admin.changeStatus' | transloco }}</button>
+    </div>
+
+    <div class="form-card">
+      <h3 class="admin-section">{{ 'export.title' | transloco }}</h3>
+      <p class="muted">{{ 'export.body' | transloco }}</p>
+      <button nz-button [nzLoading]="exporting()" (click)="download()">
+        {{ (exporting() ? 'admin.exporting' : 'admin.export') | transloco }}
+      </button>
+    </div>
+  </div>
+}

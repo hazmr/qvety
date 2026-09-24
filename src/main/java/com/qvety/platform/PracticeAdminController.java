@@ -32,7 +32,7 @@ public class PracticeAdminController {
     }
 
     @GetMapping("/{id}")
-    public PracticeSummaryDto getPractice(@PathVariable UUID id) {
+    public PracticeSummaryDto getPlatformPractice(@PathVariable UUID id) {
         return service.get(id);
     }
 

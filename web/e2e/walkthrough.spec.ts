@@ -40,6 +40,7 @@ const SCREENS: { name: string; path: string; ready: string }[] = [
   { name: 'appointment-types', path: '/settings/appointment-types', ready: '.title-bar' },
   { name: 'services', path: '/settings/services', ready: '.title-bar' },
   { name: 'service-form', path: `/settings/services/${SERVICE}`, ready: '#name' },
+  { name: 'practice-export', path: '/settings/export', ready: '.form-card' },
 ];
 
 for (const locale of ['ar', 'en'] as Locale[]) {

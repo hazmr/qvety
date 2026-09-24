@@ -1,9 +1,15 @@
 import { Routes } from '@angular/router';
-import { adminGuard, authGuard } from './core/auth.guard';
+import { adminGuard, authGuard, platformGuard } from './core/auth.guard';
 import { ChangePassword } from './features/change-password/change-password';
 import { ClientDetail } from './features/clients/client-detail';
 import { ClientForm } from './features/clients/client-form';
 import { ClientsList } from './features/clients/clients-list';
+import { AdminLogin } from './features/admin/admin-login';
+import { AdminShell } from './features/admin/admin-shell';
+import { PracticeCreate } from './features/admin/practice-create';
+import { PracticeDetail } from './features/admin/practice-detail';
+import { PracticesList } from './features/admin/practices-list';
+import { PracticeExport } from './features/settings/practice-export';
 import { Board } from './features/scheduling/board';
 import { AppointmentDetail } from './features/scheduling/appointment-detail';
 import { AppointmentForm } from './features/scheduling/appointment-form';
@@ -21,6 +27,16 @@ import { Shell } from './layout/shell';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
+  // Qvety staff. Its own shell, its own session; a clinic login is no help here (part 11).
+  { path: 'admin', component: AdminShell, children: [
+    { path: '', pathMatch: 'full', redirectTo: 'practices' },
+    { path: 'login', component: AdminLogin },
+    { path: 'practices', canActivate: [platformGuard], children: [
+      { path: '', component: PracticesList },
+      { path: 'new', component: PracticeCreate },
+      { path: ':id', component: PracticeDetail },
+    ] },
+  ] },
   { path: 'change-password', component: ChangePassword, canActivate: [authGuard] },
   {
     path: '',
@@ -42,6 +58,7 @@ export const routes: Routes = [
       { path: 'clients/:id/patients/:pid/edit', component: PatientForm },
       { path: 'settings', canActivate: [adminGuard], children: [
         { path: '', component: SettingsIndex },
+        { path: 'export', component: PracticeExport },
         { path: 'users', children: [
           { path: '', component: UsersList },
           { path: 'new', component: UserForm },

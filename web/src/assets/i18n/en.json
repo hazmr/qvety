@@ -10,7 +10,8 @@
     "collapse": "Collapse menu",
     "me": "Me",
     "schedule": "Today",
-    "board": "Board"
+    "board": "Board",
+    "pastDue": "Payment is overdue. Everything still works for now."
   },
   "login": {
     "title": "Qvety",
@@ -233,7 +234,9 @@
     "appointmentTypes": "Appointment types",
     "appointmentTypesHint": "Kinds of visit, with default length",
     "services": "Services",
-    "servicesHint": "The price list"
+    "servicesHint": "The price list",
+    "export": "Your data",
+    "exportHint": "Download everything this clinic has, as one file"
   },
   "reference": {
     "name": "Name",
@@ -302,5 +305,51 @@
     "completed": "Done",
     "cancelled": "Cancelled",
     "no_show": "No show"
+  },
+  "admin": {
+    "title": "Qvety staff",
+    "practices": "Practices",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "email": "Email",
+    "password": "Password",
+    "loginFailed": "Wrong email or password.",
+    "add": "New practice",
+    "name": "Practice name",
+    "country": "Country",
+    "currency": "Currency",
+    "locale": "Language",
+    "timezone": "Time zone",
+    "adminName": "Owner name",
+    "adminPhone": "Owner phone",
+    "adminEmail": "Owner email",
+    "adminEmailHint": "Optional. The login is the phone.",
+    "adminVeterinarian": "The owner is a veterinarian",
+    "status": "Status",
+    "trialEnds": "Trial ends",
+    "created": "Created",
+    "closedAt": "Closed",
+    "changeStatus": "Change status",
+    "reason": "Reason",
+    "reasonHint": "Recorded against the practice; this is what answers \"why were we suspended?\".",
+    "export": "Download export",
+    "exporting": "Preparing…",
+    "created_title": "Practice created",
+    "temporaryPassword": "Temporary password",
+    "handover": "Shown once. Give it to the owner in person or by WhatsApp; they must change it at first login.",
+    "done": "Done",
+    "noPractices": "No practices yet."
+  },
+  "practiceStatusAction": {
+    "active": "Make active",
+    "past_due": "Mark past due",
+    "suspended": "Suspend",
+    "closed": "Close"
+  },
+  "export": {
+    "title": "Your data",
+    "body": "One file with every client, patient, appointment and setting this clinic has. It is yours, at any time, whatever the state of the subscription.",
+    "download": "Download",
+    "preparing": "Preparing…"
   }
 }

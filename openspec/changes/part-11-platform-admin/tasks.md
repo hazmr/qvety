@@ -23,13 +23,13 @@
 - [x] 4.3 Log the drill with date and person
 
 ## 5. Angular
-- [ ] 5.1 `/admin` layout and routes guarded by the platform claim
-- [ ] 5.2 Practices list, create, status change with reason, export download
-- [ ] 5.3 Practice-side `/settings/export`; `past_due` banner
-- [ ] 5.4 Checked in `ar` and `en`
-- [ ] 5.5 Checked at 390 px and 360 px: phone layout per MOBILE.md layout skeleton; no `nz-table` on phone, 16 px inputs, 44 px targets
+- [x] 5.1 `/admin` layout and routes guarded by the platform claim
+- [x] 5.2 Practices list, create, status change with reason, export download
+- [x] 5.3 Practice-side `/settings/export`; `past_due` banner
+- [x] 5.4 Checked in `ar` and `en`
+- [x] 5.5 Checked at 390 px and 360 px: phone layout per MOBILE.md layout skeleton; no `nz-table` on phone, 16 px inputs, 44 px targets
 
 ## 6. Close
-- [ ] 6.1 `erd.md` updated
-- [ ] 6.2 `progress.md` entry
-- [ ] 6.3 Commit
+- [x] 6.1 `erd.md` updated
+- [x] 6.2 `progress.md` entry
+- [x] 6.3 Commit

@@ -63,3 +63,10 @@
 .desktop--collapsed .sidebar__label { display: none; }
 .desktop--collapsed .sidebar__item { justify-content: center; padding-inline: 0; }
 .page { flex: 1; min-width: 0; padding: 24px; }
+
+/* Payment is late; nothing is blocked yet, so this informs rather than interrupts (part 11). */
+.past-due {
+  padding: 8px 14px; font-size: 13px; font-weight: 500;
+  background: var(--qv-accent-light, #F6E7C8); color: var(--qv-accent, #8A6A1F);
+  border-block-end: 1px solid var(--qv-line);
+}

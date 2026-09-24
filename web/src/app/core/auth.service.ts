@@ -22,6 +22,8 @@ export class AuthService {
   readonly user = signal<UserDto | null>(null);
   /** Clinic name for the brand strip; loaded once per login. */
   readonly practiceName = signal<string | null>(null);
+  /** Set from a response header (part 11): payment is late, but nothing is blocked yet. */
+  readonly pastDue = signal(false);
 
   readonly token = this.tokenSignal.asReadonly();
   readonly isLoggedIn = computed(() => this.tokenSignal() !== null);
@@ -67,6 +69,7 @@ export class AuthService {
     this.tokenSignal.set(null);
     this.user.set(null);
     this.practiceName.set(null);
+    this.pastDue.set(false);
     try { sessionStorage.removeItem(TOKEN_KEY); } catch { /* storage unavailable */ }
     this.router.navigateByUrl('/login');
   }

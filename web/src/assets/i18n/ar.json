@@ -10,7 +10,8 @@
     "collapse": "طيّ القائمة",
     "me": "حسابي",
     "schedule": "اليوم",
-    "board": "اللوحة"
+    "board": "اللوحة",
+    "pastDue": "السداد متأخر. كل شيء يعمل حاليًا."
   },
   "login": {
     "title": "كيوفيتي",
@@ -233,7 +234,9 @@
     "appointmentTypes": "أنواع المواعيد",
     "appointmentTypesHint": "أنواع الزيارات ومدة كل منها",
     "services": "الخدمات",
-    "servicesHint": "قائمة الأسعار"
+    "servicesHint": "قائمة الأسعار",
+    "export": "بياناتك",
+    "exportHint": "نزّل كل ما لدى العيادة في ملف واحد"
   },
   "reference": {
     "name": "الاسم",
@@ -302,5 +305,51 @@
     "completed": "انتهى",
     "cancelled": "ملغى",
     "no_show": "لم يحضر"
+  },
+  "admin": {
+    "title": "فريق Qvety",
+    "practices": "العيادات",
+    "signIn": "دخول",
+    "signOut": "خروج",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "loginFailed": "البريد أو كلمة المرور غير صحيحة.",
+    "add": "عيادة جديدة",
+    "name": "اسم العيادة",
+    "country": "الدولة",
+    "currency": "العملة",
+    "locale": "اللغة",
+    "timezone": "المنطقة الزمنية",
+    "adminName": "اسم المالك",
+    "adminPhone": "هاتف المالك",
+    "adminEmail": "بريد المالك",
+    "adminEmailHint": "اختياري. الدخول بالهاتف.",
+    "adminVeterinarian": "المالك طبيب",
+    "status": "الحالة",
+    "trialEnds": "تنتهي التجربة",
+    "created": "أُنشئت",
+    "closedAt": "أُغلقت",
+    "changeStatus": "تغيير الحالة",
+    "reason": "السبب",
+    "reasonHint": "يُسجَّل على العيادة، وهو ما يجيب عن سؤال «لماذا أُوقفنا؟».",
+    "export": "تنزيل البيانات",
+    "exporting": "جارٍ التحضير…",
+    "created_title": "تم إنشاء العيادة",
+    "temporaryPassword": "كلمة مرور مؤقتة",
+    "handover": "تظهر مرة واحدة. سلّمها للمالك شخصيًا أو على واتساب، وعليه تغييرها عند أول دخول.",
+    "done": "تم",
+    "noPractices": "لا توجد عيادات بعد."
+  },
+  "practiceStatusAction": {
+    "active": "تفعيل",
+    "past_due": "متأخرة السداد",
+    "suspended": "إيقاف",
+    "closed": "إغلاق"
+  },
+  "export": {
+    "title": "بياناتك",
+    "body": "ملف واحد فيه كل العملاء والحيوانات والمواعيد والإعدادات. بياناتك ملكك في أي وقت، مهما كانت حالة الاشتراك.",
+    "download": "تنزيل",
+    "preparing": "جارٍ التحضير…"
   }
 }

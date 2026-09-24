@@ -6,6 +6,7 @@
       <span class="strip__name">{{ auth.practiceName() ?? ('app.name' | transloco) }}</span>
     </header>
     <main class="scroller">
+      @if (auth.pastDue()) { <div class="past-due">{{ 'app.pastDue' | transloco }}</div> }
       <div class="page-body">
         <router-outlet />
       </div>
@@ -49,6 +50,7 @@
       <span class="strip__user">{{ auth.user()?.fullName }}</span>
       <button type="button" class="strip__logout" (click)="auth.logout()">{{ 'app.logout' | transloco }}</button>
     </header>
+    @if (auth.pastDue()) { <div class="past-due">{{ 'app.pastDue' | transloco }}</div> }
     <div class="desktop__body">
       <aside class="sidebar">
         @for (item of items(); track item.link) {

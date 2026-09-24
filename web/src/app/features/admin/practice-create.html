@@ -1,0 +1,87 @@
+<div class="form-layout">
+  <app-title-bar titleKey="admin.add" [back]="['/admin/practices']" />
+
+  @if (created(); as c) {
+    <!-- Shown once. The password is not readable again from anywhere. -->
+    <div class="form-card">
+      <h2 class="handover__title">{{ 'admin.created_title' | transloco }}</h2>
+      <p>{{ c.practice.name }}</p>
+      <dl class="summary">
+        <dt>{{ 'admin.adminPhone' | transloco }}</dt>
+        <dd dir="ltr" class="ltr-field mono">{{ c.adminPhone }}</dd>
+        <dt>{{ 'admin.temporaryPassword' | transloco }}</dt>
+        <dd dir="ltr" class="ltr-field mono handover__password">{{ c.temporaryPassword }}</dd>
+      </dl>
+      <nz-alert nzType="warning" nzShowIcon [nzMessage]="'admin.handover' | transloco" />
+      <app-action-bar>
+        <button nz-button nzType="primary" type="button" (click)="done()">{{ 'admin.done' | transloco }}</button>
+      </app-action-bar>
+    </div>
+  } @else {
+    <form nz-form nzLayout="vertical" [formGroup]="form" class="form-card" (ngSubmit)="submit()">
+      @if (error(); as e) { <nz-alert nzType="error" [nzMessage]="e" nzShowIcon style="margin-bottom: 16px" /> }
+
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="name">{{ 'admin.name' | transloco }}</nz-form-label>
+        <nz-form-control [nzErrorTip]="'shared.required' | transloco">
+          <input nz-input id="name" formControlName="name" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="country">{{ 'admin.country' | transloco }}</nz-form-label>
+        <nz-form-control [nzErrorTip]="'shared.invalid' | transloco">
+          <input nz-input id="country" formControlName="country" dir="ltr" class="ltr-field" maxlength="2" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="currency">{{ 'admin.currency' | transloco }}</nz-form-label>
+        <nz-form-control [nzErrorTip]="'shared.invalid' | transloco">
+          <input nz-input id="currency" formControlName="currency" dir="ltr" class="ltr-field" maxlength="3" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="locale">{{ 'admin.locale' | transloco }}</nz-form-label>
+        <nz-form-control><input nz-input id="locale" formControlName="locale" dir="ltr" class="ltr-field" /></nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="timezone">{{ 'admin.timezone' | transloco }}</nz-form-label>
+        <nz-form-control><input nz-input id="timezone" formControlName="timezone" dir="ltr" class="ltr-field" /></nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="adminName">{{ 'admin.adminName' | transloco }}</nz-form-label>
+        <nz-form-control [nzErrorTip]="'shared.required' | transloco">
+          <input nz-input id="adminName" formControlName="adminName" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzRequired nzFor="adminPhone">{{ 'admin.adminPhone' | transloco }}</nz-form-label>
+        <nz-form-control [nzErrorTip]="'shared.required' | transloco">
+          <input nz-input id="adminPhone" type="tel" formControlName="adminPhone" dir="ltr" class="ltr-field" inputmode="tel" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label nzFor="adminEmail">{{ 'admin.adminEmail' | transloco }}</nz-form-label>
+        <nz-form-control [nzExtra]="'admin.adminEmailHint' | transloco">
+          <input nz-input id="adminEmail" type="email" formControlName="adminEmail" dir="ltr" class="ltr-field" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <label nz-checkbox formControlName="adminVeterinarian">{{ 'admin.adminVeterinarian' | transloco }}</label>
+        </nz-form-control>
+      </nz-form-item>
+
+      <app-action-bar>
+        <button nz-button nzType="primary" type="submit" [nzLoading]="busy()">{{ 'shared.save' | transloco }}</button>
+      </app-action-bar>
+    </form>
+  }
+</div>
